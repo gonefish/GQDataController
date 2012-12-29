@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GQDemoDataController.h"
 
 @interface GQAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) GQDemoDataController *dataController;
 
 @end

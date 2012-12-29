@@ -23,6 +23,8 @@
 		E373956B1674E0BC0037D62C /* GQDataContrllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E373956A1674E0BC0037D62C /* GQDataContrllerTests.m */; };
 		E373957A1674E4160037D62C /* GQDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37395791674E4160037D62C /* GQDataController.m */; };
 		E373957B1674E4160037D62C /* GQDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37395791674E4160037D62C /* GQDataController.m */; };
+		E3D1FB38168EB5BD00604417 /* GQDemoDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1FB37168EB5BD00604417 /* GQDemoDataController.m */; };
+		E3D1FB39168EB5BD00604417 /* GQDemoDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D1FB37168EB5BD00604417 /* GQDemoDataController.m */; };
 		E3F2F0F116762D830035F843 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F2F0DF16762D830035F843 /* AFHTTPClient.m */; };
 		E3F2F0F216762D830035F843 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F2F0DF16762D830035F843 /* AFHTTPClient.m */; };
 		E3F2F0F316762D830035F843 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F2F0E116762D830035F843 /* AFHTTPRequestOperation.m */; };
@@ -75,6 +77,8 @@
 		E373956A1674E0BC0037D62C /* GQDataContrllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GQDataContrllerTests.m; sourceTree = "<group>"; };
 		E37395781674E4160037D62C /* GQDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQDataController.h; sourceTree = "<group>"; };
 		E37395791674E4160037D62C /* GQDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQDataController.m; sourceTree = "<group>"; };
+		E3D1FB36168EB5BD00604417 /* GQDemoDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQDemoDataController.h; sourceTree = "<group>"; };
+		E3D1FB37168EB5BD00604417 /* GQDemoDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQDemoDataController.m; sourceTree = "<group>"; };
 		E3F2F0DE16762D830035F843 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		E3F2F0DF16762D830035F843 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		E3F2F0E016762D830035F843 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -155,9 +159,11 @@
 		E37395451674E0BC0037D62C /* GQDataContrller */ = {
 			isa = PBXGroup;
 			children = (
+				E37395461674E0BC0037D62C /* Supporting Files */,
 				E373954E1674E0BC0037D62C /* GQAppDelegate.h */,
 				E373954F1674E0BC0037D62C /* GQAppDelegate.m */,
-				E37395461674E0BC0037D62C /* Supporting Files */,
+				E3D1FB36168EB5BD00604417 /* GQDemoDataController.h */,
+				E3D1FB37168EB5BD00604417 /* GQDemoDataController.m */,
 			);
 			path = GQDataContrller;
 			sourceTree = "<group>";
@@ -353,6 +359,7 @@
 				E3F2F0FD16762D830035F843 /* AFURLConnectionOperation.m in Sources */,
 				E3F2F0FF16762D830035F843 /* AFXMLRequestOperation.m in Sources */,
 				E3F2F10116762D830035F843 /* UIImageView+AFNetworking.m in Sources */,
+				E3D1FB38168EB5BD00604417 /* GQDemoDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +378,7 @@
 				E3F2F0FE16762D830035F843 /* AFURLConnectionOperation.m in Sources */,
 				E3F2F10016762D830035F843 /* AFXMLRequestOperation.m in Sources */,
 				E3F2F10216762D830035F843 /* UIImageView+AFNetworking.m in Sources */,
+				E3D1FB39168EB5BD00604417 /* GQDemoDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,7 +434,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -447,7 +455,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

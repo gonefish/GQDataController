@@ -16,6 +16,15 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    self.dataController = [[GQDemoDataController alloc] init];
+    
+    NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                          @"mix", @"type",
+                          nil];
+    
+    [self.dataController requestWithArgs:args];
+    
     return YES;
 }
 

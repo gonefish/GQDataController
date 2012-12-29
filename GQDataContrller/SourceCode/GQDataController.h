@@ -7,8 +7,36 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworking.h"
+
+
+typedef enum {
+    GQResponseDataTypeJSON,
+    GQResponseDataTypePLIST,
+    GQResponseDataTypeXML
+} GQResponseDataType;
+
+@protocol GQDataControllerDelegate;
 
 @interface GQDataController : NSObject
 
++ (id)sharedDataController;
+- (void)requestWithArgs:(NSDictionary *)args;
+
+- (id)valueForKey:(NSString *)key;
+- (id)valueForKeyPath:(NSString *)keyPath;
+
+
+@property (nonatomic, weak) id<GQDataControllerDelegate> delegate;
+@property (nonatomic, assign, readonly) NSInteger retryIndex;
+@property (nonatomic, strong, readonly) NSDictionary *requestArgs;
+
+@end
+
+@protocol GQDataControllerDelegate <NSObject>
+@optional
+//数据请求成功
+- (void)loadingDataFinished:(GQDataController *)controller;
+
+//数据请求失败
+- (void)loadingData:(GQDataController *)controller failedWithError:(NSError *)error;
 @end

@@ -230,11 +230,13 @@
         
         [requestArgs setObject:[NSNumber numberWithInt:[currentDevice userInterfaceIdiom]]
                         forKey:@"gq_user_interface_idiom"];
+
+        NSArray *languages = [NSLocale preferredLanguages];
         
-        NSLocale *currentLocale = [NSLocale currentLocale];
-        
-        [requestArgs setObject:[currentLocale localeIdentifier]
-                        forKey:@"gq_current_lang"];
+        if ([languages count] > 0) {
+            [requestArgs setObject:[languages objectAtIndex:0]
+                            forKey:@"gq_current_lang"];
+        }
     }
     
     return [requestArgs copy];

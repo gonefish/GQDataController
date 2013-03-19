@@ -3,7 +3,7 @@
 //  GQDataContrller
 //
 //  Created by 钱国强 on 12-12-9.
-//  Copyright (c) 2012年 Qian GuoQiang. All rights reserved.
+//  Copyright (c) 2012年 gonefish@gmail.com. All rights reserved.
 //
 
 #import "GQAppDelegate.h"

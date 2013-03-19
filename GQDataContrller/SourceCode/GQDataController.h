@@ -34,9 +34,13 @@ typedef enum {
 
 @protocol GQDataControllerDelegate <NSObject>
 @optional
-//数据请求成功
+// 数据请求成功
 - (void)loadingDataFinished:(GQDataController *)controller;
 
-//数据请求失败
+// 数据请求失败
 - (void)loadingData:(GQDataController *)controller failedWithError:(NSError *)error;
+
+// 是否添加环境参数
+- (BOOL)controllerAddContextQueryString:(GQDataController *)controller;
+
 @end

@@ -185,14 +185,59 @@
             };
             
             [invo setArgument:&p1 atIndex:2];
-            [invo setArgument:&args atIndex:3];
+            
+            NSDictionary *newArgs = [self buildRequestArgs:args];
+            [invo setArgument:&newArgs atIndex:3];
+            
             [invo setArgument:&successBlock atIndex:4];
+            
             [invo setArgument:&failureBlock atIndex:5];
+            
             [invo invoke];
         } else {
 //            return nil;
         }
     }
+}
+
+- (NSDictionary *)buildRequestArgs:(NSDictionary *)args
+{
+    NSMutableDictionary *requestArgs = [args mutableCopy];
+    
+    // 默认添加ContextQueryString
+    BOOL addContextQueryString = YES;
+    
+    if (self.delegate
+        && [self.delegate respondsToSelector:@selector(controllerAddContextQueryString:)]) {
+        
+        addContextQueryString = [self.delegate performSelector:@selector(controllerAddContextQueryString:)
+                                                    withObject:self];
+    }
+    
+    if (addContextQueryString == YES) {
+        NSBundle *mainBundle = [NSBundle mainBundle];
+        
+        [requestArgs setObject:[mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]
+                        forKey:@"gq_app_version"];
+        
+        UIDevice *currentDevice = [UIDevice currentDevice];
+        
+        [requestArgs setObject:[currentDevice model]
+                        forKey:@"gq_device_model"];
+        
+        [requestArgs setObject:[currentDevice systemVersion]
+                        forKey:@"gq_device_version"];
+        
+        [requestArgs setObject:[NSNumber numberWithInt:[currentDevice userInterfaceIdiom]]
+                        forKey:@"gq_user_interface_idiom"];
+        
+        NSLocale *currentLocale = [NSLocale currentLocale];
+        
+        [requestArgs setObject:[currentLocale localeIdentifier]
+                        forKey:@"gq_current_lang"];
+    }
+    
+    return [requestArgs copy];
 }
 
 #pragma mark - Subclass implementation

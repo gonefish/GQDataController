@@ -10,6 +10,9 @@
 #import "AFNetworking.h"
 
 @interface GQDataController ()
+
+- (NSDictionary *)buildRequestArgs:(NSDictionary *)args;
+
 @property (nonatomic, strong) NSRecursiveLock *lock;
 @property (nonatomic, strong) AFHTTPClient *httpClient;
 @property (nonatomic, strong) NSDictionary *requestArgs;
@@ -121,6 +124,9 @@
     [self.httpClient cancelAllHTTPOperationsWithMethod:[self requestMethod]
                                                   path:[self requestPath]];
     
+    // 重置magicObject
+    self.magicObject = nil;
+    
     NSString *method = [self requestMethod];
     
     SEL requestSel = NSSelectorFromString([NSString stringWithFormat:@"%@Path:parameters:success:failure:", [method lowercaseString]]);
@@ -138,6 +144,8 @@
                 NSLog(@"%@", operation);
                 NSLog(@"%@", responseObject);
                 
+                
+                // 处理返回对象
                 switch ([self responseDataType]) {
                     case GQResponseDataTypeJSON:
                         self.magicObject = responseObject;
@@ -152,6 +160,9 @@
                         break;
                 }
                 
+                // 校验返回对象
+                [self validate];
+                
                 if (self.delegate
                     && [self.delegate respondsToSelector:@selector(loadingDataFinished:)]) {
                     
@@ -162,6 +173,8 @@
             
             void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
                 NSLog(@"%@", error);
+                
+                self.magicObject = nil;
                 
                 // 失败重试
                 if (self.retryIndex < [[self requestBaseURL] count]) {
@@ -194,6 +207,8 @@
         }
     }
 }
+
+#pragma mark - Private Method
 
 - (NSDictionary *)buildRequestArgs:(NSDictionary *)args
 {
@@ -258,7 +273,13 @@
 
 - (BOOL)addContextQueryString
 {
+    // 默认总是添加上下文参数
     return YES;
+}
+
+- (void)validate
+{
+    // 子类可以通过此方法来校验返回数据的完整性
 }
 
 #pragma mark - Key-Value Coding

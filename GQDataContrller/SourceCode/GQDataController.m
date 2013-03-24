@@ -18,12 +18,6 @@
 @end
 
 @implementation GQDataController
-@synthesize delegate = _delegate;
-@synthesize lock = _lock;
-@synthesize httpClient = _httpClient;
-@synthesize requestArgs = _requestArgs;
-@synthesize retryIndex = _retryIndex;
-@synthesize magicObject = _magicObject;
 
 + (id)sharedDataController
 {
@@ -141,6 +135,7 @@
             NSString *p1 = [self requestPath];
             
             void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
+                NSLog(@"%@", operation);
                 NSLog(@"%@", responseObject);
                 
                 switch ([self responseDataType]) {
@@ -205,37 +200,28 @@
     NSMutableDictionary *requestArgs = [args mutableCopy];
     
     // 默认添加ContextQueryString
-    BOOL addContextQueryString = YES;
-    
-    if (self.delegate
-        && [self.delegate respondsToSelector:@selector(controllerAddContextQueryString:)]) {
-        
-        addContextQueryString = [self.delegate performSelector:@selector(controllerAddContextQueryString:)
-                                                    withObject:self];
-    }
-    
-    if (addContextQueryString == YES) {
+    if ([self addContextQueryString] == YES) {
         NSBundle *mainBundle = [NSBundle mainBundle];
         
         [requestArgs setObject:[mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]
-                        forKey:@"gq_app_version"];
+                        forKey:GQAppVersion];
         
         UIDevice *currentDevice = [UIDevice currentDevice];
         
         [requestArgs setObject:[currentDevice model]
-                        forKey:@"gq_device_model"];
+                        forKey:GQDeviceMode];
         
         [requestArgs setObject:[currentDevice systemVersion]
-                        forKey:@"gq_device_version"];
+                        forKey:GQDeviceVersion];
         
         [requestArgs setObject:[NSNumber numberWithInt:[currentDevice userInterfaceIdiom]]
-                        forKey:@"gq_user_interface_idiom"];
+                        forKey:GQUserInterfaceIdiom];
 
         NSArray *languages = [NSLocale preferredLanguages];
         
         if ([languages count] > 0) {
             [requestArgs setObject:[languages objectAtIndex:0]
-                            forKey:@"gq_current_lang"];
+                            forKey:GQUserLanguage];
         }
     }
     
@@ -268,6 +254,11 @@
     NSAssert(NO, @"require implementation");
     
     return nil;
+}
+
+- (BOOL)addContextQueryString
+{
+    return YES;
 }
 
 #pragma mark - Key-Value Coding

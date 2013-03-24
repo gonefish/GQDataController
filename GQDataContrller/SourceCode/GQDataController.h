@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#define GQAppVersion @"gq_app_version"
+#define GQDeviceMode @"gq_device_model"
+#define GQDeviceVersion @"gq_device_version"
+#define GQUserInterfaceIdiom @"gq_user_interface_idiom"
+#define GQUserLanguage @"gq_user_language"
+
 
 typedef enum {
     GQResponseDataTypeJSON,
@@ -39,8 +45,5 @@ typedef enum {
 
 // 数据请求失败
 - (void)loadingData:(GQDataController *)controller failedWithError:(NSError *)error;
-
-// 是否添加环境参数
-- (BOOL)controllerAddContextQueryString:(GQDataController *)controller;
 
 @end

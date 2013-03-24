@@ -294,7 +294,7 @@
         NSInteger intval;
         
         if ([scan scanInteger:&intval]) {
-            if (intval <= [(NSArray *)self.magicObject count]) {
+            if (intval < [(NSArray *)self.magicObject count]) {
                 return [(NSArray *)self.magicObject objectAtIndex:intval];
             }
         }

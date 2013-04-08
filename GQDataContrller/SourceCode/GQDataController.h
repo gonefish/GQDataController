@@ -26,6 +26,8 @@ typedef enum {
 @interface GQDataController : NSObject
 
 + (id)sharedDataController;
+
++ (void)requestWithURLString:(NSString *)urlString;
 - (void)requestWithArgs:(NSDictionary *)args;
 
 - (id)valueForKey:(NSString *)key;

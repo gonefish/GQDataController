@@ -53,6 +53,16 @@
     return aDataController;
 }
 
++ (void)requestWithURLString:(NSString *)urlString
+{
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    if (url) {
+        [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:url]
+                                      delegate:nil];
+    }
+}
+
 - (id)init
 {
     self = [super init];

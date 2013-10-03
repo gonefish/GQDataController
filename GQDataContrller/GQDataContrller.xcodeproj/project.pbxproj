@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E3722298173FBFC4001907BE /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3722290173FBFC4001907BE /* libOCMock.a */; };
 		E37395401674E0BC0037D62C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E373953F1674E0BC0037D62C /* UIKit.framework */; };
 		E37395421674E0BC0037D62C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37395411674E0BC0037D62C /* Foundation.framework */; };
 		E37395441674E0BC0037D62C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37395431674E0BC0037D62C /* CoreGraphics.framework */; };
@@ -56,6 +57,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E3722290173FBFC4001907BE /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		E3722292173FBFC4001907BE /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		E3722293173FBFC4001907BE /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		E3722294173FBFC4001907BE /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		E3722295173FBFC4001907BE /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		E3722296173FBFC4001907BE /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		E3722297173FBFC4001907BE /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		E373953B1674E0BC0037D62C /* GQDataContrller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GQDataContrller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E373953F1674E0BC0037D62C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E37395411674E0BC0037D62C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -118,12 +126,26 @@
 				E373955E1674E0BC0037D62C /* SenTestingKit.framework in Frameworks */,
 				E373955F1674E0BC0037D62C /* UIKit.framework in Frameworks */,
 				E37395601674E0BC0037D62C /* Foundation.framework in Frameworks */,
+				E3722298173FBFC4001907BE /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3722291173FBFC4001907BE /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				E3722292173FBFC4001907BE /* NSNotificationCenter+OCMAdditions.h */,
+				E3722293173FBFC4001907BE /* OCMArg.h */,
+				E3722294173FBFC4001907BE /* OCMConstraint.h */,
+				E3722295173FBFC4001907BE /* OCMock.h */,
+				E3722296173FBFC4001907BE /* OCMockObject.h */,
+				E3722297173FBFC4001907BE /* OCMockRecorder.h */,
+			);
+			path = OCMock;
+			sourceTree = "<group>";
+		};
 		E37395301674E0BC0037D62C = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +207,8 @@
 		E37395631674E0BC0037D62C /* GQDataContrllerTests */ = {
 			isa = PBXGroup;
 			children = (
+				E3722290173FBFC4001907BE /* libOCMock.a */,
+				E3722291173FBFC4001907BE /* OCMock */,
 				E37395691674E0BC0037D62C /* GQDataContrllerTests.h */,
 				E373956A1674E0BC0037D62C /* GQDataContrllerTests.m */,
 				E37395641674E0BC0037D62C /* Supporting Files */,
@@ -494,7 +518,12 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GQDataContrller/GQDataContrller-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/GQDataContrllerTests\"";
 				INFOPLIST_FILE = "GQDataContrllerTests/GQDataContrllerTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/GQDataContrllerTests\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -511,7 +540,12 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GQDataContrller/GQDataContrller-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/GQDataContrllerTests\"";
 				INFOPLIST_FILE = "GQDataContrllerTests/GQDataContrllerTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/GQDataContrllerTests\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;

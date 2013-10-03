@@ -25,9 +25,17 @@ typedef enum {
 
 @interface GQDataController : NSObject
 
+/** Signleton method.
+ 
+*/
 + (id)sharedDataController;
 
+/** Request URL String.
+ 
+ @param urlString a URL String.
+*/
 + (void)requestWithURLString:(NSString *)urlString;
+
 - (void)requestWithArgs:(NSDictionary *)args;
 
 - (id)valueForKey:(NSString *)key;

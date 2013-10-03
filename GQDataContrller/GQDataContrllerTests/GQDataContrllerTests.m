@@ -7,6 +7,8 @@
 //
 
 #import "GQDataContrllerTests.h"
+#import "GQDataController.h"
+#import <OCMock/OCMock.h>
 
 @implementation GQDataContrllerTests
 
@@ -24,9 +26,14 @@
     [super tearDown];
 }
 
+- (void)testGetRequest
+{
+    id controller = [OCMockObject mockForClass:[GQDataController class]];
+}
+
 - (void)testExample
 {
-    STFail(@"Unit tests are not implemented yet in GQDataContrllerTests");
+    //STFail(@"Unit tests are not implemented yet in GQDataContrllerTests");
 }
 
 @end

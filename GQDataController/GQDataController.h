@@ -12,13 +12,11 @@
 
 @interface GQDataController : NSObject
 
-@property (nonatomic, strong) id detailObject;
+//@property (nonatomic, strong) id detailObject;
 
-@property (nonatomic, strong) NSArray *listObjects;
+//@property (nonatomic, strong) NSArray *listObjects;
 
 @property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
-
-@property (nonatomic, weak) id <UITableViewDataSource> tableViewDataSource;
 
 + (instancetype)sharedDataController;
 
@@ -28,6 +26,7 @@
 
 - (void)requestWithArgs:(NSDictionary *)args;
 
+// abstract method
 - (BOOL)parseContent:(NSString *)content;
 
 @end

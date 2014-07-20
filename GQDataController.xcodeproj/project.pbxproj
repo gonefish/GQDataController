@@ -45,6 +45,7 @@
 /* Begin PBXFileReference section */
 		20D63FCD3C7543EF82DE4816 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3684419847FA4DE1BD409217 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		E3F803A3197AE6EB00BACB70 /* GQDataControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQDataControllerDelegate.h; sourceTree = "<group>"; };
 		E3FDB0F419322D6400D4E65F /* libGQDataController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGQDataController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FDB0F719322D6400D4E65F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E3FDB0FB19322D6400D4E65F /* GQDataController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GQDataController-Prefix.pch"; sourceTree = "<group>"; };
@@ -116,6 +117,7 @@
 		E3FDB0F919322D6400D4E65F /* GQDataController */ = {
 			isa = PBXGroup;
 			children = (
+				E3F803A3197AE6EB00BACB70 /* GQDataControllerDelegate.h */,
 				E3FDB0FC19322D6400D4E65F /* GQDataController.h */,
 				E3FDB0FE19322D6400D4E65F /* GQDataController.m */,
 				E3FDB0FA19322D6400D4E65F /* Supporting Files */,
@@ -195,6 +197,7 @@
 		E3FDB0EC19322D6400D4E65F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = GQ;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Qian GuoQiang";
 			};

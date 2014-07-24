@@ -8,23 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GQDataControllerDelegate.h"
-
 @interface GQDataController : NSObject
 
 //@property (nonatomic, strong) id detailObject;
 
 //@property (nonatomic, strong) NSArray *listObjects;
 
-@property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
 + (instancetype)sharedDataController;
 
-+ (void)requestWithURL:(NSURL *)aURL complate:(void (^)(void))block;
++ (void)requestWithURLString:(NSString *)URLString completion:(void (^)(NSString *content))completion;
 
-- (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate;
-
-- (void)requestWithArgs:(NSDictionary *)args;
+- (void)requestWithParams:(NSDictionary *)params;
 
 // abstract method
 - (BOOL)parseContent:(NSString *)content;

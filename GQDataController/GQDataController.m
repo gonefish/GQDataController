@@ -9,27 +9,23 @@
 #import "GQDataController.h"
 #import <AFNetworking/AFNetworking.h>
 
-#define GQAppVersion @"gq_app_version"
-#define GQDeviceMode @"gq_device_model"
-#define GQDeviceVersion @"gq_device_version"
-#define GQUserInterfaceIdiom @"gq_user_interface_idiom"
-#define GQUserLanguage @"gq_user_language"
-
 @implementation GQDataController
 
 + (instancetype)sharedDataController
 {
-    GQDataController *aController;
+    static dispatch_once_t onceToken;
     static NSMutableDictionary *sharedInstances = nil;
+    static NSLock *sharedLock = nil;
     
-    @synchronized(self)
-    {
-        if (sharedInstances == nil) {
-            sharedInstances = [[NSMutableDictionary alloc] init];
-        }
-        
-        NSString *keyName = NSStringFromClass([self class]);
-        
+    dispatch_once(&onceToken, ^{
+        sharedInstances = [NSMutableDictionary dictionary];
+        sharedLock = [[NSLock alloc] init];
+    });
+    
+    NSString *keyName = NSStringFromClass([self class]);
+    GQDataController *aController = nil;
+    
+    if ([sharedLock tryLock]) {
         aController = [sharedInstances objectForKey:keyName];
         
         if (aController == nil) {
@@ -38,23 +34,36 @@
             [sharedInstances setObject:aController
                                 forKey:keyName];
         }
+        
+        [sharedLock unlock];
     }
     
     return aController;
 }
 
-- (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate
++ (void)requestWithURLString:(NSString *)URLString completion:(void (^)(NSString *content))completion
 {
-    self = [super init];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    if (self) {
-        self.delegate = aDelegate;
-    }
-    
-    return self;
+    [manager GET:URLString
+      parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             if (completion) {
+                 completion([operation responseString]);
+             }
+         }
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"Error: %@", error);
+         }];
 }
 
-#pragma mark - Subclass implementation
+- (void)requestWithParams:(NSDictionary *)params
+{
+    
+}
+
+
+#pragma mark - Abstract method
 
 - (NSString *)requestMethod
 {
@@ -75,12 +84,6 @@
     NSAssert(NO, @"require implementation");
     
     return nil;
-}
-
-- (BOOL)addContextQueryString
-{
-    // 默认总是添加上下文参数
-    return YES;
 }
 
 - (void)validate

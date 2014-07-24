@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19191C824F2846D197F1F280 /* libPods-GQDataControllerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FDC0CBCC934B59AF2865FD /* libPods-GQDataControllerTests.a */; };
 		E3FDB0F819322D6400D4E65F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3FDB0F719322D6400D4E65F /* Foundation.framework */; };
 		E3FDB0FD19322D6400D4E65F /* GQDataController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3FDB0FC19322D6400D4E65F /* GQDataController.h */; };
 		E3FDB0FF19322D6400D4E65F /* GQDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FDB0FE19322D6400D4E65F /* GQDataController.m */; };
@@ -44,7 +45,9 @@
 
 /* Begin PBXFileReference section */
 		20D63FCD3C7543EF82DE4816 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		29737C8C82164BC182562CAF /* Pods-GQDataControllerTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GQDataControllerTests.xcconfig"; path = "Pods/Pods-GQDataControllerTests.xcconfig"; sourceTree = "<group>"; };
 		3684419847FA4DE1BD409217 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		81FDC0CBCC934B59AF2865FD /* libPods-GQDataControllerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GQDataControllerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F803A3197AE6EB00BACB70 /* GQDataControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQDataControllerDelegate.h; sourceTree = "<group>"; };
 		E3FDB0F419322D6400D4E65F /* libGQDataController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGQDataController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FDB0F719322D6400D4E65F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -77,6 +80,7 @@
 				E3FDB10C19322D6400D4E65F /* libGQDataController.a in Frameworks */,
 				E3FDB10919322D6400D4E65F /* UIKit.framework in Frameworks */,
 				E3FDB10719322D6400D4E65F /* Foundation.framework in Frameworks */,
+				19191C824F2846D197F1F280 /* libPods-GQDataControllerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +95,7 @@
 				E3FDB0F619322D6400D4E65F /* Frameworks */,
 				E3FDB0F519322D6400D4E65F /* Products */,
 				3684419847FA4DE1BD409217 /* Pods.xcconfig */,
+				29737C8C82164BC182562CAF /* Pods-GQDataControllerTests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,6 +115,7 @@
 				E3FDB10519322D6400D4E65F /* XCTest.framework */,
 				E3FDB10819322D6400D4E65F /* UIKit.framework */,
 				20D63FCD3C7543EF82DE4816 /* libPods.a */,
+				81FDC0CBCC934B59AF2865FD /* libPods-GQDataControllerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -177,9 +183,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E3FDB11A19322D6400D4E65F /* Build configuration list for PBXNativeTarget "GQDataControllerTests" */;
 			buildPhases = (
+				2E60DBA92EE041C7A8D17D29 /* Check Pods Manifest.lock */,
 				E3FDB10019322D6400D4E65F /* Sources */,
 				E3FDB10119322D6400D4E65F /* Frameworks */,
 				E3FDB10219322D6400D4E65F /* Resources */,
+				7F293FB95360412E9764E5CA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -231,6 +239,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2E60DBA92EE041C7A8D17D29 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7F293FB95360412E9764E5CA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-GQDataControllerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9D9216A013654ADFB51D8152 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,6 +436,7 @@
 		};
 		E3FDB11B19322D6400D4E65F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29737C8C82164BC182562CAF /* Pods-GQDataControllerTests.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -418,6 +457,7 @@
 		};
 		E3FDB11C19322D6400D4E65F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29737C8C82164BC182562CAF /* Pods-GQDataControllerTests.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

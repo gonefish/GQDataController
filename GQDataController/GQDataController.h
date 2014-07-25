@@ -14,12 +14,16 @@
 
 //@property (nonatomic, strong) NSArray *listObjects;
 
+- (NSURLRequest *)httpRequest;
+- (NSHTTPURLResponse *)httpResponse;
+
 
 + (instancetype)sharedDataController;
 
 + (void)requestWithURLString:(NSString *)URLString completion:(void (^)(NSString *content))completion;
 
-- (void)requestWithParams:(NSDictionary *)params;
+- (void)requestWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion;
+
 
 - (NSString *)requestMethod;
 

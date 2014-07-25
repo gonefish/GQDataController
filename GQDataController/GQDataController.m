@@ -9,6 +9,12 @@
 #import "GQDataController.h"
 #import <AFNetworking/AFNetworking.h>
 
+@interface GQDataController ()
+
+@property (nonatomic, strong) AFHTTPRequestOperation *httpOperation;
+
+@end
+
 @implementation GQDataController
 
 + (instancetype)sharedDataController
@@ -57,11 +63,21 @@
          }];
 }
 
-- (void)requestWithParams:(NSDictionary *)params
+
+- (void)requestWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion
 {
     
 }
 
+- (NSURLRequest *)httpRequest
+{
+    return self.httpOperation.request;
+}
+
+- (NSHTTPURLResponse *)httpResponse
+{
+    return self.httpOperation.response;
+}
 
 #pragma mark - Abstract method
 

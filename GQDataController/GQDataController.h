@@ -21,7 +21,10 @@
 
 - (void)requestWithParams:(NSDictionary *)params;
 
-// abstract method
+- (NSString *)requestMethod;
+
+- (NSArray *)requestURL;
+
 - (BOOL)parseContent:(NSString *)content;
 
 @end

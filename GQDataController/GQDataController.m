@@ -75,12 +75,6 @@
     return nil;
 }
 
-
-- (void)validate
-{
-    // 子类可以通过此方法来校验返回数据的完整性
-}
-
 - (BOOL)parseContent:(NSString *)content
 {
     return NO;

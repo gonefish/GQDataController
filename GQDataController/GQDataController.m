@@ -70,25 +70,20 @@
     return @"GET";
 }
 
-- (NSArray *)requestBaseURL
+- (NSArray *)requestURL
 {
-    // 子类自己实现
-    NSAssert(NO, @"require implementation");
-    
     return nil;
 }
 
-- (NSString *)requestPath
-{
-    // 子类自己实现
-    NSAssert(NO, @"require implementation");
-    
-    return nil;
-}
 
 - (void)validate
 {
     // 子类可以通过此方法来校验返回数据的完整性
+}
+
+- (BOOL)parseContent:(NSString *)content
+{
+    return NO;
 }
 
 #pragma mark - UITableViewDataSource

@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "GQDataController.h"
 
 @interface GQDataControllerTests : XCTestCase
 
@@ -26,9 +27,12 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testSharedDataController
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    GQDataController *controller1 = [GQDataController sharedDataController];
+    GQDataController *controller2 = [GQDataController sharedDataController];
+    
+    XCTAssertEqualObjects(controller1, controller2, @"单例实现错误");
 }
 
 @end

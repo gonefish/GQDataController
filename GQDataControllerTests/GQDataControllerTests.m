@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
 #import "GQDataController.h"
+#import "GQTestDataController.h"
 
 @interface GQDataControllerTests : XCTestCase
 
@@ -46,5 +47,11 @@
     XCTAssertEqualObjects(controller1, controller2, @"单例实现错误");
 }
 
+- (void)testRequest
+{
+    GQTestDataController *c = [[GQTestDataController alloc] init];
+    
+    [c requestWithParams:nil completion:nil];
+}
 
 @end

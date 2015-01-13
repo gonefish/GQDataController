@@ -11,7 +11,9 @@
 
 @interface GQDataController ()
 
-@property (nonatomic, strong) AFHTTPRequestOperation *httpOperation;
+@property (nonatomic, strong) AFHTTPRequestOperation *requestOperation;
+
+@property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
 
 @end
 
@@ -63,20 +65,50 @@
          }];
 }
 
-
 - (void)requestWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion
 {
+    if (self.requestOperation) {
+        [self.requestOperation cancel];
+        self.requestOperation = nil;
+    }
     
+    if (self.requestOperationManager == nil) {
+        self.requestOperationManager = [AFHTTPRequestOperationManager manager];
+    }
+    
+    // 1. 生成URL
+    NSString *urlString = [[self requestURL] objectAtIndex:0];
+    
+    // 2. 生成request
+    NSString *method = [self requestMethod];
+    
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
+            NSLog(@"%@", operation);
+            NSLog(@"%@", responseObject);
+        };
+        
+        void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
+            NSLog(@"%@", error);
+        };
+    
+    if ([method isEqualToString:@"GET"]) {
+        [self.requestOperationManager GET:urlString
+                               parameters:[self buildRequestArgs:params]
+                                  success:successBlock
+                                  failure:failureBlock];
+    }
+    
+    // 3. 发起request
 }
 
 - (NSURLRequest *)httpRequest
 {
-    return self.httpOperation.request;
+    return self.requestOperation.request;
 }
 
 - (NSHTTPURLResponse *)httpResponse
 {
-    return self.httpOperation.response;
+    return self.requestOperation.response;
 }
 
 #pragma mark - Abstract method
@@ -94,6 +126,27 @@
 - (BOOL)parseContent:(NSString *)content
 {
     return NO;
+}
+
+#pragma mark - 
+
+- (NSDictionary *)buildRequestArgs:(NSDictionary *)params
+{
+    return @{};
+}
+
++ (NSString *)encodeURIComponent:(NSString *)string
+{
+	CFStringRef cfUrlEncodedString = CFURLCreateStringByAddingPercentEscapes(NULL,
+																			 (CFStringRef)string,NULL,
+																			 (CFStringRef)@"!#$%&'()*+,/:;=?@[]",
+																			 kCFStringEncodingUTF8);
+	
+	NSString *urlEncoded = [NSString stringWithString:(__bridge NSString *)cfUrlEncodedString];
+	
+	CFRelease(cfUrlEncodedString);
+	
+	return urlEncoded;
 }
 
 #pragma mark - UITableViewDataSource

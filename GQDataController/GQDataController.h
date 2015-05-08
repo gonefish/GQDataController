@@ -7,29 +7,39 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GQDataControllerDelegate.h"
+
+typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, id cellModel);
+
+typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, id cellModel);
 
 @interface GQDataController : NSObject
 
-//@property (nonatomic, strong) id detailObject;
+@property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
-//@property (nonatomic, strong) NSArray *listObjects;
+@property (nonatomic, weak) id <UITableViewDataSource> tableViewDataSource;
 
-- (NSURLRequest *)httpRequest;
-- (NSHTTPURLResponse *)httpResponse;
+@property (nonatomic, copy) GQTableViewCellConfigureBlock tableViewCellConfigureBlock;
 
+@property (nonatomic, weak) id <UICollectionViewDataSource> collectionViewDataSource;
+
+@property (nonatomic, copy) GQCOllectionViewCellConfigureBlock collectionCellConfigureBlock;
+
+@property (nonatomic, strong, readonly) id detailObject;
+
+@property (nonatomic, strong, readonly) NSArray *listObjects;
 
 + (instancetype)sharedDataController;
 
-+ (void)requestWithURLString:(NSString *)URLString completion:(void (^)(NSString *content))completion;
+- (void)request;
 
-- (void)requestWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion;
+- (void)requestWithParams:(nonnull NSDictionary *)params;
 
+// Subclass Require Method
 
-- (NSString *)requestMethod;
+- (nonnull NSString *)requestMethod;
 
-- (NSArray *)requestURL;
-
-- (BOOL)parseContent:(NSString *)content;
+- (nonnull NSArray *)requestURL;
 
 @end
 

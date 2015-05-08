@@ -38,6 +38,7 @@
         
         if (aController == nil) {
             aController = [[self alloc] init];
+            aController.requestOperationManager.operationQueue.maxConcurrentOperationCount = 1;
             
             [sharedInstances setObject:aController
                                 forKey:keyName];
@@ -49,47 +50,50 @@
     return aController;
 }
 
-+ (void)requestWithURLString:(NSString *)URLString completion:(void (^)(NSString *content))completion
+- (instancetype)init
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    self = [super init];
     
-    [manager GET:URLString
-      parameters:nil
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             if (completion) {
-                 completion([operation responseString]);
-             }
-         }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"Error: %@", error);
-         }];
+    if (self) {
+        _requestOperationManager = [AFHTTPRequestOperationManager manager];
+    }
+    
+    return self;
 }
 
-- (void)requestWithParams:(NSDictionary *)params completion:(void (^)(NSError *error))completion
+- (void)request
 {
-    if (self.requestOperation) {
-        [self.requestOperation cancel];
-        self.requestOperation = nil;
-    }
-    
-    if (self.requestOperationManager == nil) {
-        self.requestOperationManager = [AFHTTPRequestOperationManager manager];
-    }
-    
+    [self requestWithParams:nil];
+}
+
+- (void)requestWithParams:(NSDictionary *)params
+{
     // 1. 生成URL
     NSString *urlString = [[self requestURL] objectAtIndex:0];
     
     // 2. 生成request
     NSString *method = [self requestMethod];
     
-        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
-            NSLog(@"%@", operation);
-            NSLog(@"%@", responseObject);
-        };
+    __weak GQDataController *weakSelf = self;
+    
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
+        NSLog(@"%@", operation);
+        NSLog(@"%@", responseObject);
         
-        void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
-            NSLog(@"%@", error);
-        };
+        if (weakSelf
+            && weakSelf.delegate) {
+            [weakSelf.delegate loadingDataFinished:weakSelf];
+        }
+    };
+    
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
+        NSLog(@"%@", error);
+        
+        if (weakSelf
+            && weakSelf.delegate) {
+            [weakSelf.delegate loadingData:weakSelf failedWithError:error];
+        }
+    };
     
     if ([method isEqualToString:@"GET"]) {
         [self.requestOperationManager GET:urlString
@@ -97,19 +101,8 @@
                                   success:successBlock
                                   failure:failureBlock];
     }
-    
-    // 3. 发起request
 }
 
-- (NSURLRequest *)httpRequest
-{
-    return self.requestOperation.request;
-}
-
-- (NSHTTPURLResponse *)httpResponse
-{
-    return self.requestOperation.response;
-}
 
 #pragma mark - Abstract method
 
@@ -118,20 +111,33 @@
     return @"GET";
 }
 
+- (NSDictionary *)defaultParams
+{
+    return nil;
+}
+
 - (NSArray *)requestURL
 {
     return nil;
 }
 
-- (BOOL)parseContent:(NSString *)content
+- (BOOL)isValideWithObject:(id)object
 {
-    return NO;
+    return YES;
 }
 
 #pragma mark - 
 
 - (NSDictionary *)buildRequestArgs:(NSDictionary *)params
 {
+    NSDictionary *defaultParams = [self defaultParams];
+    
+    if (defaultParams) {
+        
+    } else {
+        
+    }
+    
     return @{};
 }
 

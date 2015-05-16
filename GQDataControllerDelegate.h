@@ -24,5 +24,13 @@
  */
 - (void)dataController:(GQDataController *)controller didFailWithError:(NSError *)error;
 
+- (id)dataControllerBindingTarget:(GQDataController *)controller;
+
+/**
+ *  key为target的keyPath value为DataController的value
+ *
+ */
+- (NSDictionary *)dataControllerBindingKeyPaths:(GQDataController *)controller;
+
 
 @end

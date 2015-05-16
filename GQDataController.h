@@ -41,6 +41,7 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
 
 - (NSArray *)requestURL;
 
+
 @end
 
 

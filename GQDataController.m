@@ -16,6 +16,12 @@
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
 
+@property (nonatomic, strong) id bindingTarget;
+
+@property (nonatomic, copy) NSDictionary *bindingKeyPaths;
+
+@property (nonatomic, copy) NSDictionary *bindingReverseKeyPaths;
+
 @end
 
 @implementation GQDataController
@@ -62,6 +68,14 @@
     return self;
 }
 
+- (void)dealloc
+{
+    for (NSString *key in [self.bindingKeyPaths allKeys]) {
+        [self removeObserver:self
+                  forKeyPath:self.bindingKeyPaths[key]];
+    }
+}
+
 - (void)request
 {
     [self requestWithParams:nil];
@@ -78,18 +92,19 @@
     __weak GQDataController *weakSelf = self;
     
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
-        
-        if ([weakSelf isValidWithObject:responseObject]) {
-            [weakSelf handleWithObject:responseObject];
-            
-            if (weakSelf
-                && weakSelf.delegate) {
-                [weakSelf.delegate dataControllerDidFinishLoading:weakSelf];
-            }
-        } else {
-            if (weakSelf
-                && weakSelf.delegate) {
-                [weakSelf.delegate dataController:weakSelf didFailWithError:nil];
+        if (weakSelf) {
+            if ([weakSelf isValidWithObject:responseObject]) {
+                [weakSelf handleWithObject:responseObject];
+                
+                if (weakSelf.delegate
+                    && [weakSelf.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
+                    [weakSelf.delegate dataControllerDidFinishLoading:weakSelf];
+                }
+            } else {
+                if (weakSelf.delegate
+                    && [weakSelf.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
+                    [weakSelf.delegate dataController:weakSelf didFailWithError:nil];
+                }
             }
         }
     };
@@ -97,9 +112,11 @@
     void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
         NSLog(@"%@", error);
         
-        if (weakSelf
-            && weakSelf.delegate) {
-            [weakSelf.delegate dataController:weakSelf didFailWithError:error];
+        if (weakSelf) {
+            if (weakSelf.delegate
+                && [weakSelf.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
+                [weakSelf.delegate dataController:weakSelf didFailWithError:error];
+            }
         }
     };
     
@@ -166,6 +183,40 @@
 
 #pragma mark - Private
 
+- (void)setDelegate:(id<GQDataControllerDelegate>)delegate
+{
+    _delegate = delegate;
+    
+    if ([_delegate respondsToSelector:@selector(dataControllerBindingTarget:)]
+        && [_delegate respondsToSelector:@selector(dataControllerBindingKeyPaths:)]) {
+        
+        id bindingTarget = [_delegate dataControllerBindingTarget:self];
+        NSDictionary *bindingKeyPaths = [_delegate dataControllerBindingKeyPaths:self];
+        
+        // 两个方法都有返回值时才有效
+        if (bindingTarget && bindingKeyPaths) {
+            NSAssert([bindingKeyPaths isKindOfClass:[NSDictionary class]], @"Must be a NSDictionary");
+            
+            self.bindingTarget = bindingTarget;
+            self.bindingKeyPaths = bindingKeyPaths;
+            
+            // 反转键值对 用于快速调用target
+            NSMutableDictionary *bindingReverseKeyPaths = [NSMutableDictionary dictionary];
+            
+            for (NSString *key in [self.bindingKeyPaths allKeys]) {
+                [self addObserver:self
+                       forKeyPath:self.bindingKeyPaths[key]
+                          options:NSKeyValueObservingOptionNew
+                          context:NULL];
+                
+                bindingReverseKeyPaths[self.bindingKeyPaths[key]] = key;
+            }
+            
+            self.bindingReverseKeyPaths = bindingReverseKeyPaths;
+        }
+    }
+}
+
 - (NSDictionary *)buildRequestArgs:(NSDictionary *)params
 {
     NSDictionary *defaultParams = [self defaultParams];
@@ -191,6 +242,18 @@
 	CFRelease(cfUrlEncodedString);
 	
 	return urlEncoded;
+}
+
+#pragma mark - NSKeyValueObserving
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    NSString *targetKeyPath = self.bindingReverseKeyPaths[keyPath];
+    
+    if (targetKeyPath) {
+        [self.bindingTarget setValue:change[NSKeyValueChangeNewKey]
+                          forKeyPath:targetKeyPath];
+    }
 }
 
 #pragma mark - UITableViewDataSource

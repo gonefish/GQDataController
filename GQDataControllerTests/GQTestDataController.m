@@ -12,12 +12,12 @@
 
 - (NSArray *)requestURL
 {
-    return @[@"http://ios.config.synacast.com/globalConfig?osv=7.1&deviceid=8380E58F-028D-4B6C-8BBE-E2F541783D42&channel=1002&platform=iphone&devicetype=iphone&sv=4.0.0"];
+    return @[@"http://httpbin.org/ip"];
 }
 
-- (BOOL)parseContent:(NSString *)content
+- (void)handleWithObject:(id)object
 {
-    return NO;
+    self.ip = [object objectForKey:@"origin"];
 }
 
 @end

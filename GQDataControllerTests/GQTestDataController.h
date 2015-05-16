@@ -10,4 +10,6 @@
 
 @interface GQTestDataController : GQDataController
 
+@property (nonatomic, strong) NSString *ip;
+
 @end

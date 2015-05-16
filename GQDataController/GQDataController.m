@@ -8,6 +8,7 @@
 
 #import "GQDataController.h"
 #import <AFNetworking/AFNetworking.h>
+#import <FormatterKit/TTTURLRequestFormatter.h>
 
 @interface GQDataController ()
 
@@ -77,8 +78,12 @@
     __weak GQDataController *weakSelf = self;
     
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
-        NSLog(@"%@", operation);
-        NSLog(@"%@", responseObject);
+        
+        if ([weakSelf isValidWithObject:responseObject]) {
+            [weakSelf handleWithObject:responseObject];
+        } else {
+            
+        }
         
         if (weakSelf
             && weakSelf.delegate) {
@@ -95,38 +100,68 @@
         }
     };
     
+    AFHTTPRequestOperation *operation = nil;
+    
     if ([method isEqualToString:@"GET"]) {
-        [self.requestOperationManager GET:urlString
+        operation = [self.requestOperationManager GET:urlString
                                parameters:[self buildRequestArgs:params]
                                   success:successBlock
                                   failure:failureBlock];
+    } else if ([method isEqualToString:@"POST"]) {
+        
     }
+    
+    NSLog(@"%@", [TTTURLRequestFormatter cURLCommandFromURLRequest:operation.request]);
 }
 
 
 #pragma mark - Abstract method
 
+/**
+ *  HTTP的Method
+ */
 - (NSString *)requestMethod
 {
     return @"GET";
 }
 
-- (NSDictionary *)defaultParams
-{
-    return nil;
-}
-
+/**
+ *  接口请求的地址，可以有多个用于备用重试
+ *
+ */
 - (NSArray *)requestURL
 {
     return nil;
 }
 
-- (BOOL)isValideWithObject:(id)object
+/**
+ *  默认参数
+ */
+- (NSDictionary *)defaultParams
+{
+    return nil;
+}
+
+/**
+ *  检测返回的结果是否有效
+ *
+ */
+- (BOOL)isValidWithObject:(id)object
 {
     return YES;
 }
 
-#pragma mark - 
+/**
+ *  处理结果的方法
+ *
+ */
+- (void)handleWithObject:(id)object
+{
+    NSLog(@"%@", object);
+    
+}
+
+#pragma mark - Private
 
 - (NSDictionary *)buildRequestArgs:(NSDictionary *)params
 {

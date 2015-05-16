@@ -8,12 +8,14 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "GQDataController.h"
+
 #import "GQTestDataController.h"
 
-@interface GQDataControllerTests : XCTestCase
+@interface GQDataControllerTests : XCTestCase <GQDataControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *autoVerifiedObjects;
+
+@property (nonatomic, strong) XCTestExpectation *testExpectation;
 
 @end
 
@@ -49,9 +51,24 @@
 
 - (void)testRequest
 {
-    GQTestDataController *c = [[GQTestDataController alloc] init];
+    self.testExpectation = [self expectationWithDescription:@"test"];
     
-    [c requestWithParams:nil completion:nil];
+    GQTestDataController *c = [[GQTestDataController alloc] init];
+    c.delegate = self;
+    
+    [c request];
+    
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+        // ...
+
+    }];
+}
+
+- (void)loadingDataFinished:(GQTestDataController *)controller
+{
+    NSLog(@"My IP: %@", controller.ip);
+    
+    [self.testExpectation fulfill];
 }
 
 @end

@@ -33,13 +33,13 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
 
 - (void)request;
 
-- (void)requestWithParams:(nonnull NSDictionary *)params;
+- (void)requestWithParams:(NSDictionary *)params;
 
 // Subclass Require Method
 
-- (nonnull NSString *)requestMethod;
+- (NSString *)requestMethod;
 
-- (nonnull NSArray *)requestURL;
+- (NSArray *)requestURL;
 
 @end
 

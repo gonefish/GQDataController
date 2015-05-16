@@ -11,10 +11,18 @@
 @protocol GQDataControllerDelegate <NSObject>
 
 @optional
-//数据请求成功
-- (void)loadingDataFinished:(GQDataController *)controller;
 
-//数据请求失败
-- (void)loadingData:(GQDataController *)controller failedWithError:(NSError *)error;
+/**
+ *  数据加载成功
+ *
+ */
+- (void)dataControllerDidFinishLoading:(GQDataController *)controller;
+
+/**
+ *  数据加载失败
+ *
+ */
+- (void)dataController:(GQDataController *)controller didFailWithError:(NSError *)error;
+
 
 @end

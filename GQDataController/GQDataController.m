@@ -81,13 +81,16 @@
         
         if ([weakSelf isValidWithObject:responseObject]) {
             [weakSelf handleWithObject:responseObject];
-        } else {
             
-        }
-        
-        if (weakSelf
-            && weakSelf.delegate) {
-            [weakSelf.delegate loadingDataFinished:weakSelf];
+            if (weakSelf
+                && weakSelf.delegate) {
+                [weakSelf.delegate dataControllerDidFinishLoading:weakSelf];
+            }
+        } else {
+            if (weakSelf
+                && weakSelf.delegate) {
+                [weakSelf.delegate dataController:weakSelf didFailWithError:nil];
+            }
         }
     };
     
@@ -96,7 +99,7 @@
         
         if (weakSelf
             && weakSelf.delegate) {
-            [weakSelf.delegate loadingData:weakSelf failedWithError:error];
+            [weakSelf.delegate dataController:weakSelf didFailWithError:error];
         }
     };
     

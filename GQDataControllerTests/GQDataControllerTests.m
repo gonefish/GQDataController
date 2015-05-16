@@ -64,7 +64,7 @@
     }];
 }
 
-- (void)loadingDataFinished:(GQTestDataController *)controller
+- (void)dataControllerDidFinishLoading:(GQTestDataController *)controller
 {
     NSLog(@"My IP: %@", controller.ip);
     

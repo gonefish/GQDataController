@@ -20,4 +20,9 @@
     self.ip = [object objectForKey:@"origin"];
 }
 
+//- (NSString *)localResponseFilename
+//{
+//    return @"ip.json";
+//}
+
 @end

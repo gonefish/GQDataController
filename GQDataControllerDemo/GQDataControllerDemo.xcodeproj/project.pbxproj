@@ -16,6 +16,7 @@
 		E3450BFA1B07410A00E62B01 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3450BF81B07410A00E62B01 /* LaunchScreen.xib */; };
 		E3450C061B07410A00E62B01 /* GQDataControllerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E3450C051B07410A00E62B01 /* GQDataControllerDemoTests.m */; };
 		E3FA14881B07B6BD008CC764 /* GQTestDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FA14871B07B6BD008CC764 /* GQTestDataController.m */; };
+		E3FA148C1B08593A008CC764 /* ip.json in Resources */ = {isa = PBXBuildFile; fileRef = E3FA148B1B08593A008CC764 /* ip.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		E3450C051B07410A00E62B01 /* GQDataControllerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GQDataControllerDemoTests.m; sourceTree = "<group>"; };
 		E3FA14861B07B6BD008CC764 /* GQTestDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTestDataController.h; sourceTree = "<group>"; };
 		E3FA14871B07B6BD008CC764 /* GQTestDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQTestDataController.m; sourceTree = "<group>"; };
+		E3FA148B1B08593A008CC764 /* ip.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ip.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 		E3450BE81B07410A00E62B01 /* GQDataControllerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E3FA148B1B08593A008CC764 /* ip.json */,
 				E3450BED1B07410A00E62B01 /* AppDelegate.h */,
 				E3450BEE1B07410A00E62B01 /* AppDelegate.m */,
 				E3FA14861B07B6BD008CC764 /* GQTestDataController.h */,
@@ -230,6 +233,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3FA148C1B08593A008CC764 /* ip.json in Resources */,
 				E3450BF51B07410A00E62B01 /* Main.storyboard in Resources */,
 				E3450BFA1B07410A00E62B01 /* LaunchScreen.xib in Resources */,
 				E3450BF71B07410A00E62B01 /* Images.xcassets in Resources */,

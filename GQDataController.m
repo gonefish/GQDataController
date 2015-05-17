@@ -84,7 +84,27 @@
 - (void)requestWithParams:(NSDictionary *)params
 {
     // 1. 生成URL
-    NSString *urlString = [[self requestURL] objectAtIndex:0];
+    NSString *urlString = nil;
+    
+    NSString *localResponseFilename = [self localResponseFilename];
+    
+    if (localResponseFilename) {
+        NSMutableArray *components = [[localResponseFilename componentsSeparatedByString:@"."] mutableCopy];
+        
+        NSString *type = [components lastObject];
+        [components removeLastObject];
+        NSString *resource = [components componentsJoinedByString:@"."];
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:resource ofType:type];
+        
+        if (path) {
+            urlString = [[NSURL fileURLWithPath:path] absoluteString];
+        }
+    }
+    
+    if (urlString ==  nil) {
+        urlString = [[self requestURL] objectAtIndex:0];
+    }
     
     // 2. 生成request
     NSString *method = [self requestMethod];
@@ -178,7 +198,15 @@
 - (void)handleWithObject:(id)object
 {
     NSLog(@"%@", object);
-    
+}
+
+/**
+ *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果
+ *
+ */
+- (NSString *)localResponseFilename
+{
+    return nil;
 }
 
 #pragma mark - Private

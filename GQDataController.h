@@ -31,6 +31,8 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
 
 + (instancetype)sharedDataController;
 
+- (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate;
+
 - (void)request;
 
 - (void)requestWithParams:(NSDictionary *)params;

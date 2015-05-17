@@ -12,8 +12,6 @@
 
 @interface GQDataController ()
 
-@property (nonatomic, strong) AFHTTPRequestOperation *requestOperation;
-
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
 
 @property (nonatomic, strong) id bindingTarget;
@@ -63,6 +61,17 @@
     
     if (self) {
         _requestOperationManager = [AFHTTPRequestOperationManager manager];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate
+{
+    self = [self init];
+    
+    if (self) {
+        self.delegate = aDelegate;
     }
     
     return self;

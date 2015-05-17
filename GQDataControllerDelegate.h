@@ -24,10 +24,14 @@
  */
 - (void)dataController:(GQDataController *)controller didFailWithError:(NSError *)error;
 
+/**
+ *  数据的绑定对象
+ *
+ */
 - (id)dataControllerBindingTarget:(GQDataController *)controller;
 
 /**
- *  key为target的keyPath value为DataController的value
+ *  数据的绑定的键值对 key为target的keyPath value为DataController的value
  *
  */
 - (NSDictionary *)dataControllerBindingKeyPaths:(GQDataController *)controller;

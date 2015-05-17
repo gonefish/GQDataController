@@ -218,6 +218,18 @@
 
 - (void)setDelegate:(id<GQDataControllerDelegate>)delegate
 {
+    // 如果设置delegate为nil 需要进行清理
+    if (delegate == nil) {
+        for (NSString *key in [self.bindingKeyPaths allKeys]) {
+            [self removeObserver:self
+                      forKeyPath:self.bindingKeyPaths[key]];
+        }
+        
+        self.bindingKeyPaths = nil;
+        self.bindingReverseKeyPaths = nil;
+        self.bindingTarget = nil;
+    }
+    
     _delegate = delegate;
     
     if ([_delegate respondsToSelector:@selector(dataControllerBindingTarget:)]
@@ -252,15 +264,11 @@
 
 - (NSDictionary *)buildRequestArgs:(NSDictionary *)params
 {
-    NSDictionary *defaultParams = [self defaultParams];
+    NSMutableDictionary *defaultParams = [[self defaultParams] mutableCopy] ? : [NSMutableDictionary dictionary];
     
-    if (defaultParams) {
-        
-    } else {
-        
-    }
+    [defaultParams addEntriesFromDictionary:params];
     
-    return @{};
+    return [defaultParams copy];
 }
 
 + (NSString *)encodeURIComponent:(NSString *)string

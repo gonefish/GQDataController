@@ -126,7 +126,7 @@
     
     AFHTTPRequestOperation *operation = nil;
     
-    NSDictionary *newParams = [self buildRequestArgs:params];
+    NSDictionary *newParams = [self mergeDefaultParamsWithParams:params];
     
     if ([method isEqualToString:@"GET"]) {
         operation = [self.requestOperationManager GET:urlString
@@ -222,6 +222,15 @@
     return nil;
 }
 
+- (NSDictionary *)mergeDefaultParamsWithParams:(NSDictionary *)params
+{
+    NSMutableDictionary *defaultParams = [[self defaultParams] mutableCopy] ? : [NSMutableDictionary dictionary];
+    
+    [defaultParams addEntriesFromDictionary:params];
+    
+    return [defaultParams copy];
+}
+
 #pragma mark - Private
 
 - (void)setDelegate:(id<GQDataControllerDelegate>)delegate
@@ -270,14 +279,6 @@
     }
 }
 
-- (NSDictionary *)buildRequestArgs:(NSDictionary *)params
-{
-    NSMutableDictionary *defaultParams = [[self defaultParams] mutableCopy] ? : [NSMutableDictionary dictionary];
-    
-    [defaultParams addEntriesFromDictionary:params];
-    
-    return [defaultParams copy];
-}
 
 + (NSString *)encodeURIComponent:(NSString *)string
 {

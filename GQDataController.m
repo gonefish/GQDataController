@@ -142,16 +142,21 @@
     
     AFHTTPRequestOperation *operation = nil;
     
+    NSDictionary *newParams = [self buildRequestArgs:params];
+    
     if ([method isEqualToString:@"GET"]) {
         operation = [self.requestOperationManager GET:urlString
-                               parameters:[self buildRequestArgs:params]
-                                  success:successBlock
-                                  failure:failureBlock];
+                                           parameters:newParams
+                                              success:successBlock
+                                              failure:failureBlock];
     } else if ([method isEqualToString:@"POST"]) {
-        
+        operation = [self.requestOperationManager POST:urlString
+                                            parameters:newParams
+                                               success:successBlock
+                                               failure:failureBlock];
     }
     
-    NSLog(@"%@", [TTTURLRequestFormatter cURLCommandFromURLRequest:operation.request]);
+    NSLog(@"GQDataController Debug: %@", [TTTURLRequestFormatter cURLCommandFromURLRequest:operation.request]);
 }
 
 

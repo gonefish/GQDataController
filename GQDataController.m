@@ -76,6 +76,8 @@
     }
 }
 
+#pragma mark - Public 
+
 - (void)request
 {
     [self requestWithParams:nil];
@@ -95,7 +97,8 @@
         [components removeLastObject];
         NSString *resource = [components componentsJoinedByString:@"."];
         
-        NSString *path = [[NSBundle mainBundle] pathForResource:resource ofType:type];
+        NSString *path = [[NSBundle mainBundle] pathForResource:resource
+                                                         ofType:type];
         
         if (path) {
             urlString = [[NSURL fileURLWithPath:path] absoluteString];
@@ -112,32 +115,13 @@
     __weak GQDataController *weakSelf = self;
     
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
-        if (weakSelf) {
-            if ([weakSelf isValidWithObject:responseObject]) {
-                [weakSelf handleWithObject:responseObject];
-                
-                if (weakSelf.delegate
-                    && [weakSelf.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
-                    [weakSelf.delegate dataControllerDidFinishLoading:weakSelf];
-                }
-            } else {
-                if (weakSelf.delegate
-                    && [weakSelf.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
-                    [weakSelf.delegate dataController:weakSelf didFailWithError:nil];
-                }
-            }
-        }
+        [weakSelf requestOpertaionSuccess:operation
+                           responseObject:responseObject];
     };
     
     void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
-        NSLog(@"%@", error);
-        
-        if (weakSelf) {
-            if (weakSelf.delegate
-                && [weakSelf.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
-                [weakSelf.delegate dataController:weakSelf didFailWithError:error];
-            }
-        }
+        [weakSelf requestOperationFailure:operation
+                                    error:error];
     };
     
     AFHTTPRequestOperation *operation = nil;
@@ -160,7 +144,31 @@
 }
 
 
-#pragma mark - Abstract method
+#pragma mark - Custom Method
+
+- (void)requestOpertaionSuccess:(NSOperation *)operation responseObject:(id)responseObject
+{
+    if ([self isValidWithObject:responseObject]) {
+        [self handleWithObject:responseObject];
+        
+        if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
+            [self.delegate dataControllerDidFinishLoading:self];
+        }
+    } else {
+        if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
+            [self.delegate dataController:self didFailWithError:nil];
+        }
+    }
+}
+
+- (void)requestOperationFailure:(NSOperation *)operation error:(NSError *)error
+{
+    NSLog(@"%@", error);
+    
+    if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
+        [self.delegate dataController:self didFailWithError:error];
+    }
+}
 
 /**
  *  HTTP的Method

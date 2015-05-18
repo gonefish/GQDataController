@@ -74,6 +74,12 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
 - (NSDictionary *)defaultParams;
 
 /**
+ *  合并请求参数
+ *
+ */
+- (NSDictionary *)mergeDefaultParamsWithParams:(NSDictionary *)params;
+
+/**
  *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果
  *
  */

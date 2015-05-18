@@ -61,6 +61,15 @@
     
     if (self) {
         _requestOperationManager = [AFHTTPRequestOperationManager manager];
+        
+        if ([self customQueryString]) {
+            __weak typeof(self) weakSelf = self;
+            
+            [_requestOperationManager.requestSerializer setQueryStringSerializationWithBlock:^NSString *(NSURLRequest *request, id parameters, NSError *__autoreleasing *error) {
+                
+                return [weakSelf customQueryStringWithParams:parameters];
+            }];
+        }
     }
     
     return self;
@@ -215,6 +224,18 @@
     return nil;
 }
 
+- (BOOL)customQueryString
+{
+    return NO;
+}
+
+- (NSString *)customQueryStringWithParams:(NSDictionary *)params;
+{
+    return nil;
+}
+
+#pragma mark - Private
+
 - (NSDictionary *)mergeDefaultParamsWithParams:(NSDictionary *)params
 {
     NSMutableDictionary *defaultParams = [[self defaultParams] mutableCopy] ? : [NSMutableDictionary dictionary];
@@ -223,8 +244,6 @@
     
     return [defaultParams copy];
 }
-
-#pragma mark - Private
 
 - (void)setDelegate:(id<GQDataControllerDelegate>)delegate
 {

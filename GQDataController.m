@@ -77,12 +77,10 @@
     return self;
 }
 
+
 - (void)dealloc
 {
-    for (NSString *key in [self.bindingKeyPaths allKeys]) {
-        [self removeObserver:self
-                  forKeyPath:self.bindingKeyPaths[key]];
-    }
+    [self removeBindingObserver];
 }
 
 #pragma mark - Public 
@@ -115,7 +113,15 @@
     }
     
     if (urlString ==  nil) {
-        urlString = [[self requestURL] objectAtIndex:0];
+        NSArray *URLs = [self requestURLs];
+        
+        NSAssert([URLs isKindOfClass:[NSArray class]], @"Must be a NSArray");
+        
+        if ([URLs count] < 1) {
+            return;
+        }
+        
+        urlString = [[self requestURLs] objectAtIndex:0];
     }
     
     // 2. 生成request
@@ -179,53 +185,31 @@
     }
 }
 
-/**
- *  HTTP的Method
- */
 - (NSString *)requestMethod
 {
     return @"GET";
 }
 
-/**
- *  接口请求的地址，可以有多个用于备用重试
- *
- */
-- (NSArray *)requestURL
+- (NSArray *)requestURLs
 {
     return nil;
 }
 
-/**
- *  默认参数
- */
 - (NSDictionary *)defaultParams
 {
     return nil;
 }
 
-/**
- *  检测返回的结果是否有效
- *
- */
 - (BOOL)isValidWithObject:(id)object
 {
     return YES;
 }
 
-/**
- *  处理结果的方法
- *
- */
 - (void)handleWithObject:(id)object
 {
     NSLog(@"%@", object);
 }
 
-/**
- *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果
- *
- */
 - (NSString *)localResponseFilename
 {
     return nil;
@@ -246,14 +230,7 @@
 {
     // 如果设置delegate为nil 需要进行清理
     if (delegate == nil) {
-        for (NSString *key in [self.bindingKeyPaths allKeys]) {
-            [self removeObserver:self
-                      forKeyPath:self.bindingKeyPaths[key]];
-        }
-        
-        self.bindingKeyPaths = nil;
-        self.bindingReverseKeyPaths = nil;
-        self.bindingTarget = nil;
+        [self removeBindingObserver];
     }
     
     _delegate = delegate;
@@ -301,6 +278,18 @@
 	CFRelease(cfUrlEncodedString);
 	
 	return urlEncoded;
+}
+
+- (void)removeBindingObserver
+{
+    for (NSString *key in [self.bindingKeyPaths allKeys]) {
+        [self removeObserver:self
+                  forKeyPath:self.bindingKeyPaths[key]];
+    }
+    
+    self.bindingKeyPaths = nil;
+    self.bindingReverseKeyPaths = nil;
+    self.bindingTarget = nil;
 }
 
 #pragma mark - NSKeyValueObserving

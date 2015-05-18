@@ -29,13 +29,33 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
 
 @property (nonatomic, strong, readonly) NSArray *listObjects;
 
+/**
+ *  共享实例的方法，共享实例的请求队列是串行的
+ *
+ */
 + (instancetype)sharedDataController;
 
 - (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate;
 
+
+// ------------
+// 发起请求的方法
+// ------------
+
+/**
+ *  发起不添加参数的请求
+ */
 - (void)request;
 
+/**
+ *  发起添加参数的请求
+ *
+ */
 - (void)requestWithParams:(NSDictionary *)params;
+
+// ----------------
+// 自定义接口请求的方法
+// ----------------
 
 /**
  *  HTTP的Method
@@ -46,12 +66,22 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
  *  接口请求的地址，可以有多个用于备用重试
  *
  */
-- (NSArray *)requestURL;
+- (NSArray *)requestURLs;
 
 /**
  *  默认参数
  */
 - (NSDictionary *)defaultParams;
+
+/**
+ *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果
+ *
+ */
+- (NSString *)localResponseFilename;
+
+// ----------------
+// 请求成功后的处理方法
+// ----------------
 
 /**
  *  检测返回的结果是否有效
@@ -65,17 +95,21 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
  */
 - (void)handleWithObject:(id)object;
 
+// ----------------
+// 完全自定义的相关方法
+// ----------------
+
 /**
- *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果
+ *  接口请求成功的处理
  *
  */
-- (NSString *)localResponseFilename;
-
 - (void)requestOpertaionSuccess:(NSOperation *)operation responseObject:(id)responseObject;
 
+/**
+ *  接口请求失败的处理
+ *
+ */
 - (void)requestOperationFailure:(NSOperation *)operation error:(NSError *)error;
 
-
 @end
-
 

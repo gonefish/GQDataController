@@ -66,7 +66,13 @@ typedef void (^GQCOllectionViewCellConfigureBlock)(UICollectionViewCell *cell, i
  *  接口请求的地址，可以有多个用于备用重试
  *
  */
-- (NSArray *)requestURLStringsWithParams:(NSDictionary *)params;
+- (NSArray *)requestURLStrings;
+
+/**
+ *  重建地址
+ *
+ */
+- (NSString *)requestURLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params;
 
 /**
  *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果

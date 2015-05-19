@@ -113,7 +113,7 @@
     }
     
     if (urlString ==  nil) {
-        NSArray *URLs = [self requestURLStringsWithParams:params];
+        NSArray *URLs = [self requestURLStrings];
         
         NSAssert([URLs isKindOfClass:[NSArray class]], @"Must be a NSArray");
         
@@ -141,13 +141,15 @@
     
     AFHTTPRequestOperation *operation = nil;
     
+    NSString *newURLString = [self requestURLStringWithURLString:urlString params:params];
+    
     if ([method isEqualToString:@"GET"]) {
-        operation = [self.requestOperationManager GET:urlString
+        operation = [self.requestOperationManager GET:newURLString
                                            parameters:params
                                               success:successBlock
                                               failure:failureBlock];
     } else if ([method isEqualToString:@"POST"]) {
-        operation = [self.requestOperationManager POST:urlString
+        operation = [self.requestOperationManager POST:newURLString
                                             parameters:params
                                                success:successBlock
                                                failure:failureBlock];
@@ -188,9 +190,14 @@
     return @"GET";
 }
 
-- (NSArray *)requestURLStringsWithParams:(NSDictionary *)params
+- (NSArray *)requestURLStrings
 {
     return nil;
+}
+
+- (NSString *)requestURLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params
+{
+    return urlString;
 }
 
 - (BOOL)isValidWithObject:(id)object

@@ -61,15 +61,6 @@
     
     if (self) {
         _requestOperationManager = [AFHTTPRequestOperationManager manager];
-        
-        if ([self customQueryString]) {
-            __weak typeof(self) weakSelf = self;
-            
-            [_requestOperationManager.requestSerializer setQueryStringSerializationWithBlock:^NSString *(NSURLRequest *request, id parameters, NSError *__autoreleasing *error) {
-                
-                return [weakSelf customQueryStringWithParams:parameters];
-            }];
-        }
     }
     
     return self;
@@ -122,7 +113,7 @@
     }
     
     if (urlString ==  nil) {
-        NSArray *URLs = [self requestURLs];
+        NSArray *URLs = [self requestURLStringsWithParams:params];
         
         NSAssert([URLs isKindOfClass:[NSArray class]], @"Must be a NSArray");
         
@@ -130,7 +121,7 @@
             return;
         }
         
-        urlString = [[self requestURLs] objectAtIndex:0];
+        urlString = URLs[0];
     }
     
     // 2. 生成request
@@ -150,16 +141,14 @@
     
     AFHTTPRequestOperation *operation = nil;
     
-    NSDictionary *newParams = [self mergeDefaultParamsWithParams:params];
-    
     if ([method isEqualToString:@"GET"]) {
         operation = [self.requestOperationManager GET:urlString
-                                           parameters:newParams
+                                           parameters:params
                                               success:successBlock
                                               failure:failureBlock];
     } else if ([method isEqualToString:@"POST"]) {
         operation = [self.requestOperationManager POST:urlString
-                                            parameters:newParams
+                                            parameters:params
                                                success:successBlock
                                                failure:failureBlock];
     }
@@ -199,12 +188,7 @@
     return @"GET";
 }
 
-- (NSArray *)requestURLs
-{
-    return nil;
-}
-
-- (NSDictionary *)defaultParams
+- (NSArray *)requestURLStringsWithParams:(NSDictionary *)params
 {
     return nil;
 }
@@ -224,26 +208,8 @@
     return nil;
 }
 
-- (BOOL)customQueryString
-{
-    return NO;
-}
-
-- (NSString *)customQueryStringWithParams:(NSDictionary *)params;
-{
-    return nil;
-}
-
 #pragma mark - Private
 
-- (NSDictionary *)mergeDefaultParamsWithParams:(NSDictionary *)params
-{
-    NSMutableDictionary *defaultParams = [[self defaultParams] mutableCopy] ? : [NSMutableDictionary dictionary];
-    
-    [defaultParams addEntriesFromDictionary:params];
-    
-    return [defaultParams copy];
-}
 
 - (void)setDelegate:(id<GQDataControllerDelegate>)delegate
 {

@@ -10,7 +10,7 @@
 
 @implementation GQTestDataController
 
-- (NSArray *)requestURLs
+- (NSArray *)requestURLStringsWithParams:(NSDictionary *)params;
 {
     return @[@"http://httpbin.org/ip"];
 }

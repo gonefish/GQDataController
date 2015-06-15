@@ -7,6 +7,7 @@
 //
 
 #import "GQTestDataController.h"
+#import "IP.h"
 
 @implementation GQTestDataController
 
@@ -15,9 +16,14 @@
     return @[@"http://httpbin.org/ip"];
 }
 
-- (void)handleWithObject:(id)object
+//- (void)handleWithObject:(id)object
+//{
+//    self.ip = [object objectForKey:@"origin"];
+//}
+
+- (Class)mantleModelClass
 {
-    self.ip = [object objectForKey:@"origin"];
+    return [IP class];
 }
 
 //- (NSString *)localResponseFilename

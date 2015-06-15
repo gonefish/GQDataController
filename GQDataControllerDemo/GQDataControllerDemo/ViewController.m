@@ -41,7 +41,9 @@
 
 - (NSDictionary *)dataControllerBindingKeyPaths:(GQDataController *)controller
 {
-    return @{@"ipLabel.text" : @"ip"};
+    return @{@"ipLabel.text" : @"mantleObject.origin"};
+    
+//    return @{@"ipLabel.text" : @"ip"};
 }
 
 @end

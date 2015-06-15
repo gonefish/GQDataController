@@ -13,6 +13,10 @@
 
 @property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
+@property (nonatomic, strong) id mantleObject;
+
+@property (nonatomic, strong) NSMutableArray *mantleObjectList;
+
 /**
  *  共享实例的方法，共享实例的请求队列是串行的
  *
@@ -79,6 +83,24 @@
  *
  */
 - (void)handleWithObject:(id)object;
+
+// ------------
+// Mantle相关方法
+// ------------
+
+/**
+ *  返回需要转换的Mantle模型类
+ *
+ *  @return Mantle的Class
+ */
+- (Class)mantleModelClass;
+
+/**
+ *  需要转换的JSON Dictionary位于整个Dictionary中的位置
+ *
+ *  @return Key Path
+ */
+- (NSString *)mantleObjectKeyPath;
 
 // ----------------
 // 完全自定义的相关方法

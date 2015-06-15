@@ -9,6 +9,7 @@
 #import "GQDataController.h"
 #import <AFNetworking/AFNetworking.h>
 #import <FormatterKit/TTTURLRequestFormatter.h>
+#import <Mantle/Mantle.h>
 
 @interface GQDataController ()
 
@@ -71,7 +72,7 @@
     self = [self init];
     
     if (self) {
-        self.delegate = aDelegate;
+        _delegate = aDelegate;
     }
     
     return self;
@@ -161,10 +162,35 @@
 
 #pragma mark - Custom Method
 
+
+
 - (void)requestOpertaionSuccess:(NSOperation *)operation responseObject:(id)responseObject
 {
     if ([self isValidWithObject:responseObject]) {
-        [self handleWithObject:responseObject];
+        
+        Class mantleModelClass = [self mantleModelClass];
+        
+        // 是否启用Mantle
+        if (mantleModelClass != Nil) {
+            if ([responseObject isKindOfClass:[NSArray class]]) {
+                [self handleMantleObjectListWithResponseObject:responseObject];
+                
+            } else if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                id jsonModel = [self mantleJSONWithResponseObject:responseObject];
+                
+                if ([jsonModel isKindOfClass:[NSArray class]]) {
+                    
+                    [self handleMantleObjectListWithResponseObject:jsonModel];
+                    
+                } else if ([jsonModel isKindOfClass:[NSDictionary class]]) {
+                    self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
+                                                  fromJSONDictionary:jsonModel
+                                                               error:nil];
+                }
+            }
+        } else {
+            [self handleWithObject:responseObject];
+        }
         
         if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
             [self.delegate dataControllerDidFinishLoading:self];
@@ -215,8 +241,51 @@
     return nil;
 }
 
+- (Class)mantleModelClass
+{
+    return Nil;
+}
+
+- (NSString *)mantleObjectKeyPath
+{
+    return nil;
+}
+
 #pragma mark - Private
 
+- (void)handleMantleObjectListWithResponseObject:(id)responseObject
+{
+    Class mantleModelClass = [self mantleModelClass];
+    
+    NSArray *models = [MTLJSONAdapter modelsOfClass:mantleModelClass
+                                      fromJSONArray:responseObject
+                                              error:nil];
+    
+    if (models) {
+        if (self.mantleObjectList == nil) {
+            self.mantleObjectList = [models mutableCopy];
+        } else {
+            if ([self.delegate respondsToSelector:@selector(removeAllObjectsWhenAddMantleObjectList:)]) {
+                if ([self.delegate removeAllObjectsWhenAddMantleObjectList:self]) {
+                    [self.mantleObjectList removeAllObjects];
+                }
+            }
+            
+            [self.mantleObjectList addObjectsFromArray:models];
+        }
+    }
+}
+
+- (id)mantleJSONWithResponseObject:(id)responseObject
+{
+    NSString *keyPath = [self mantleObjectKeyPath];
+    
+    if (keyPath == nil) {
+        return responseObject;
+    } else {
+        return [(NSDictionary *)responseObject valueForKeyPath:keyPath];
+    }
+}
 
 - (void)setDelegate:(id<GQDataControllerDelegate>)delegate
 {
@@ -296,6 +365,5 @@
     }
 }
 
-#pragma mark - UITableViewDataSource
 
 @end

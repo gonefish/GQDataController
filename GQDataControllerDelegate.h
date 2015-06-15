@@ -12,6 +12,8 @@
 
 @optional
 
+- (BOOL)removeAllObjectsWhenAddMantleObjectList:(GQDataController *)controller;
+
 /**
  *  数据加载成功
  *

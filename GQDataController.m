@@ -142,7 +142,7 @@
     
     AFHTTPRequestOperation *operation = nil;
     
-    NSString *newURLString = [self requestURLStringWithURLString:urlString params:params];
+    NSString *newURLString = [self URLStringWithURLString:urlString params:params];
     
     if ([method isEqualToString:@"GET"]) {
         operation = [self.requestOperationManager GET:newURLString
@@ -221,7 +221,7 @@
     return nil;
 }
 
-- (NSString *)requestURLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params
+- (NSString *)URLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params
 {
     return urlString;
 }

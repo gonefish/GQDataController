@@ -31,18 +31,19 @@
 // ------------
 
 /**
- *  发起不添加参数的请求
+ *  调用requestWithParams:并传入nil
  */
 - (void)request;
 
 /**
- *  发起添加参数的请求
+ *  发起网络请求
  *
+ *  @param params 请求的参数
  */
 - (void)requestWithParams:(NSDictionary *)params;
 
 // ----------------
-// 自定义接口请求的方法
+// 子类需要自定义的方法
 // ----------------
 
 /**
@@ -57,10 +58,14 @@
 - (NSArray *)requestURLStrings;
 
 /**
- *  重建地址
+ *  返回将要请求的URL，默认的实现是直接返回了urlString参数
  *
+ *  @param urlString 请求的URL
+ *  @param params    请求的参数
+ *
+ *  @return 最终要请求的URL
  */
-- (NSString *)requestURLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params;
+- (NSString *)URLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params;
 
 /**
  *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果
@@ -84,23 +89,6 @@
  */
 - (void)handleWithObject:(id)object;
 
-// ------------
-// Mantle相关方法
-// ------------
-
-/**
- *  返回需要转换的Mantle模型类
- *
- *  @return Mantle的Class
- */
-- (Class)mantleModelClass;
-
-/**
- *  需要转换的JSON Dictionary位于整个Dictionary中的位置
- *
- *  @return Key Path
- */
-- (NSString *)mantleObjectKeyPath;
 
 // ----------------
 // 完全自定义的相关方法
@@ -117,6 +105,29 @@
  *
  */
 - (void)requestOperationFailure:(NSOperation *)operation error:(NSError *)error;
+
+@end
+
+
+// ------------
+// Mantle相关方法
+// ------------
+
+@interface GQDataController (Mantle)
+
+/**
+ *  返回需要转换的Mantle模型类
+ *
+ *  @return Mantle的Class
+ */
+- (Class)mantleModelClass;
+
+/**
+ *  需要转换的JSON Dictionary位于整个Dictionary中的位置
+ *
+ *  @return Key Path
+ */
+- (NSString *)mantleObjectKeyPath;
 
 @end
 

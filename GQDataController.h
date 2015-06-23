@@ -7,15 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Mantle/Mantle.h>
 #import "GQDataControllerDelegate.h"
 
 @interface GQDataController : NSObject
 
 @property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
-@property (nonatomic, strong) id mantleObject;
+/**
+ *  绑定的对象，默认与GQDataControllerDelegate相同
+ */
+@property (nonatomic, weak) id bindingTarget;
+
+@property (nonatomic, copy) NSDictionary *bindingKeyPaths;
+
+@property (nonatomic, strong) MTLModel <MTLJSONSerializing> *mantleObject;
 
 @property (nonatomic, strong) NSMutableArray *mantleObjectList;
+
 
 /**
  *  共享实例的方法，共享实例的请求队列是串行的
@@ -114,6 +123,8 @@
 // ------------
 
 @interface GQDataController (Mantle)
+
+
 
 /**
  *  返回需要转换的Mantle模型类

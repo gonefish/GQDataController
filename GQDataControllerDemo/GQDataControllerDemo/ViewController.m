@@ -23,6 +23,7 @@
     
     self.testDataController = [GQTestDataController new];
     self.testDataController.delegate = self;
+    self.testDataController.bindingKeyPaths = @{@"ipLabel.text" : @"mantleObject.origin"};
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.testDataController requestWithParams:@{@"foo": @"bar"}];
@@ -32,18 +33,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (id)dataControllerBindingTarget:(GQDataController *)controller
-{
-    return self;
-}
-
-- (NSDictionary *)dataControllerBindingKeyPaths:(GQDataController *)controller
-{
-    return @{@"ipLabel.text" : @"mantleObject.origin"};
-    
-//    return @{@"ipLabel.text" : @"ip"};
 }
 
 @end

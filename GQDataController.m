@@ -9,15 +9,10 @@
 #import "GQDataController.h"
 #import <AFNetworking/AFNetworking.h>
 #import <FormatterKit/TTTURLRequestFormatter.h>
-#import <Mantle/Mantle.h>
 
 @interface GQDataController ()
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
-
-@property (nonatomic, strong) id bindingTarget;
-
-@property (nonatomic, copy) NSDictionary *bindingKeyPaths;
 
 @property (nonatomic, copy) NSDictionary *bindingReverseKeyPaths;
 
@@ -287,45 +282,46 @@
     }
 }
 
-- (void)setDelegate:(id<GQDataControllerDelegate>)delegate
+- (void)setBindingKeyPaths:(NSDictionary *)bindingKeyPaths
 {
-    // 如果设置delegate为nil 需要进行清理
-    if (delegate == nil) {
+    NSAssert([bindingKeyPaths isKindOfClass:[NSDictionary class]], @"Must be a NSDictionary");
+    
+    if ([_bindingKeyPaths isEqualToDictionary:bindingKeyPaths]) {
+        return;
+    } else {
         [self removeBindingObserver];
     }
     
-    _delegate = delegate;
+    _bindingKeyPaths = [bindingKeyPaths copy];
     
-    if ([_delegate respondsToSelector:@selector(dataControllerBindingTarget:)]
-        && [_delegate respondsToSelector:@selector(dataControllerBindingKeyPaths:)]) {
+    self.bindingReverseKeyPaths = nil;
+    
+    // 两个属性都有返回值时才有效
+    if (self.bindingTarget
+        && self.bindingKeyPaths) {
         
-        id bindingTarget = [_delegate dataControllerBindingTarget:self];
-        NSDictionary *bindingKeyPaths = [_delegate dataControllerBindingKeyPaths:self];
+        // 反转键值对 用于快速调用target
+        NSMutableDictionary *bindingReverseKeyPaths = [NSMutableDictionary dictionary];
         
-        // 两个方法都有返回值时才有效
-        if (bindingTarget && bindingKeyPaths) {
-            NSAssert([bindingKeyPaths isKindOfClass:[NSDictionary class]], @"Must be a NSDictionary");
+        for (NSString *key in [self.bindingKeyPaths allKeys]) {
+            [self addObserver:self
+                   forKeyPath:self.bindingKeyPaths[key]
+                      options:NSKeyValueObservingOptionNew
+                      context:NULL];
             
-            self.bindingTarget = bindingTarget;
-            self.bindingKeyPaths = bindingKeyPaths;
-            
-            // 反转键值对 用于快速调用target
-            NSMutableDictionary *bindingReverseKeyPaths = [NSMutableDictionary dictionary];
-            
-            for (NSString *key in [self.bindingKeyPaths allKeys]) {
-                [self addObserver:self
-                       forKeyPath:self.bindingKeyPaths[key]
-                          options:NSKeyValueObservingOptionNew
-                          context:NULL];
-                
-                bindingReverseKeyPaths[self.bindingKeyPaths[key]] = key;
-            }
-            
-            self.bindingReverseKeyPaths = bindingReverseKeyPaths;
+            bindingReverseKeyPaths[self.bindingKeyPaths[key]] = key;
         }
+        
+        self.bindingReverseKeyPaths = bindingReverseKeyPaths;
     }
 }
 
+- (void)setDelegate:(id<GQDataControllerDelegate>)delegate
+{
+    _delegate = delegate;
+    
+    self.bindingTarget = delegate;
+}
 
 + (NSString *)encodeURIComponent:(NSString *)string
 {
@@ -347,10 +343,6 @@
         [self removeObserver:self
                   forKeyPath:self.bindingKeyPaths[key]];
     }
-    
-    self.bindingKeyPaths = nil;
-    self.bindingReverseKeyPaths = nil;
-    self.bindingTarget = nil;
 }
 
 #pragma mark - NSKeyValueObserving

@@ -98,6 +98,24 @@
  */
 - (void)handleWithObject:(id)object;
 
+// ------------
+// Mantle相关方法
+// ------------
+
+/**
+ *  返回需要转换的Mantle模型类
+ *
+ *  @return Mantle的Class
+ */
+- (Class)mantleModelClass;
+
+/**
+ *  需要转换的JSON Dictionary位于整个Dictionary中的位置
+ *
+ *  @return Key Path
+ */
+- (NSString *)mantleObjectKeyPath;
+
 
 // ----------------
 // 完全自定义的相关方法
@@ -114,31 +132,6 @@
  *
  */
 - (void)requestOperationFailure:(NSOperation *)operation error:(NSError *)error;
-
-@end
-
-
-// ------------
-// Mantle相关方法
-// ------------
-
-@interface GQDataController (Mantle)
-
-
-
-/**
- *  返回需要转换的Mantle模型类
- *
- *  @return Mantle的Class
- */
-- (Class)mantleModelClass;
-
-/**
- *  需要转换的JSON Dictionary位于整个Dictionary中的位置
- *
- *  @return Key Path
- */
-- (NSString *)mantleObjectKeyPath;
 
 @end
 

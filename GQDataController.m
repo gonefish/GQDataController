@@ -151,7 +151,7 @@
                                                failure:failureBlock];
     }
     
-    NSLog(@"GQDataController Debug: %@", [TTTURLRequestFormatter cURLCommandFromURLRequest:operation.request]);
+    [self logWithString:[TTTURLRequestFormatter cURLCommandFromURLRequest:operation.request]];
 }
 
 
@@ -199,7 +199,7 @@
 
 - (void)requestOperationFailure:(NSOperation *)operation error:(NSError *)error
 {
-    NSLog(@"%@", error);
+    [self logWithString:[error localizedDescription]];
     
     if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
         [self.delegate dataController:self didFailWithError:error];
@@ -228,7 +228,6 @@
 
 - (void)handleWithObject:(id)object
 {
-    NSLog(@"%@", object);
 }
 
 - (NSString *)localResponseFilename
@@ -247,6 +246,17 @@
 }
 
 #pragma mark - Private
+
+- (void)logWithString:(NSString *)log
+{
+    NSString *fullLog = [NSString stringWithFormat:@"GQDataController: %@", log];
+    
+    if (self.logBlock) {
+        self.logBlock(fullLog);
+    } else {
+        NSLog(@"%@", fullLog);
+    }
+}
 
 - (void)handleMantleObjectListWithResponseObject:(id)responseObject
 {

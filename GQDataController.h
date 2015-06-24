@@ -10,6 +10,8 @@
 #import <Mantle/Mantle.h>
 #import "GQDataControllerDelegate.h"
 
+typedef void (^GQDataControllerLogBlock)(NSString *log);
+
 @interface GQDataController : NSObject
 
 @property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
@@ -24,6 +26,8 @@
 @property (nonatomic, strong) MTLModel <MTLJSONSerializing> *mantleObject;
 
 @property (nonatomic, strong) NSMutableArray *mantleObjectList;
+
+@property (nonatomic, copy) GQDataControllerLogBlock logBlock;
 
 
 /**

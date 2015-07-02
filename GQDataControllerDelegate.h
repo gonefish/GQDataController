@@ -15,6 +15,12 @@
 - (BOOL)removeAllObjectsWhenAddMantleObjectList:(GQDataController *)controller;
 
 /**
+ *  将要数据加载
+ *
+ */
+- (void)dataControllerWillStartLoading:(GQDataController *)controller;
+
+/**
  *  数据加载成功
  *
  */

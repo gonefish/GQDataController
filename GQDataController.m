@@ -139,6 +139,10 @@
     
     NSString *newURLString = [self URLStringWithURLString:urlString params:params];
     
+    if ([self.delegate respondsToSelector:@selector(dataControllerWillStartLoading:)]) {
+        [self.delegate dataControllerWillStartLoading:self];
+    }
+    
     if ([method isEqualToString:@"GET"]) {
         operation = [self.requestOperationManager GET:newURLString
                                            parameters:params

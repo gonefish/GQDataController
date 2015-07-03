@@ -12,8 +12,6 @@
 
 static void *GQReverseBindingContext = &GQReverseBindingContext;
 
-static void *GQBindingContext = &GQBindingContext;
-
 @interface GQDataController ()
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;

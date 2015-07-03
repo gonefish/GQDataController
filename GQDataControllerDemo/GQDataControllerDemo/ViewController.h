@@ -12,5 +12,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *ipLabel;
 
+@property (weak, nonatomic) IBOutlet UITextField *textField;
+
+
 @end
 

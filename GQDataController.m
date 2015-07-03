@@ -10,11 +10,15 @@
 #import <AFNetworking/AFNetworking.h>
 #import <FormatterKit/TTTURLRequestFormatter.h>
 
+static void *GQReverseBindingContext = &GQReverseBindingContext;
+
+static void *GQBindingContext = &GQBindingContext;
+
 @interface GQDataController ()
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
 
-@property (nonatomic, copy) NSDictionary *bindingReverseKeyPaths;
+@property (nonatomic, copy) NSDictionary *reverseBindingKeyPaths;
 
 @end
 
@@ -308,25 +312,39 @@
     
     _bindingKeyPaths = [bindingKeyPaths copy];
     
-    self.bindingReverseKeyPaths = nil;
+    self.reverseBindingKeyPaths = nil;
     
     // 两个属性都有返回值时才有效
     if (self.bindingTarget
         && self.bindingKeyPaths) {
         
         // 反转键值对 用于快速调用target
-        NSMutableDictionary *bindingReverseKeyPaths = [NSMutableDictionary dictionary];
+        NSMutableDictionary *reverseBindingKeyPaths = [NSMutableDictionary dictionary];
         
-        for (NSString *key in [self.bindingKeyPaths allKeys]) {
-            [self addObserver:self
-                   forKeyPath:self.bindingKeyPaths[key]
-                      options:NSKeyValueObservingOptionNew
-                      context:NULL];
+        for (NSString *key in self.bindingKeyPaths) {
+            // 添加本地向目标的属性绑定
             
-            bindingReverseKeyPaths[self.bindingKeyPaths[key]] = key;
+            NSString *localBindingKeyPath = self.bindingKeyPaths[key];
+            
+            [self addObserver:self
+                   forKeyPath:localBindingKeyPath
+                      options:NSKeyValueObservingOptionNew
+                      context:GQReverseBindingContext];
+            
+            // 检测之前是否存在绑定
+            NSArray *bindingInfo = reverseBindingKeyPaths[localBindingKeyPath];
+            
+            if (bindingInfo == nil) {
+                reverseBindingKeyPaths[localBindingKeyPath] = @[key];
+            } else {
+                reverseBindingKeyPaths[localBindingKeyPath] = [bindingInfo arrayByAddingObject:key];
+            }
+            
+            // 添加目标到本地的属性绑定
+            
         }
         
-        self.bindingReverseKeyPaths = bindingReverseKeyPaths;
+        self.reverseBindingKeyPaths = reverseBindingKeyPaths;
     }
 }
 
@@ -363,11 +381,13 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
-    NSString *targetKeyPath = self.bindingReverseKeyPaths[keyPath];
-    
-    if (targetKeyPath) {
-        [self.bindingTarget setValue:change[NSKeyValueChangeNewKey]
-                          forKeyPath:targetKeyPath];
+    if (context == GQReverseBindingContext) {
+        NSArray *reverseBindingKeyPaths = self.reverseBindingKeyPaths[keyPath];
+        
+        for (NSString *keyPath in reverseBindingKeyPaths) {
+            [self.bindingTarget setValue:change[NSKeyValueChangeNewKey]
+                              forKeyPath:keyPath];
+        }
     }
 }
 

@@ -7,7 +7,6 @@
 //
 
 #import "GQDataController.h"
-#import <AFNetworking/AFNetworking.h>
 #import <FormatterKit/TTTURLRequestFormatter.h>
 
 static void *GQReverseBindingContext = &GQReverseBindingContext;

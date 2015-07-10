@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <Mantle/Mantle.h>
+#import <AFNetworking/AFNetworking.h>
+
 #import "GQDataControllerDelegate.h"
 
 typedef void (^GQDataControllerLogBlock)(NSString *log);
 
 @interface GQDataController : NSObject
+
+@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
 
 @property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
 

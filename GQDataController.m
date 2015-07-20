@@ -336,9 +336,6 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
             } else {
                 reverseBindingKeyPaths[localBindingKeyPath] = [bindingInfo arrayByAddingObject:key];
             }
-            
-            // 添加目标到本地的属性绑定
-            
         }
         
         self.reverseBindingKeyPaths = reverseBindingKeyPaths;

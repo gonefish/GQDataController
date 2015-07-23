@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
   s.version      = "0.0.1"
-  s.summary      = "封装AFNetworking和Mantle的MVVM实现"
+  s.summary      = "结合AFNetworking和Mantle的接口请求封装"
 
   s.description  = <<-DESC
                    封装AFNetworking和Mantle的MVVM实
-
+                   通过GQDataController进行视图的属性绑定
                    DESC
 
   s.homepage     = "https://github.com/gonefish/GQDataController"

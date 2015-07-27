@@ -16,6 +16,21 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
 
 @property (nonatomic, copy) NSDictionary *reverseBindingKeyPaths;
 
+/**
+ *  请求参数备份
+ */
+@property (nonatomic, copy) NSDictionary *requestParams;
+
+/**
+ *  接口请求重试计数
+ */
+@property (nonatomic) NSUInteger requestCount;
+
+/**
+ *  当前的请求
+ */
+@property (nonatomic, weak) AFHTTPRequestOperation *currentHTTPRequestOperation;
+
 @end
 
 @implementation GQDataController
@@ -88,79 +103,10 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
 
 - (void)requestWithParams:(NSDictionary *)params
 {
-    // 1. 生成URL
-    NSString *urlString = nil;
-    
-    NSString *localResponseFilename = [self localResponseFilename];
-    
-    if (localResponseFilename) {
-        NSMutableArray *components = [[localResponseFilename componentsSeparatedByString:@"."] mutableCopy];
-        
-        NSString *type = [components lastObject];
-        [components removeLastObject];
-        NSString *resource = [components componentsJoinedByString:@"."];
-        
-        NSString *path = [[NSBundle mainBundle] pathForResource:resource
-                                                         ofType:type];
-        
-        if (path) {
-            urlString = [[NSURL fileURLWithPath:path] absoluteString];
-        }
-    }
-    
-    if (urlString ==  nil) {
-        NSArray *URLs = [self requestURLStrings];
-        
-        NSAssert([URLs isKindOfClass:[NSArray class]], @"Must be a NSArray");
-        
-        if ([URLs count] < 1) {
-            return;
-        }
-        
-        urlString = URLs[0];
-    }
-    
-    // 2. 生成request
-    NSString *method = [self requestMethod];
-    
-    __weak GQDataController *weakSelf = self;
-    
-    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
-        [weakSelf requestOpertaionSuccess:operation
-                           responseObject:responseObject];
-    };
-    
-    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
-        [weakSelf requestOperationFailure:operation
-                                    error:error];
-    };
-    
-    AFHTTPRequestOperation *operation = nil;
-    
-    NSString *newURLString = [self URLStringWithURLString:urlString params:params];
-    
-    if ([self.delegate respondsToSelector:@selector(dataControllerWillStartLoading:)]) {
-        [self.delegate dataControllerWillStartLoading:self];
-    }
-    
-    if ([method isEqualToString:@"GET"]) {
-        operation = [self.requestOperationManager GET:newURLString
-                                           parameters:params
-                                              success:successBlock
-                                              failure:failureBlock];
-    } else if ([method isEqualToString:@"POST"]) {
-        operation = [self.requestOperationManager POST:newURLString
-                                            parameters:params
-                                               success:successBlock
-                                               failure:failureBlock];
-    }
-    
-    [self logWithString:[operation.request.URL absoluteString]];
+    [self requestWithParams:params isRetry:NO];
 }
 
-
 #pragma mark - Custom Method
-
 
 
 - (void)requestOpertaionSuccess:(NSOperation *)operation responseObject:(id)responseObject
@@ -250,6 +196,100 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
 }
 
 #pragma mark - Private
+
+
+- (void)requestWithParams:(NSDictionary *)params isRetry:(BOOL)retry
+{
+    if (retry == NO) {
+        // 如果不是重试，则重置状态
+        if (self.currentHTTPRequestOperation) {
+            [self.currentHTTPRequestOperation cancel];
+            self.currentHTTPRequestOperation = nil;
+        }
+        
+        self.requestParams = params;
+        self.requestCount = 0;
+    }
+    
+    // 1. 生成URL
+    NSString *urlString = nil;
+    
+    NSString *localResponseFilename = [self localResponseFilename];
+    
+    if (localResponseFilename) {
+        NSMutableArray *components = [[localResponseFilename componentsSeparatedByString:@"."] mutableCopy];
+        
+        NSString *type = [components lastObject];
+        [components removeLastObject];
+        NSString *resource = [components componentsJoinedByString:@"."];
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:resource
+                                                         ofType:type];
+        
+        if (path) {
+            urlString = [[NSURL fileURLWithPath:path] absoluteString];
+        }
+    }
+    
+    if (urlString ==  nil) {
+        NSArray *URLs = [self requestURLStrings];
+        
+        NSAssert([URLs isKindOfClass:[NSArray class]], @"Must be a NSArray");
+        
+        if ([URLs count] < 1) {
+            return;
+        }
+        
+        urlString = URLs[self.requestCount];
+    }
+    
+    // 2. 生成request
+    NSString *method = [self requestMethod];
+    
+    __weak GQDataController *weakSelf = self;
+    
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
+        [weakSelf requestOpertaionSuccess:operation
+                           responseObject:responseObject];
+        
+        weakSelf.requestCount = 0;
+        weakSelf.requestParams = nil;
+    };
+    
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
+        
+        if (weakSelf.requestCount + 1 < [[weakSelf requestURLStrings] count]) {
+            // 开始重试
+            weakSelf.requestCount++;
+            
+            [weakSelf requestWithParams:weakSelf.requestParams
+                                isRetry:YES];
+        } else {
+            [weakSelf requestOperationFailure:operation
+                                        error:error];
+        }
+    };
+    
+    NSString *newURLString = [self URLStringWithURLString:urlString params:params];
+    
+    if ([self.delegate respondsToSelector:@selector(dataControllerWillStartLoading:)]) {
+        [self.delegate dataControllerWillStartLoading:self];
+    }
+    
+    if ([method isEqualToString:@"GET"]) {
+        self.currentHTTPRequestOperation = [self.requestOperationManager GET:newURLString
+                                           parameters:params
+                                              success:successBlock
+                                              failure:failureBlock];
+    } else if ([method isEqualToString:@"POST"]) {
+        self.currentHTTPRequestOperation = [self.requestOperationManager POST:newURLString
+                                            parameters:params
+                                               success:successBlock
+                                               failure:failureBlock];
+    }
+    
+    [self logWithString:[self.currentHTTPRequestOperation.request.URL absoluteString]];
+}
 
 - (void)logWithString:(NSString *)log
 {

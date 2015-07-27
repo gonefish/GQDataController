@@ -7,7 +7,6 @@
 //
 
 #import "GQDataController.h"
-#import <FormatterKit/TTTURLRequestFormatter.h>
 
 static void *GQReverseBindingContext = &GQReverseBindingContext;
 
@@ -156,7 +155,7 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
                                                failure:failureBlock];
     }
     
-    [self logWithString:[TTTURLRequestFormatter cURLCommandFromURLRequest:operation.request]];
+    [self logWithString:[operation.request.URL absoluteString]];
 }
 
 

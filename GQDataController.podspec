@@ -18,5 +18,4 @@ Pod::Spec.new do |s|
 
   s.dependency 'AFNetworking', '~> 2.5.4'
   s.dependency 'Mantle', '~>1.5.4'
-  s.dependency 'FormatterKit/URLRequestFormatter', '~> 1.8.0'
 end

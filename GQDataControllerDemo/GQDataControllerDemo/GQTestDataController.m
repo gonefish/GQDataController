@@ -26,9 +26,5 @@
     return [IP class];
 }
 
-//- (NSString *)localResponseFilename
-//{
-//    return @"ip.json";
-//}
 
 @end

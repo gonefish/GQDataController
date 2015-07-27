@@ -180,10 +180,6 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
 {
 }
 
-- (NSString *)localResponseFilename
-{
-    return nil;
-}
 
 - (Class)mantleModelClass
 {
@@ -214,34 +210,15 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     // 1. 生成URL
     NSString *urlString = nil;
     
-    NSString *localResponseFilename = [self localResponseFilename];
+    NSArray *URLs = [self requestURLStrings];
     
-    if (localResponseFilename) {
-        NSMutableArray *components = [[localResponseFilename componentsSeparatedByString:@"."] mutableCopy];
-        
-        NSString *type = [components lastObject];
-        [components removeLastObject];
-        NSString *resource = [components componentsJoinedByString:@"."];
-        
-        NSString *path = [[NSBundle mainBundle] pathForResource:resource
-                                                         ofType:type];
-        
-        if (path) {
-            urlString = [[NSURL fileURLWithPath:path] absoluteString];
-        }
+    NSAssert([URLs isKindOfClass:[NSArray class]], @"Must be a NSArray");
+    
+    if ([URLs count] < 1) {
+        return;
     }
     
-    if (urlString ==  nil) {
-        NSArray *URLs = [self requestURLStrings];
-        
-        NSAssert([URLs isKindOfClass:[NSArray class]], @"Must be a NSArray");
-        
-        if ([URLs count] < 1) {
-            return;
-        }
-        
-        urlString = URLs[self.requestCount];
-    }
+    urlString = URLs[self.requestCount];
     
     // 2. 生成request
     NSString *method = [self requestMethod];

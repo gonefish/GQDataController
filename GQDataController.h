@@ -84,11 +84,6 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
  */
 - (NSString *)URLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params;
 
-/**
- *  本地响应文件，如果这个方法返回非nil且有效的路径，会从这个路径访问结果
- *
- */
-- (NSString *)localResponseFilename;
 
 // ----------------
 // 请求成功后的处理方法

@@ -54,7 +54,6 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
         
         if (aController == nil) {
             aController = [[self alloc] init];
-            aController.requestOperationManager.operationQueue.maxConcurrentOperationCount = 1;
             
             [sharedInstances setObject:aController
                                 forKey:keyName];
@@ -263,6 +262,17 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
                                                                    parameters:params
                                                                       success:successBlock
                                                                       failure:failureBlock];
+    } else if ([method isEqualToString:@"PUT"]) {
+        self.currentHTTPRequestOperation = [self.requestOperationManager PUT:urlString
+                                                                  parameters:params
+                                                                     success:successBlock
+                                                                     failure:failureBlock];
+        
+    } else if ([method isEqualToString:@"DELETE"]) {
+        self.currentHTTPRequestOperation = [self.requestOperationManager DELETE:urlString
+                                                                     parameters:params
+                                                                        success:successBlock
+                                                                        failure:failureBlock];
     }
     
     [self logWithString:[self.currentHTTPRequestOperation.request.URL absoluteString]];
@@ -363,20 +373,6 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     _delegate = delegate;
     
     self.bindingTarget = delegate;
-}
-
-+ (NSString *)encodeURIComponent:(NSString *)string
-{
-	CFStringRef cfUrlEncodedString = CFURLCreateStringByAddingPercentEscapes(NULL,
-																			 (CFStringRef)string,NULL,
-																			 (CFStringRef)@"!#$%&'()*+,/:;=?@[]",
-																			 kCFStringEncodingUTF8);
-	
-	NSString *urlEncoded = [NSString stringWithString:(__bridge NSString *)cfUrlEncodedString];
-	
-	CFRelease(cfUrlEncodedString);
-	
-	return urlEncoded;
 }
 
 - (void)removeBindingObserver

@@ -109,7 +109,7 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
 #pragma mark - Custom Method
 
 
-- (void)requestOpertaionSuccess:(NSOperation *)operation responseObject:(id)responseObject
+- (void)requestOpertaionSuccess:(AFHTTPRequestOperation *)operation responseObject:(id)responseObject
 {
     if ([self isValidWithObject:responseObject]) {
         
@@ -147,7 +147,7 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     }
 }
 
-- (void)requestOperationFailure:(NSOperation *)operation error:(NSError *)error
+- (void)requestOperationFailure:(AFHTTPRequestOperation *)operation error:(NSError *)error
 {
     [self logWithString:[error localizedDescription]];
     
@@ -247,22 +247,20 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
         }
     };
     
-    NSString *newURLString = [self URLStringWithURLString:urlString params:params];
-    
     if ([self.delegate respondsToSelector:@selector(dataControllerWillStartLoading:)]) {
         [self.delegate dataControllerWillStartLoading:self];
     }
     
     if ([method isEqualToString:@"GET"]) {
-        self.currentHTTPRequestOperation = [self.requestOperationManager GET:newURLString
-                                           parameters:params
-                                              success:successBlock
-                                              failure:failureBlock];
+        self.currentHTTPRequestOperation = [self.requestOperationManager GET:urlString
+                                                                  parameters:params
+                                                                     success:successBlock
+                                                                     failure:failureBlock];
     } else if ([method isEqualToString:@"POST"]) {
-        self.currentHTTPRequestOperation = [self.requestOperationManager POST:newURLString
-                                            parameters:params
-                                               success:successBlock
-                                               failure:failureBlock];
+        self.currentHTTPRequestOperation = [self.requestOperationManager POST:urlString
+                                                                   parameters:params
+                                                                      success:successBlock
+                                                                      failure:failureBlock];
     }
     
     [self logWithString:[self.currentHTTPRequestOperation.request.URL absoluteString]];

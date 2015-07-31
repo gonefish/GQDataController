@@ -74,16 +74,6 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
  */
 - (NSArray *)requestURLStrings;
 
-/**
- *  返回将要请求的URL，默认的实现是直接返回了urlString参数
- *
- *  @param urlString 请求的URL
- *  @param params    请求的参数
- *
- *  @return 最终要请求的URL
- */
-- (NSString *)URLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params;
-
 
 // ----------------
 // 请求成功后的处理方法
@@ -128,13 +118,13 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
  *  接口请求成功的处理
  *
  */
-- (void)requestOpertaionSuccess:(NSOperation *)operation responseObject:(id)responseObject;
+- (void)requestOpertaionSuccess:(AFHTTPRequestOperation *)operation responseObject:(id)responseObject;
 
 /**
  *  接口请求失败的处理
  *
  */
-- (void)requestOperationFailure:(NSOperation *)operation error:(NSError *)error;
+- (void)requestOperationFailure:(AFHTTPRequestOperation *)operation error:(NSError *)error;
 
 @end
 

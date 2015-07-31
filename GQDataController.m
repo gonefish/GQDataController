@@ -72,6 +72,8 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     
     if (self) {
         _requestOperationManager = [AFHTTPRequestOperationManager manager];
+        
+        [(AFJSONResponseSerializer *)[_requestOperationManager responseSerializer] setRemovesKeysWithNullValues:YES];
     }
     
     return self;

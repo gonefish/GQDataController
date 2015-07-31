@@ -33,6 +33,8 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
 
 @property (nonatomic, copy) GQDataControllerLogBlock logBlock;
 
+@property (nonatomic) NSUInteger currentPage;
+
 
 /**
  *  共享实例的方法，共享实例的请求队列是串行的
@@ -59,6 +61,11 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
  */
 - (void)requestWithParams:(NSDictionary *)params;
 
+/**
+ *  加载更多
+ */
+- (void)requestMore;
+
 // ----------------
 // 子类需要自定义的方法
 // ----------------
@@ -73,6 +80,8 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
  *
  */
 - (NSArray *)requestURLStrings;
+
+- (NSString *)pageParameterName;
 
 
 // ----------------

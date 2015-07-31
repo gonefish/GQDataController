@@ -73,6 +73,8 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
         _requestOperationManager = [AFHTTPRequestOperationManager manager];
         
         [(AFJSONResponseSerializer *)[_requestOperationManager responseSerializer] setRemovesKeysWithNullValues:YES];
+        
+        _currentPage = 1;
     }
     
     return self;
@@ -105,6 +107,17 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
 - (void)requestWithParams:(NSDictionary *)params
 {
     [self requestWithParams:params isRetry:NO];
+}
+
+- (void)requestMore
+{
+    NSMutableDictionary *newParams = [self.requestParams mutableCopy];
+    
+    if ([self pageParameterName]) {
+        [newParams setObject:@(++self.currentPage) forKey:[self pageParameterName]];
+        
+        [self requestWithParams:newParams isRetry:NO];
+    }
 }
 
 #pragma mark - Custom Method
@@ -192,6 +205,11 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     return nil;
 }
 
+- (NSString *)pageParameterName
+{
+    return @"page";
+}
+
 #pragma mark - Private
 
 
@@ -231,7 +249,6 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
                            responseObject:responseObject];
         
         weakSelf.requestCount = 0;
-        weakSelf.requestParams = nil;
     };
     
     void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){

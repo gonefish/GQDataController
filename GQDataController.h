@@ -14,7 +14,9 @@
 
 typedef void (^GQDataControllerLogBlock)(NSString *log);
 
-@interface GQDataController : NSObject
+typedef void (^GQTableViewCellConfigureBlock)(id cell, MTLModel *item);
+
+@interface GQDataController : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
 
@@ -34,6 +36,10 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
 @property (nonatomic, copy) GQDataControllerLogBlock logBlock;
 
 @property (nonatomic) NSUInteger currentPage;
+
+@property (nonatomic, copy) NSString *cellIdentifier;
+
+@property (nonatomic, copy) GQTableViewCellConfigureBlock cellConfigureBlock;
 
 
 /**

@@ -414,5 +414,24 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     }
 }
 
+#pragma mark - UITableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
+                                                            forIndexPath:indexPath];
+    
+    MTLModel *model = [self.mantleObjectList objectAtIndex:indexPath.row];
+    
+    self.cellConfigureBlock(cell, model);
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.mantleObjectList count];
+}
+
 
 @end

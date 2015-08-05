@@ -14,7 +14,7 @@
 
 typedef void (^GQDataControllerLogBlock)(NSString *log);
 
-typedef void (^GQTableViewCellConfigureBlock)(id cell, MTLModel *item);
+typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *model);
 
 @interface GQDataController : NSObject <UITableViewDataSource>
 

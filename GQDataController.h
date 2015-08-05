@@ -34,7 +34,7 @@ UICollectionViewDataSource
 
 @property (nonatomic, copy) NSDictionary *bindingKeyPaths;
 
-@property (nonatomic, strong) MTLModel *mantleObject;
+@property (nonatomic, strong) MTLModel<MTLJSONSerializing> *mantleObject;
 
 @property (nonatomic, strong) NSMutableArray *mantleObjectList;
 

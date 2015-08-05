@@ -16,7 +16,12 @@ typedef void (^GQDataControllerLogBlock)(NSString *log);
 
 typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *model);
 
-@interface GQDataController : NSObject <UITableViewDataSource>
+typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, MTLModel *model);
+
+@interface GQDataController : NSObject <
+UITableViewDataSource,
+UICollectionViewDataSource
+>
 
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
 
@@ -29,7 +34,7 @@ typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *m
 
 @property (nonatomic, copy) NSDictionary *bindingKeyPaths;
 
-@property (nonatomic, strong) MTLModel <MTLJSONSerializing> *mantleObject;
+@property (nonatomic, strong) MTLModel *mantleObject;
 
 @property (nonatomic, strong) NSMutableArray *mantleObjectList;
 
@@ -39,7 +44,9 @@ typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *m
 
 @property (nonatomic, copy) NSString *cellIdentifier;
 
-@property (nonatomic, copy) GQTableViewCellConfigureBlock cellConfigureBlock;
+@property (nonatomic, copy) GQTableViewCellConfigureBlock tableViewCellConfigureBlock;
+
+@property (nonatomic, copy) GQCollectionViewCellConfigureBlock collectionViewCellConfigureBlock;
 
 
 /**

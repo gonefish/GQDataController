@@ -423,7 +423,7 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     
     MTLModel *model = [self.mantleObjectList objectAtIndex:indexPath.row];
     
-    self.cellConfigureBlock(cell, model);
+    self.tableViewCellConfigureBlock(cell, model);
     
     return cell;
 }
@@ -431,6 +431,24 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.mantleObjectList count];
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return [self.mantleObjectList count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
+    
+    MTLModel *model = [self.mantleObjectList objectAtIndex:indexPath.row];
+    
+    self.collectionViewCellConfigureBlock(cell, model);
+    
+    return cell;
 }
 
 

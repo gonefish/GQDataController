@@ -12,6 +12,12 @@
 
 #import "GQDataControllerDelegate.h"
 
+extern NSString * const GQDataControllerErrorDomain;
+
+extern const NSInteger GQDataControllerErrorInvalidObject;
+
+extern NSString * const GQResponseObjectKey;
+
 typedef void (^GQDataControllerLogBlock)(NSString *log);
 
 typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *model);

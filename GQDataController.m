@@ -10,6 +10,12 @@
 
 static void *GQReverseBindingContext = &GQReverseBindingContext;
 
+NSString * const GQDataControllerErrorDomain = @"GQDataControllerErrorDomain";
+
+const NSInteger GQDataControllerErrorInvalidObject = 1;
+
+NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
+
 @interface GQDataController ()
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
@@ -156,7 +162,13 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
         }
     } else {
         if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
-            [self.delegate dataController:self didFailWithError:nil];
+            
+            NSError *error = [NSError errorWithDomain:GQDataControllerErrorDomain
+                                                 code:GQDataControllerErrorInvalidObject
+                                             userInfo:@{ GQResponseObjectKey : responseObject }];
+            
+            [self.delegate dataController:self
+                         didFailWithError:error];
         }
     }
 }
@@ -166,7 +178,8 @@ static void *GQReverseBindingContext = &GQReverseBindingContext;
     [self logWithString:[error localizedDescription]];
     
     if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
-        [self.delegate dataController:self didFailWithError:error];
+        [self.delegate dataController:self
+                     didFailWithError:error];
     }
 }
 

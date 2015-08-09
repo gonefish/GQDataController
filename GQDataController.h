@@ -12,6 +12,8 @@
 
 #import "GQDataControllerDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const GQDataControllerErrorDomain;
 
 extern const NSInteger GQDataControllerErrorInvalidObject;
@@ -31,14 +33,14 @@ UICollectionViewDataSource
 
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
 
-@property (nonatomic, weak) id <GQDataControllerDelegate> delegate;
+@property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
 /**
  *  绑定的对象，默认与GQDataControllerDelegate相同
  */
-@property (nonatomic, weak) id bindingTarget;
+@property (nullable, nonatomic, weak) id bindingTarget;
 
-@property (nonatomic, copy) NSDictionary *bindingKeyPaths;
+@property (nullable, nonatomic, copy) NSDictionary *bindingKeyPaths;
 
 @property (nonatomic, strong) MTLModel<MTLJSONSerializing> *mantleObject;
 
@@ -78,7 +80,7 @@ UICollectionViewDataSource
  *
  *  @param params 请求的参数
  */
-- (void)requestWithParams:(NSDictionary *)params;
+- (void)requestWithParams:(nullable NSDictionary *)params;
 
 /**
  *  加载更多
@@ -155,4 +157,6 @@ UICollectionViewDataSource
 - (void)requestOperationFailure:(AFHTTPRequestOperation *)operation error:(NSError *)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
 

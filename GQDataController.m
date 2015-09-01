@@ -7,6 +7,7 @@
 //
 
 #import "GQDataController.h"
+#import <OHHTTPStubs/OHHTTPStubs.h>
 
 static void *GQReverseBindingContext = &GQReverseBindingContext;
 
@@ -81,6 +82,23 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         [(AFJSONResponseSerializer *)[_requestOperationManager responseSerializer] setRemovesKeysWithNullValues:YES];
         
         _currentPage = 1;
+        
+#if DEBUG
+        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+            for (NSString *urlString in [self requestURLStrings]) {
+                if ([request.URL.absoluteString isEqualToString:urlString]) {
+                    return YES;
+                }
+            }
+            
+            return NO;
+        } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+            NSString *path = OHPathForFileInBundle(NSStringFromClass([self class]), [NSBundle mainBundle]);
+            return [OHHTTPStubsResponse responseWithFileAtPath:path
+                                                    statusCode:200
+                                                       headers:@{@"Content-Type":@"application/json"}];
+        }];
+#endif
     }
     
     return self;

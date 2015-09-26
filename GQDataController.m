@@ -7,7 +7,10 @@
 //
 
 #import "GQDataController.h"
+
+#if DEBUG
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#endif
 
 static void *GQReverseBindingContext = &GQReverseBindingContext;
 
@@ -37,6 +40,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  *  当前的请求
  */
 @property (nonatomic, weak) AFHTTPRequestOperation *currentHTTPRequestOperation;
+
+#if DEBUG
+@property (nonatomic, strong) id<OHHTTPStubsDescriptor> HTTPStubsDescriptor;
+#endif
 
 @end
 
@@ -84,10 +91,15 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         _currentPage = 1;
         
 #if DEBUG
-        [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        _HTTPStubsDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             for (NSString *urlString in [self requestURLStrings]) {
                 if ([request.URL.absoluteString isEqualToString:urlString]) {
-                    return YES;
+                    NSString *path = OHPathForFileInBundle(NSStringFromClass([self class]), [NSBundle mainBundle]);
+                    
+                    // 路径匹配和存在本地结果文件时才返回
+                    if (path) {
+                        return YES;
+                    }
                 }
             }
             
@@ -118,6 +130,12 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)dealloc
 {
+#if DEBUG
+    if (self.HTTPStubsDescriptor) {
+        [OHHTTPStubs removeStub:self.HTTPStubsDescriptor];
+    }
+#endif
+    
     [self removeBindingObserver];
 }
 

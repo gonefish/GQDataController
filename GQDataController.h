@@ -20,6 +20,10 @@ extern const NSInteger GQDataControllerErrorInvalidObject;
 
 extern NSString * const GQResponseObjectKey;
 
+typedef void (^GQRequestSuccessBlock)(void);
+
+typedef void (^GQRequestFailureBlock)(NSError *error);
+
 typedef void (^GQDataControllerLogBlock)(NSString *log);
 
 typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *model);
@@ -32,6 +36,10 @@ UICollectionViewDataSource
 >
 
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
+
+@property (nonatomic, copy) GQRequestSuccessBlock requestSuccessBlock;
+
+@property (nonatomic, copy) GQRequestFailureBlock requestFailureBlock;
 
 @property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
@@ -63,6 +71,7 @@ UICollectionViewDataSource
  */
 + (instancetype)sharedDataController;
 
+
 - (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate;
 
 
@@ -81,6 +90,10 @@ UICollectionViewDataSource
  *  @param params 请求的参数
  */
 - (void)requestWithParams:(nullable NSDictionary *)params;
+
+- (void)requestWithParams:(nullable NSDictionary *)params
+                  success:(nullable GQRequestSuccessBlock)success
+                  failure:(nullable GQRequestFailureBlock)failure;
 
 /**
  *  加载更多

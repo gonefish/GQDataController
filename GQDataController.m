@@ -112,6 +112,16 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)requestWithParams:(NSDictionary *)params
 {
+    [self requestWithParams:params success:nil failure:nil];
+}
+
+- (void)requestWithParams:(NSDictionary *)params
+                  success:(GQRequestSuccessBlock)success
+                  failure:(GQRequestFailureBlock)failure
+{
+    self.requestSuccessBlock = success;
+    self.requestFailureBlock = failure;
+    
     NSNumber *page = params[[self pageParameterName]];
     
     if (page && [page isKindOfClass:[NSNumber class]]) {
@@ -166,15 +176,22 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
             [self.delegate dataControllerDidFinishLoading:self];
         }
+        
+        if (self.requestSuccessBlock) {
+            self.requestSuccessBlock();
+        }
     } else {
+        NSError *error = [NSError errorWithDomain:GQDataControllerErrorDomain
+                                             code:GQDataControllerErrorInvalidObject
+                                         userInfo:@{ GQResponseObjectKey : responseObject }];
+        
         if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
-            
-            NSError *error = [NSError errorWithDomain:GQDataControllerErrorDomain
-                                                 code:GQDataControllerErrorInvalidObject
-                                             userInfo:@{ GQResponseObjectKey : responseObject }];
-            
             [self.delegate dataController:self
                          didFailWithError:error];
+        }
+        
+        if (self.requestFailureBlock) {
+            self.requestFailureBlock(error);
         }
     }
 }
@@ -186,6 +203,11 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
         [self.delegate dataController:self
                      didFailWithError:error];
+        
+    }
+    
+    if (self.requestFailureBlock) {
+        self.requestFailureBlock(error);
     }
 }
 

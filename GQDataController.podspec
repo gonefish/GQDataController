@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
-  s.version      = "0.0.5"
+  s.version      = "0.0.6"
   s.summary      = "结合AFNetworking和Mantle的接口请求封装"
 
   s.description  = <<-DESC
@@ -17,5 +17,6 @@ Pod::Spec.new do |s|
   s.source_files  = "GQDataController*.{h,m}"
 
   s.dependency 'AFNetworking', '~> 2.5.4'
-  s.dependency 'Mantle', '~>1.5.4'
+  s.dependency 'Mantle', '~>1.5.5'
+  s.dependency 'OHHTTPStubs', '~> 4.3.0'
 end

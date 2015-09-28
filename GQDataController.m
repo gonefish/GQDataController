@@ -49,6 +49,17 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 @implementation GQDataController
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    GQDataController *copy = [[[self class] allocWithZone:zone] initWithDelegate:self.delegate];
+    
+    copy.requestSuccessBlock = self.requestSuccessBlock;
+    copy.requestFailureBlock = self.requestFailureBlock;
+    copy.logBlock = self.logBlock;
+    
+    return copy;
+}
+
 + (instancetype)sharedDataController
 {
     static dispatch_once_t onceToken;

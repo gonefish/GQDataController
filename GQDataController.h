@@ -31,6 +31,7 @@ typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *m
 typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, MTLModel *model);
 
 @interface GQDataController : NSObject <
+NSCopying,
 UITableViewDataSource,
 UICollectionViewDataSource
 >

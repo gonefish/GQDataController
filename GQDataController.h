@@ -100,6 +100,11 @@ UICollectionViewDataSource
  */
 - (void)requestMore;
 
+/**
+ *  取消当前的接口请求
+ */
+- (void)cancelRequest;
+
 // ----------------
 // 子类需要自定义的方法
 // ----------------

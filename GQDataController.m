@@ -178,6 +178,14 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
 }
 
+- (void)cancelRequest
+{
+    if (self.currentHTTPRequestOperation) {
+        [self.currentHTTPRequestOperation cancel];
+        self.currentHTTPRequestOperation = nil;
+    }
+}
+
 #pragma mark - Custom Method
 
 
@@ -239,7 +247,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
         [self.delegate dataController:self
                      didFailWithError:error];
-        
     }
     
     if (self.requestFailureBlock) {
@@ -257,11 +264,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return nil;
 }
 
-- (NSString *)URLStringWithURLString:(NSString *)urlString params:(NSDictionary *)params
-{
-    return urlString;
-}
-
 - (BOOL)isValidWithObject:(id)object
 {
     return YES;
@@ -269,8 +271,8 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)handleWithObject:(id)object
 {
+    
 }
-
 
 - (Class)mantleModelClass
 {
@@ -289,15 +291,11 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 #pragma mark - Private
 
-
 - (void)requestWithParams:(NSDictionary *)params isRetry:(BOOL)retry
 {
     if (retry == NO) {
         // 如果不是重试，则重置状态
-        if (self.currentHTTPRequestOperation) {
-            [self.currentHTTPRequestOperation cancel];
-            self.currentHTTPRequestOperation = nil;
-        }
+        [self cancelRequest];
         
         self.requestParams = params;
         self.requestCount = 0;

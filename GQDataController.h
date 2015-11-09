@@ -158,6 +158,13 @@ UICollectionViewDataSource
  */
 - (NSString *)mantleObjectKeyPath;
 
+/**
+ *  objectList的键值映射
+ *
+ *  @return Key Path
+ */
+- (NSString *)mantleObjectListKeyPath;
+
 
 // ----------------
 // 完全自定义的相关方法

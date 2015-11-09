@@ -208,22 +208,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         // 是否启用Mantle
         if (mantleModelClass != Nil) {
-            if ([responseObject isKindOfClass:[NSArray class]]) {
-                [self handleMantleObjectListWithResponseObject:responseObject];
-                
-            } else if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                id jsonModel = [self mantleJSONWithResponseObject:responseObject];
-                
-                if ([jsonModel isKindOfClass:[NSArray class]]) {
-                    
-                    [self handleMantleObjectListWithResponseObject:jsonModel];
-                    
-                } else if ([jsonModel isKindOfClass:[NSDictionary class]]) {
-                    self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
-                                                  fromJSONDictionary:jsonModel
-                                                               error:nil];
-                }
-            }
+            [self handleMantleWithObject:responseObject];
         } else {
             [self handleWithObject:responseObject];
         }
@@ -285,12 +270,51 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
 }
 
+- (void)handleMantleWithObject:(id)object
+{
+    NSString *objectKeyPath = [self mantleObjectKeyPath];
+    
+    NSString *objectListKeyPath = [self mantleObjectListKeyPath];
+    
+    id mantleObjectJSON = object;
+    
+    if (objectKeyPath) {
+        mantleObjectJSON = [object valueForKeyPath:objectKeyPath];
+    }
+    
+    if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]) {
+        
+        [self handleMantleObjectWithResponseObject:mantleObjectJSON];
+        
+    } else if ([mantleObjectJSON isKindOfClass:[NSArray class]] // 如果mantleObjectKeyPath是数组，并且mantleObjectListKeyPath为空时默认转换为List处理
+               && objectListKeyPath == nil) {
+        
+        [self handleMantleObjectListWithResponseObject:mantleObjectJSON];
+        
+    }
+    
+    id mantleObjectListJSON = object;
+    
+    if (objectListKeyPath) {
+        mantleObjectListJSON = [object valueForKeyPath:objectListKeyPath];
+    }
+    
+    if ([mantleObjectListJSON isKindOfClass:[NSArray class]]) {
+        [self handleMantleObjectListWithResponseObject:mantleObjectListJSON];
+    }
+}
+
 - (Class)mantleModelClass
 {
     return Nil;
 }
 
 - (NSString *)mantleObjectKeyPath
+{
+    return nil;
+}
+
+- (NSString *)mantleObjectListKeyPath
 {
     return nil;
 }
@@ -392,6 +416,15 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
 }
 
+- (void)handleMantleObjectWithResponseObject:(id)responseObject
+{
+    Class mantleModelClass = [self mantleModelClass];
+    
+    self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
+                                  fromJSONDictionary:responseObject
+                                               error:nil];
+}
+
 - (void)handleMantleObjectListWithResponseObject:(id)responseObject
 {
     Class mantleModelClass = [self mantleModelClass];
@@ -417,17 +450,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
             
             [self.mantleObjectList addObjectsFromArray:models];
         }
-    }
-}
-
-- (id)mantleJSONWithResponseObject:(id)responseObject
-{
-    NSString *keyPath = [self mantleObjectKeyPath];
-    
-    if (keyPath == nil) {
-        return responseObject;
-    } else {
-        return [(NSDictionary *)responseObject valueForKeyPath:keyPath];
     }
 }
 

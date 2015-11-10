@@ -226,9 +226,13 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
             self.requestSuccessBlock();
         }
     } else {
-        NSError *error = [NSError errorWithDomain:GQDataControllerErrorDomain
-                                             code:GQDataControllerErrorInvalidObject
-                                         userInfo:@{ GQResponseObjectKey : responseObject }];
+        NSError *error = nil;
+        
+        if (responseObject) {
+            error = [NSError errorWithDomain:GQDataControllerErrorDomain
+                                        code:GQDataControllerErrorInvalidObject
+                                    userInfo:@{ GQResponseObjectKey : responseObject }];
+        }
         
         if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
             [self.delegate dataController:self

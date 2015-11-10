@@ -8,7 +8,7 @@
 
 #import "GQDataController.h"
 
-#if DEBUG
+#if QG_DEBUG
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #endif
 
@@ -41,7 +41,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  */
 @property (nonatomic, weak) AFHTTPRequestOperation *currentHTTPRequestOperation;
 
-#if DEBUG
+#if QG_DEBUG
 @property (nonatomic, strong) id<OHHTTPStubsDescriptor> HTTPStubsDescriptor;
 #endif
 
@@ -101,7 +101,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         _currentPage = 1;
         
-#if DEBUG
+#if QG_DEBUG
         _HTTPStubsDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             for (NSString *urlString in [self requestURLStrings]) {
                 
@@ -146,7 +146,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)dealloc
 {
-#if DEBUG
+#if QG_QG_DEBUG
     if (self.HTTPStubsDescriptor) {
         [OHHTTPStubs removeStub:self.HTTPStubsDescriptor];
     }

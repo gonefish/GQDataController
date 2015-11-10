@@ -12,6 +12,10 @@
 
 #import "GQDataControllerDelegate.h"
 
+#ifndef QG_DEBUG
+    #define QG_DEBUG 0
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const GQDataControllerErrorDomain;

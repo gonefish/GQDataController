@@ -104,7 +104,8 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 #if DEBUG
         _HTTPStubsDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             for (NSString *urlString in [self requestURLStrings]) {
-                if ([request.URL.absoluteString isEqualToString:urlString]) {
+                
+                if ([request.URL.absoluteString hasPrefix:urlString]) {
                     NSString *path = OHPathForFileInBundle(NSStringFromClass([self class]), [NSBundle mainBundle]);
                     
                     // 路径匹配和存在本地结果文件时才返回
@@ -116,7 +117,11 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
             
             return NO;
         } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-            NSString *path = OHPathForFileInBundle(NSStringFromClass([self class]), [NSBundle mainBundle]);
+            // 读取本地JSON $className.json
+            NSString *localJsonPath = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
+            
+            NSString *path = OHPathForFileInBundle(localJsonPath, [NSBundle mainBundle]);
+            
             return [OHHTTPStubsResponse responseWithFileAtPath:path
                                                     statusCode:200
                                                        headers:@{@"Content-Type":@"application/json"}];

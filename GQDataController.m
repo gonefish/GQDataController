@@ -287,29 +287,29 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     id mantleObjectJSON = object;
     
-    if (objectKeyPath) {
+    if (objectKeyPath) { // 允许自定义转换的JSON节点
         mantleObjectJSON = [object valueForKeyPath:objectKeyPath];
     }
     
     if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]) {
         
-        [self handleMantleObjectWithResponseObject:mantleObjectJSON];
+        [self handleMantleObjectWithDictionary:mantleObjectJSON];
         
     } else if ([mantleObjectJSON isKindOfClass:[NSArray class]] // 如果mantleObjectKeyPath是数组，并且mantleObjectListKeyPath为空时默认转换为List处理
                && objectListKeyPath == nil) {
         
-        [self handleMantleObjectListWithResponseObject:mantleObjectJSON];
+        [self handleMantleObjectListWithArray:mantleObjectJSON];
         
     }
     
     id mantleObjectListJSON = object;
     
-    if (objectListKeyPath) {
+    if (objectListKeyPath) { // 允许自定义转换的JSON节点
         mantleObjectListJSON = [object valueForKeyPath:objectListKeyPath];
     }
     
     if ([mantleObjectListJSON isKindOfClass:[NSArray class]]) {
-        [self handleMantleObjectListWithResponseObject:mantleObjectListJSON];
+        [self handleMantleObjectListWithArray:mantleObjectListJSON];
     }
 }
 
@@ -425,21 +425,31 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
 }
 
-- (void)handleMantleObjectWithResponseObject:(id)responseObject
+/**
+ *  尝试将字典转换成指定的Mantle对象，并保存在mantleObject中
+ *
+ *  @param dictionary 转换的字典
+ */
+- (void)handleMantleObjectWithDictionary:(NSDictionary *)dictionary
 {
     Class mantleModelClass = [self mantleModelClass];
     
     self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
-                                  fromJSONDictionary:responseObject
+                                  fromJSONDictionary:dictionary
                                                error:nil];
 }
 
-- (void)handleMantleObjectListWithResponseObject:(id)responseObject
+/**
+ *  尝试将数组转换成指定的Mantle列表，并保存在mantleObjectList中
+ *
+ *  @param array 转换的数组
+ */
+- (void)handleMantleObjectListWithArray:(NSArray *)array
 {
     Class mantleModelClass = [self mantleModelClass];
     
     NSArray *models = [MTLJSONAdapter modelsOfClass:mantleModelClass
-                                      fromJSONArray:responseObject
+                                      fromJSONArray:array
                                               error:nil];
     
     if (models) {

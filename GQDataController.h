@@ -57,7 +57,7 @@ UICollectionViewDataSource
 
 @property (nonatomic, strong) MTLModel<MTLJSONSerializing> *mantleObject;
 
-@property (nonatomic, strong) NSMutableArray *mantleObjectList;
+@property (nonatomic, strong) NSMutableArray<MTLModel *> *mantleObjectList;
 
 @property (nonatomic, copy) GQDataControllerLogBlock logBlock;
 

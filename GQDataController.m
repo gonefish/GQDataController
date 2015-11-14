@@ -285,6 +285,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     NSString *objectListKeyPath = [self mantleObjectListKeyPath];
     
+    // 处理mantleObjectKeyPath
     id mantleObjectJSON = object;
     
     if (objectKeyPath) { // 允许自定义转换的JSON节点
@@ -302,6 +303,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
     }
     
+    // 处理mantleObjectListKeyPath
     id mantleObjectListJSON = object;
     
     if (objectListKeyPath) { // 允许自定义转换的JSON节点

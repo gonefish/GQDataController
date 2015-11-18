@@ -48,13 +48,6 @@ UICollectionViewDataSource
 
 @property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
-/**
- *  绑定的对象，默认与GQDataControllerDelegate相同
- */
-@property (nullable, nonatomic, weak) id bindingTarget;
-
-@property (nullable, nonatomic, copy) NSDictionary *bindingKeyPaths;
-
 @property (nonatomic, strong) MTLModel<MTLJSONSerializing> *mantleObject;
 
 @property (nonatomic, strong) NSMutableArray<MTLModel *> *mantleObjectList;

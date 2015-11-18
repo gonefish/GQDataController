@@ -23,8 +23,6 @@
     
     self.testDataController = [GQTestDataController new];
     self.testDataController.delegate = self;
-    self.testDataController.bindingKeyPaths = @{@"ipLabel.text" : @"mantleObject.origin",
-                                                @"textField.text" : @"mantleObject.origin"};
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.testDataController requestWithParams:@{@"foo": @"bar"}];

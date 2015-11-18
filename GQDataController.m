@@ -12,8 +12,6 @@
 #import <OHHTTPStubs/OHHTTPStubs.h>
 #endif
 
-static void *GQReverseBindingContext = &GQReverseBindingContext;
-
 NSString * const GQDataControllerErrorDomain = @"GQDataControllerErrorDomain";
 
 const NSInteger GQDataControllerErrorInvalidObject = 1;
@@ -151,8 +149,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         [OHHTTPStubs removeStub:self.HTTPStubsDescriptor];
     }
 #endif
-    
-    [self removeBindingObserver];
 }
 
 #pragma mark - Public 
@@ -470,80 +466,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
             }
             
             [self.mantleObjectList addObjectsFromArray:models];
-        }
-    }
-}
-
-- (void)setBindingKeyPaths:(NSDictionary *)bindingKeyPaths
-{
-    NSAssert([bindingKeyPaths isKindOfClass:[NSDictionary class]], @"Must be a NSDictionary");
-    
-    if ([_bindingKeyPaths isEqualToDictionary:bindingKeyPaths]) {
-        return;
-    } else {
-        [self removeBindingObserver];
-    }
-    
-    _bindingKeyPaths = [bindingKeyPaths copy];
-    
-    self.reverseBindingKeyPaths = nil;
-    
-    // 两个属性都有返回值时才有效
-    if (self.bindingTarget
-        && self.bindingKeyPaths) {
-        
-        // 反转键值对 用于快速调用target
-        NSMutableDictionary *reverseBindingKeyPaths = [NSMutableDictionary dictionary];
-        
-        for (NSString *key in self.bindingKeyPaths) {
-            // 添加本地向目标的属性绑定
-            
-            NSString *localBindingKeyPath = self.bindingKeyPaths[key];
-            
-            [self addObserver:self
-                   forKeyPath:localBindingKeyPath
-                      options:NSKeyValueObservingOptionNew
-                      context:GQReverseBindingContext];
-            
-            // 检测之前是否存在绑定
-            NSArray *bindingInfo = reverseBindingKeyPaths[localBindingKeyPath];
-            
-            if (bindingInfo == nil) {
-                reverseBindingKeyPaths[localBindingKeyPath] = @[key];
-            } else {
-                reverseBindingKeyPaths[localBindingKeyPath] = [bindingInfo arrayByAddingObject:key];
-            }
-        }
-        
-        self.reverseBindingKeyPaths = reverseBindingKeyPaths;
-    }
-}
-
-- (void)setDelegate:(id<GQDataControllerDelegate>)delegate
-{
-    _delegate = delegate;
-    
-    self.bindingTarget = delegate;
-}
-
-- (void)removeBindingObserver
-{
-    for (NSString *key in [self.bindingKeyPaths allKeys]) {
-        [self removeObserver:self
-                  forKeyPath:self.bindingKeyPaths[key]];
-    }
-}
-
-#pragma mark - NSKeyValueObserving
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    
-    if (context == GQReverseBindingContext) {
-        NSArray *reverseBindingKeyPaths = self.reverseBindingKeyPaths[keyPath];
-        
-        for (NSString *keyPath in reverseBindingKeyPaths) {
-            [self.bindingTarget setValue:change[NSKeyValueChangeNewKey]
-                              forKeyPath:keyPath];
         }
     }
 }

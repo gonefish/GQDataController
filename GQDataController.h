@@ -48,9 +48,9 @@ UICollectionViewDataSource
 
 @property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
-@property (nonatomic, strong) MTLModel<MTLJSONSerializing> *mantleObject;
+@property (nonatomic, strong) __kindof MTLModel<MTLJSONSerializing> *mantleObject;
 
-@property (nonatomic, strong) NSMutableArray<MTLModel *> *mantleObjectList;
+@property (nonatomic, strong) NSMutableArray<__kindof MTLModel *> *mantleObjectList;
 
 @property (nonatomic, copy) GQDataControllerLogBlock logBlock;
 

@@ -22,8 +22,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
 
-@property (nonatomic, copy) NSDictionary *reverseBindingKeyPaths;
-
 /**
  *  请求参数备份
  */
@@ -363,7 +361,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     // 2. 生成request
     NSString *method = [self requestMethod];
     
-    __weak GQDataController *weakSelf = self;
+    __weak typeof(self)weakSelf = self;
     
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
         [weakSelf requestOpertaionSuccess:operation

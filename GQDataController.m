@@ -361,26 +361,29 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     // 2. 生成request
     NSString *method = [self requestMethod];
     
-    __weak typeof(self)weakSelf = self;
+    __weak __typeof(self)weakSelf = self;
     
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
-        [weakSelf requestOpertaionSuccess:operation
-                           responseObject:responseObject];
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
         
-        weakSelf.requestCount = 0;
+        [strongSelf requestOpertaionSuccess:operation
+                             responseObject:responseObject];
+        
+        strongSelf.requestCount = 0;
     };
     
     void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
         
-        if (weakSelf.requestCount + 1 < [[weakSelf requestURLStrings] count]) {
+        if (strongSelf.requestCount + 1 < [[strongSelf requestURLStrings] count]) {
             // 开始重试
-            weakSelf.requestCount++;
+            strongSelf.requestCount++;
             
-            [weakSelf requestWithParams:weakSelf.requestParams
-                                isRetry:YES];
+            [strongSelf requestWithParams:strongSelf.requestParams
+                                  isRetry:YES];
         } else {
-            [weakSelf requestOperationFailure:operation
-                                        error:error];
+            [strongSelf requestOperationFailure:operation
+                                          error:error];
         }
     };
     

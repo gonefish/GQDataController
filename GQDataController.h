@@ -26,7 +26,7 @@ extern NSString * const GQResponseObjectKey;
 
 typedef void (^GQRequestSuccessBlock)(void);
 
-typedef void (^GQRequestFailureBlock)(NSError *error);
+typedef void (^GQRequestFailureBlock)(NSError * _Nullable error);
 
 typedef void (^GQDataControllerLogBlock)(NSString *log);
 
@@ -161,6 +161,13 @@ UICollectionViewDataSource
  *  @return Key Path
  */
 - (NSString *)mantleObjectListKeyPath;
+
+/**
+ *  指定用于转换到mantleList中的类
+ *
+ *  @return Mantle的Class
+ */
+- (Class)mantleListModelClass;
 
 
 // ----------------

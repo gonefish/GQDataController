@@ -290,14 +290,17 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         mantleObjectJSON = [object valueForKeyPath:objectKeyPath];
     }
     
-    if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]) {
+    if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]
+        && [self mantleModelClass] != Nil) {
         
         [self handleMantleObjectWithDictionary:mantleObjectJSON];
         
     } else if ([mantleObjectJSON isKindOfClass:[NSArray class]] // 如果mantleObjectKeyPath是数组，并且mantleObjectListKeyPath为空时默认转换为List处理
-               && objectListKeyPath == nil) {
+               && objectListKeyPath == nil
+               && [self mantleModelClass] != Nil) {
         
-        [self handleMantleObjectListWithArray:mantleObjectJSON];
+        [self handleMantleObjectListWithArray:mantleObjectJSON
+                                  mantleClass:[self mantleModelClass]];
         
     }
     
@@ -308,12 +311,19 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         mantleObjectListJSON = [object valueForKeyPath:objectListKeyPath];
     }
     
-    if ([mantleObjectListJSON isKindOfClass:[NSArray class]]) {
-        [self handleMantleObjectListWithArray:mantleObjectListJSON];
+    if ([mantleObjectListJSON isKindOfClass:[NSArray class]]
+        && [self mantleListModelClass] != Nil) {
+        [self handleMantleObjectListWithArray:mantleObjectListJSON
+                                  mantleClass:[self mantleListModelClass]];
     }
 }
 
 - (Class)mantleModelClass
+{
+    return Nil;
+}
+
+- (Class)mantleListModelClass
 {
     return Nil;
 }
@@ -447,11 +457,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  *
  *  @param array 转换的数组
  */
-- (void)handleMantleObjectListWithArray:(NSArray *)array
+- (void)handleMantleObjectListWithArray:(NSArray *)array mantleClass:(Class)mantleClass
 {
-    Class mantleModelClass = [self mantleModelClass];
-    
-    NSArray *models = [MTLJSONAdapter modelsOfClass:mantleModelClass
+    NSArray *models = [MTLJSONAdapter modelsOfClass:mantleClass
                                       fromJSONArray:array
                                               error:nil];
     

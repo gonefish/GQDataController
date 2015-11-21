@@ -447,9 +447,15 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 {
     Class mantleModelClass = [self mantleModelClass];
     
+    NSError *error;
+    
     self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
                                   fromJSONDictionary:dictionary
-                                               error:nil];
+                                               error:&error];
+    
+    if (error) {
+        [self logWithString:[error localizedDescription]];
+    }
 }
 
 /**
@@ -459,9 +465,15 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  */
 - (void)handleMantleObjectListWithArray:(NSArray *)array mantleClass:(Class)mantleClass
 {
+    NSError *error;
+    
     NSArray *models = [MTLJSONAdapter modelsOfClass:mantleClass
                                       fromJSONArray:array
-                                              error:nil];
+                                              error:&error];
+    
+    if (error) {
+        [self logWithString:[error localizedDescription]];
+    }
     
     if (models) {
         if (self.mantleObjectList == nil) {

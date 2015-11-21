@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
-  s.version      = "0.0.8"
+  s.version      = "0.0.9"
   s.summary      = "结合AFNetworking和Mantle的接口请求封装"
 
   s.description  = <<-DESC

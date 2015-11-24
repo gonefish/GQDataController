@@ -8,8 +8,9 @@
 
 #import "GQDataController.h"
 
-#if QG_DEBUG
+#if DEBUG
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHPathHelpers.h>
 #endif
 
 NSString * const GQDataControllerErrorDomain = @"GQDataControllerErrorDomain";
@@ -37,7 +38,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  */
 @property (nonatomic, weak) AFHTTPRequestOperation *currentHTTPRequestOperation;
 
-#if QG_DEBUG
+#if DEBUG
 @property (nonatomic, strong) id<OHHTTPStubsDescriptor> HTTPStubsDescriptor;
 #endif
 
@@ -97,12 +98,14 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         _currentPage = 1;
         
-#if QG_DEBUG
+#if DEBUG
+        NSString *localJSONName = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
+        
         _HTTPStubsDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
             for (NSString *urlString in [self requestURLStrings]) {
                 
                 if ([request.URL.absoluteString hasPrefix:urlString]) {
-                    NSString *path = OHPathForFileInBundle(NSStringFromClass([self class]), [NSBundle mainBundle]);
+                    NSString *path = OHPathForFileInBundle(localJSONName, [NSBundle mainBundle]);
                     
                     // 路径匹配和存在本地结果文件时才返回
                     if (path) {
@@ -114,9 +117,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
             return NO;
         } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
             // 读取本地JSON $className.json
-            NSString *localJsonPath = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
-            
-            NSString *path = OHPathForFileInBundle(localJsonPath, [NSBundle mainBundle]);
+            NSString *path = OHPathForFileInBundle(localJSONName, [NSBundle mainBundle]);
             
             return [OHHTTPStubsResponse responseWithFileAtPath:path
                                                     statusCode:200
@@ -142,7 +143,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)dealloc
 {
-#if QG_QG_DEBUG
+#if DEBUG
     if (self.HTTPStubsDescriptor) {
         [OHHTTPStubs removeStub:self.HTTPStubsDescriptor];
     }

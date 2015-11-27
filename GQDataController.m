@@ -506,7 +506,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     MTLModel *model = [self.mantleObjectList objectAtIndex:indexPath.row];
     
-    self.tableViewCellConfigureBlock(cell, model);
+    if (self.tableViewCellConfigureBlock) {
+        self.tableViewCellConfigureBlock(cell, model);
+    }
     
     return cell;
 }
@@ -529,7 +531,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     MTLModel *model = [self.mantleObjectList objectAtIndex:indexPath.row];
     
-    self.collectionViewCellConfigureBlock(cell, model);
+    if (self.collectionViewCellConfigureBlock) {
+        self.collectionViewCellConfigureBlock(cell, model);
+    }
     
     return cell;
 }

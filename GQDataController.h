@@ -60,7 +60,7 @@ UICollectionViewDataSource
 
 
 /**
- *  共享实例的方法，共享实例的请求队列是串行的
+ *  共享实例的方法
  *
  */
 + (instancetype)sharedDataController;
@@ -85,6 +85,13 @@ UICollectionViewDataSource
  */
 - (void)requestWithParams:(nullable NSDictionary *)params;
 
+/**
+ *  Block风格的接口请求
+ *
+ *  @param params  请求的参数
+ *  @param success 成功的Block
+ *  @param failure 失败的Block
+ */
 - (void)requestWithParams:(nullable NSDictionary *)params
                   success:(nullable GQRequestSuccessBlock)success
                   failure:(nullable GQRequestFailureBlock)failure;

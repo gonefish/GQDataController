@@ -96,8 +96,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         [(AFJSONResponseSerializer *)[_requestOperationManager responseSerializer] setRemovesKeysWithNullValues:YES];
         
-        _currentPage = 1;
-        
 #if DEBUG
         NSString *localJSONName = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
         
@@ -169,24 +167,18 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     self.requestSuccessBlock = success;
     self.requestFailureBlock = failure;
     
-    NSNumber *page = params[[self pageParameterName]];
-    
-    if (page && [page isKindOfClass:[NSNumber class]]) {
-        self.currentPage = [page integerValue];
-    }
-    
     [self requestWithParams:params isRetry:NO];
 }
 
 - (void)requestMore
 {
-    NSMutableDictionary *newParams = [self.requestParams mutableCopy];
+//    NSMutableDictionary *newParams = [self.requestParams mutableCopy];
     
-    if ([self pageParameterName]) {
-        [newParams setObject:@(++self.currentPage) forKey:[self pageParameterName]];
-        
-        [self requestWithParams:newParams isRetry:NO];
-    }
+//    if ([self pageParameterName]) {
+//        [newParams setObject:@(++self.currentPage) forKey:[self pageParameterName]];
+//        
+//        [self requestWithParams:newParams isRetry:NO];
+//    }
 }
 
 - (void)cancelRequest
@@ -340,11 +332,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return nil;
 }
 
-- (NSString *)pageParameterName
-{
-    return @"page";
-}
-
 #pragma mark - Private
 
 - (void)requestWithParams:(NSDictionary *)params isRetry:(BOOL)retry
@@ -481,17 +468,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         if (self.mantleObjectList == nil) {
             self.mantleObjectList = [models mutableCopy];
         } else {
-            if ([self.delegate respondsToSelector:@selector(removeAllObjectsWhenAddMantleObjectList:)]) {
-                if ([self.delegate removeAllObjectsWhenAddMantleObjectList:self]) {
-                    [self.mantleObjectList removeAllObjects];
-                }
-            } else {
-                // 当请求的分页为1时，隐式的移除数据
-                if (self.currentPage == 1) {
-                    [self.mantleObjectList removeAllObjects];
-                }
-            }
-            
             [self.mantleObjectList addObjectsFromArray:models];
         }
     }

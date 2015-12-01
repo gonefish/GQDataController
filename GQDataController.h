@@ -50,8 +50,6 @@ UICollectionViewDataSource
 
 @property (nonatomic, copy) GQDataControllerLogBlock logBlock;
 
-@property (nonatomic) NSUInteger currentPage;
-
 @property (nonatomic, copy) NSString *cellIdentifier;
 
 @property (nonatomic, copy) GQTableViewCellConfigureBlock tableViewCellConfigureBlock;
@@ -120,8 +118,6 @@ UICollectionViewDataSource
  *
  */
 - (NSArray *)requestURLStrings;
-
-- (NSString *)pageParameterName;
 
 
 // ----------------

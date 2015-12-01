@@ -13,6 +13,17 @@
 #import <OHHTTPStubs/OHPathHelpers.h>
 #endif
 
+@interface GQPagination ()
+
+@property (nonatomic, assign) NSUInteger currentPageIndex;
+
+@end
+
+@implementation GQPagination
+
+
+@end
+
 NSString * const GQDataControllerErrorDomain = @"GQDataControllerErrorDomain";
 
 const NSInteger GQDataControllerErrorInvalidObject = 1;

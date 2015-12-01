@@ -14,6 +14,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface GQPagination : NSObject
+
+@property (nonatomic, copy) NSString *pageSizeName;
+
+@property (nonatomic, copy) NSString *pageIndexName;
+
+@property (nonatomic, assign) NSUInteger pageSize;
+
+@property (nonatomic, assign, readonly) NSUInteger currentPageIndex;
+
+@end
+
 extern NSString * const GQDataControllerErrorDomain;
 
 extern const NSInteger GQDataControllerErrorInvalidObject;
@@ -55,6 +67,8 @@ UICollectionViewDataSource
 @property (nonatomic, copy) GQTableViewCellConfigureBlock tableViewCellConfigureBlock;
 
 @property (nonatomic, copy) GQCollectionViewCellConfigureBlock collectionViewCellConfigureBlock;
+
+@property (nonatomic, strong, nullable) GQPagination *pagination;
 
 
 /**

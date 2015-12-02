@@ -13,13 +13,29 @@
 #import <OHHTTPStubs/OHPathHelpers.h>
 #endif
 
-@interface GQPagination ()
-
-@property (nonatomic, assign) NSUInteger currentPageIndex;
-
-@end
-
 @implementation GQPagination
+
++ (instancetype)paginationWithPageIndexName:(NSString *)pageIndexName pageSizeName:(NSString *)pageSizeName
+{
+    GQPagination *instance = [self init];
+    
+    if (instance) {
+        instance.pageIndexName = pageIndexName;
+        instance.pageSizeName = pageSizeName;
+    }
+    
+    return instance;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.pageIndexName = @"page";
+        self.pageSize = 10;
+    }
+    return self;
+}
 
 
 @end
@@ -178,18 +194,32 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     self.requestSuccessBlock = success;
     self.requestFailureBlock = failure;
     
+    if (self.pagination) {
+        self.pagination.paginationMode = GQPaginationModeReplace;
+    }
+    
     [self requestWithParams:params isRetry:NO];
 }
 
 - (void)requestMore
 {
-//    NSMutableDictionary *newParams = [self.requestParams mutableCopy];
-    
-//    if ([self pageParameterName]) {
-//        [newParams setObject:@(++self.currentPage) forKey:[self pageParameterName]];
-//        
-//        [self requestWithParams:newParams isRetry:NO];
-//    }
+    if (self.pagination) {
+        self.pagination.paginationMode = GQPaginationModeInsert;
+        
+        NSMutableDictionary *newParams = [self.requestParams mutableCopy];
+        
+        if (self.pagination.pageIndexName) {
+            [newParams setObject:@(self.pagination.currentPageIndex + 1)
+                          forKey:self.pagination.pageIndexName];
+        }
+        
+        if (self.pagination.pageSizeName) {
+            [newParams setObject:@(self.pagination.pageSize)
+                          forKey:self.pagination.pageSizeName];
+        }
+        
+        [self requestWithParams:newParams isRetry:NO];
+    }
 }
 
 - (void)cancelRequest
@@ -476,10 +506,29 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if (models) {
-        if (self.mantleObjectList == nil) {
-            self.mantleObjectList = [models mutableCopy];
+        if (self.pagination) {
+            switch (self.pagination.paginationMode) {
+                case GQPaginationModeInsert:
+                    // 播放数据
+                    if (self.mantleObjectList == nil) {
+                        self.mantleObjectList = [models mutableCopy];
+                    } else {
+                        [self.mantleObjectList addObjectsFromArray:models];
+                    }
+                    
+                    break;
+                    
+                case GQPaginationModeReplace:
+                    // 替换
+                    self.mantleObjectList = [models mutableCopy];
+                    break;
+                    
+                default:
+                    break;
+            }
         } else {
-            [self.mantleObjectList addObjectsFromArray:models];
+            // 如果没有指定pagination，总是替换当前数据
+            self.mantleObjectList = [models mutableCopy];
         }
     }
 }

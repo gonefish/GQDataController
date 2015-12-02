@@ -11,32 +11,9 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import "GQDataControllerDelegate.h"
+#import "GQPagination.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NS_ENUM(NSUInteger, GQPaginationMode) {
-    GQPaginationModeReplace,
-    GQPaginationModeInsert
-};
-
-@interface GQPagination : NSObject
-
-@property (nonatomic, copy) NSString *pageIndexName;
-
-@property (nonatomic, copy) NSString *pageSizeName;
-
-/**
- *  默认是10
- */
-@property (nonatomic, assign) NSUInteger pageSize;
-
-@property (nonatomic, assign) NSUInteger currentPageIndex;
-
-@property (nonatomic, assign) GQPaginationMode paginationMode;
-
-+ (instancetype)paginationWithPageIndexName:(NSString *)pageIndexName pageSizeName:(NSString *)pageSizeName;
-
-@end
 
 extern NSString * const GQDataControllerErrorDomain;
 

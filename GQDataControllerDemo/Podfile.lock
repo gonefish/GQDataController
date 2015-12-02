@@ -50,7 +50,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  GQDataController: 98f4db7abfdfd0d2f366fe525f7a772aed9bbca9
+  GQDataController: 95804a17b6e35fecef1b22cad462b0d8945e771f
   Mantle: a197db93e0f1e36194b1fdbc078219a8492eaef2
   OHHTTPStubs: cb1aefbbeb4de4e741644455d4b945538e5248a2
 

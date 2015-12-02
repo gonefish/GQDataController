@@ -15,7 +15,10 @@
     "git": "https://github.com/gonefish/GQDataController.git",
     "tag": "0.0.9"
   },
-  "source_files": "GQDataController*.{h,m}",
+  "source_files": [
+    "GQDataController*.{h,m}",
+    "GQPagination.{h,m}"
+  ],
   "dependencies": {
     "AFNetworking": [
       "~> 2.6.3"

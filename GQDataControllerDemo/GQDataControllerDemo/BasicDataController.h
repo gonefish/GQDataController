@@ -8,7 +8,7 @@
 
 #import "GQDataController.h"
 
-@interface GQTestDataController : GQDataController
+@interface BasicDataController : GQDataController
 
 @property (nonatomic, strong) NSString *ip;
 

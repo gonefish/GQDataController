@@ -6,24 +6,18 @@
 //  Copyright (c) 2014年 Qian GuoQiang. All rights reserved.
 //
 
-#import "GQTestDataController.h"
-#import "IP.h"
+#import "BasicDataController.h"
 
-@implementation GQTestDataController
+@implementation BasicDataController
 
 - (NSArray *)requestURLStrings
 {
     return @[@"http://httpbin.org/ip"];
 }
 
-//- (void)handleWithObject:(id)object
-//{
-//    self.ip = [object objectForKey:@"origin"];
-//}
-
-- (Class)mantleModelClass
+- (void)handleWithObject:(id)object
 {
-    return [IP class];
+    self.ip = [object objectForKey:@"origin"];
 }
 
 

@@ -96,6 +96,8 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         [(AFJSONResponseSerializer *)[_requestOperationManager responseSerializer] setRemovesKeysWithNullValues:YES];
         
+        _cellIdentifier = NSStringFromClass([self class]);
+        
 #if DEBUG
         NSString *localJSONName = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
         

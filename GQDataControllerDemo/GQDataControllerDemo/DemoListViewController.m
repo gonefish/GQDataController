@@ -28,7 +28,7 @@
     self.classNameList = @[@"BasicViewController",
                            @"BlockViewController",
                            @"MantleViewController",
-                           @"",
+                           @"DataSourceViewController",
                            @"",
                            @"",
                            @""];

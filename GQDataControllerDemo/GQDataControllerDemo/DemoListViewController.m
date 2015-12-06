@@ -30,8 +30,7 @@
                            @"MantleViewController",
                            @"DataSourceViewController",
                            @"",
-                           @"",
-                           @""];
+                           @"StubViewController"];
 }
 
 - (void)didReceiveMemoryWarning {

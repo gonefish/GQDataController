@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, GQPaginationMode) {
-    GQPaginationModeReplace,
-    GQPaginationModeInsert
+    GQPaginationModeReplace,    // 替换数据
+    GQPaginationModeInsert      // 播放数据
 };
 
 @interface GQPagination : NSObject

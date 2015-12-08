@@ -170,6 +170,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     self.requestFailureBlock = failure;
     
     if (self.pagination) {
+        self.pagination.currentPageIndex = 0;
         self.pagination.paginationMode = GQPaginationModeReplace;
     }
     
@@ -182,6 +183,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         self.pagination.paginationMode = GQPaginationModeInsert;
         
         NSMutableDictionary *newParams = [self.requestParams mutableCopy];
+        
+        if (newParams == nil) {
+            newParams = [NSMutableDictionary dictionary];
+        }
         
         if (self.pagination.pageIndexName) {
             [newParams setObject:@(self.pagination.currentPageIndex + 1)
@@ -501,6 +506,8 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                 default:
                     break;
             }
+            
+            self.pagination.currentPageIndex++;
         } else {
             // 如果没有指定pagination，总是替换当前数据
             self.mantleObjectList = [models mutableCopy];

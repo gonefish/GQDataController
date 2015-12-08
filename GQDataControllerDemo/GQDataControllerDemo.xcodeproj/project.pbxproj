@@ -33,6 +33,9 @@
 		E37430711C149D8A00D369D0 /* StubDataController.json in Resources */ = {isa = PBXBuildFile; fileRef = E37430701C149D8A00D369D0 /* StubDataController.json */; };
 		E37B50951C12FF9A002E2CB8 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37B50931C12FF9A002E2CB8 /* BasicViewController.m */; };
 		E37B50981C1300C9002E2CB8 /* BasicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E37B50971C1300C9002E2CB8 /* BasicViewController.xib */; };
+		E3B82A831C15EB22009AC14F /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B82A811C15EB22009AC14F /* PageViewController.m */; };
+		E3B82A841C15EB22009AC14F /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B82A821C15EB22009AC14F /* PageViewController.xib */; };
+		E3B82A881C15EB7B009AC14F /* PageDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B82A871C15EB7B009AC14F /* PageDataController.m */; };
 		E3FA14881B07B6BD008CC764 /* BasicDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FA14871B07B6BD008CC764 /* BasicDataController.m */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +97,11 @@
 		E37B50931C12FF9A002E2CB8 /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicViewController.m; sourceTree = "<group>"; };
 		E37B50971C1300C9002E2CB8 /* BasicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BasicViewController.xib; sourceTree = "<group>"; };
 		E398397D1B725FD6009BF809 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		E3B82A801C15EB22009AC14F /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
+		E3B82A811C15EB22009AC14F /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
+		E3B82A821C15EB22009AC14F /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
+		E3B82A861C15EB7B009AC14F /* PageDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageDataController.h; sourceTree = "<group>"; };
+		E3B82A871C15EB7B009AC14F /* PageDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageDataController.m; sourceTree = "<group>"; };
 		E3FA14861B07B6BD008CC764 /* BasicDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicDataController.h; sourceTree = "<group>"; };
 		E3FA14871B07B6BD008CC764 /* BasicDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicDataController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +178,7 @@
 				E374304B1C13CC3000D369D0 /* 使用Block风格的回调 */,
 				E37430511C13D16100D369D0 /* 使用Mantle处理返回结果 */,
 				E37430601C14558100D369D0 /* DataSource */,
+				E3B82A851C15EB5C009AC14F /* 分页 */,
 				E374306C1C149C7700D369D0 /* 接口的Stub */,
 			);
 			path = GQDataControllerDemo;
@@ -268,6 +277,18 @@
 			name = "基本使用";
 			sourceTree = "<group>";
 		};
+		E3B82A851C15EB5C009AC14F /* 分页 */ = {
+			isa = PBXGroup;
+			children = (
+				E3B82A801C15EB22009AC14F /* PageViewController.h */,
+				E3B82A811C15EB22009AC14F /* PageViewController.m */,
+				E3B82A821C15EB22009AC14F /* PageViewController.xib */,
+				E3B82A861C15EB7B009AC14F /* PageDataController.h */,
+				E3B82A871C15EB7B009AC14F /* PageDataController.m */,
+			);
+			name = "分页";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -356,6 +377,7 @@
 				E37B50981C1300C9002E2CB8 /* BasicViewController.xib in Resources */,
 				E3450BFA1B07410A00E62B01 /* LaunchScreen.xib in Resources */,
 				E374306B1C149C7300D369D0 /* StubViewController.xib in Resources */,
+				E3B82A841C15EB22009AC14F /* PageViewController.xib in Resources */,
 				E37430711C149D8A00D369D0 /* StubDataController.json in Resources */,
 				E37430501C13D15A00D369D0 /* MantleViewController.xib in Resources */,
 				E3450BF71B07410A00E62B01 /* Images.xcassets in Resources */,
@@ -425,6 +447,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3B82A881C15EB7B009AC14F /* PageDataController.m in Sources */,
 				E37430541C13D1F900D369D0 /* MantleSimpleDataController.m in Sources */,
 				E374305A1C13D34C00D369D0 /* Header.m in Sources */,
 				E37430631C1455A200D369D0 /* DataSourceDataController.m in Sources */,
@@ -432,6 +455,7 @@
 				E37153061B2F394F007E8A8E /* IP.m in Sources */,
 				E374305E1C14555300D369D0 /* DataSourceViewController.m in Sources */,
 				E374304F1C13D15A00D369D0 /* MantleViewController.m in Sources */,
+				E3B82A831C15EB22009AC14F /* PageViewController.m in Sources */,
 				E3450BEF1B07410A00E62B01 /* AppDelegate.m in Sources */,
 				E3450BEC1B07410A00E62B01 /* main.m in Sources */,
 				E374306A1C149C7300D369D0 /* StubViewController.m in Sources */,

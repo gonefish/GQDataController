@@ -29,7 +29,7 @@
                            @"BlockViewController",
                            @"MantleViewController",
                            @"DataSourceViewController",
-                           @"",
+                           @"PageViewController",
                            @"StubViewController"];
 }
 

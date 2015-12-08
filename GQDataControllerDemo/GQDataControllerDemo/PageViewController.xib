@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PageViewController">
+            <connections>
+                <outlet property="tableView" destination="FiY-bU-Xk5" id="iaD-Lx-I5H"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H0h-CT-Web">
+                    <rect key="frame" x="50" y="80" width="60" height="30"/>
+                    <animations/>
+                    <state key="normal" title="重新加载"/>
+                    <connections>
+                        <action selector="reset:" destination="-1" eventType="touchUpInside" id="plk-pV-gJ3"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZ8-B8-Y9F">
+                    <rect key="frame" x="490" y="80" width="60" height="30"/>
+                    <animations/>
+                    <state key="normal" title="加载更多"/>
+                    <connections>
+                        <action selector="loadMore:" destination="-1" eventType="touchUpInside" id="NZq-gv-7zj"/>
+                    </connections>
+                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FiY-bU-Xk5">
+                    <rect key="frame" x="0.0" y="120" width="600" height="480"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="UZ8-B8-Y9F" secondAttribute="trailing" constant="50" id="77s-RB-ccm"/>
+                <constraint firstItem="FiY-bU-Xk5" firstAttribute="top" secondItem="H0h-CT-Web" secondAttribute="bottom" constant="10" id="8Ay-yP-KNY"/>
+                <constraint firstItem="H0h-CT-Web" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="50" id="A6q-Gd-ohH"/>
+                <constraint firstItem="FiY-bU-Xk5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FuG-wg-OyU"/>
+                <constraint firstAttribute="bottom" secondItem="FiY-bU-Xk5" secondAttribute="bottom" id="MwJ-l6-bvg"/>
+                <constraint firstItem="H0h-CT-Web" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="TYb-2r-Yfj"/>
+                <constraint firstItem="UZ8-B8-Y9F" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="egl-EG-l2O"/>
+                <constraint firstAttribute="trailing" secondItem="FiY-bU-Xk5" secondAttribute="trailing" id="iPi-Ks-KpZ"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

@@ -12,7 +12,7 @@
 
 + (instancetype)paginationWithPageIndexName:(NSString *)pageIndexName pageSizeName:(NSString *)pageSizeName
 {
-    GQPagination *instance = [self init];
+    GQPagination *instance = [[self alloc] init];
     
     if (instance) {
         instance.pageIndexName = pageIndexName;

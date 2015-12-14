@@ -217,27 +217,22 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 {
     if ([self isValidWithObject:responseObject]) {
         
-        // 在其它线程处理数据
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            Class mantleModelClass = [self mantleModelClass];
-            
-            // 是否启用Mantle
-            if (mantleModelClass != Nil) {
-                [self handleMantleWithObject:responseObject];
-            } else {
-                [self handleWithObject:responseObject];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
-                    [self.delegate dataControllerDidFinishLoading:self];
-                }
-                
-                if (self.requestSuccessBlock) {
-                    self.requestSuccessBlock();
-                }
-            });
-        });
+        Class mantleModelClass = [self mantleModelClass];
+        
+        // 是否启用Mantle
+        if (mantleModelClass != Nil) {
+            [self handleMantleWithObject:responseObject];
+        } else {
+            [self handleWithObject:responseObject];
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
+            [self.delegate dataControllerDidFinishLoading:self];
+        }
+        
+        if (self.requestSuccessBlock) {
+            self.requestSuccessBlock();
+        }
     } else {
         NSError *error = nil;
         

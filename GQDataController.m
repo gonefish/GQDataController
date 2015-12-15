@@ -289,11 +289,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)handleMantleWithObject:(id)object
 {
+    // 处理mantleObjectKeyPath
     NSString *objectKeyPath = [self mantleObjectKeyPath];
     
-    NSString *objectListKeyPath = [self mantleObjectListKeyPath];
-    
-    // 处理mantleObjectKeyPath
     id mantleObjectJSON = object;
     
     if (objectKeyPath) { // 允许自定义转换的JSON节点
@@ -304,17 +302,11 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         && [self mantleModelClass] != Nil) {
         
         [self handleMantleObjectWithDictionary:mantleObjectJSON];
-        
-    } else if ([mantleObjectJSON isKindOfClass:[NSArray class]] // 如果mantleObjectKeyPath是数组，并且mantleObjectListKeyPath为空时默认转换为List处理
-               && objectListKeyPath == nil
-               && [self mantleModelClass] != Nil) {
-        
-        [self handleMantleObjectListWithArray:mantleObjectJSON
-                                  mantleClass:[self mantleModelClass]];
-        
     }
     
     // 处理mantleObjectListKeyPath
+    NSString *objectListKeyPath = [self mantleObjectListKeyPath];
+    
     id mantleObjectListJSON = object;
     
     if (objectListKeyPath) { // 允许自定义转换的JSON节点
@@ -335,7 +327,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (Class)mantleListModelClass
 {
-    return Nil;
+    return [self mantleModelClass];
 }
 
 - (NSString *)mantleObjectKeyPath
@@ -345,7 +337,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (NSString *)mantleObjectListKeyPath
 {
-    return nil;
+    return [self mantleObjectKeyPath];
 }
 
 #pragma mark - Private

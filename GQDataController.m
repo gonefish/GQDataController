@@ -217,14 +217,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 {
     if ([self isValidWithObject:responseObject]) {
         
-        Class mantleModelClass = [self mantleModelClass];
-        
-        // 是否启用Mantle
-        if (mantleModelClass != Nil) {
-            [self handleMantleWithObject:responseObject];
-        } else {
-            [self handleWithObject:responseObject];
-        }
+        [self handleWithObject:responseObject];
         
         if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
             [self.delegate dataControllerDidFinishLoading:self];
@@ -284,7 +277,12 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)handleWithObject:(id)object
 {
+    // 默认实现对Mantle的支持
+    Class mantleModelClass = [self mantleModelClass];
     
+    if (mantleModelClass != Nil) {
+        [self handleMantleWithObject:object];
+    }
 }
 
 - (void)handleMantleWithObject:(id)object

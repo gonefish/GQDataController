@@ -68,6 +68,15 @@
     XCTAssertEqual(self.mantleSimpleDataController.mantleListModelClass, self.mantleSimpleDataController.mantleModelClass, @"mantleListModelClass默认返回mantleModelClass");
 }
 
+- (void)testRequest
+{
+    id partialMock = OCMPartialMock(self.basicDataController);
+    
+    [(GQDataController *)partialMock request];
+    
+    OCMVerify([partialMock requestWithParams:[OCMArg isNil]]);
+}
+
 - (void)testRequestOperationFailureError
 {
     id operation = OCMClassMock([AFHTTPRequestOperation class]);
@@ -81,6 +90,11 @@
     OCMVerify([error localizedDescription]);
     
     OCMVerify([delegate dataController:self.mantleSimpleDataController didFailWithError:error]);
+}
+
+- (void)testRequestOpertaionSuccessResponseObject
+{
+    
 }
 
 

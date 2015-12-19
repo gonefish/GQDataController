@@ -9,10 +9,17 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import <OCMock/OCMock.h>
+
+#import "MantleSimpleDataController.h"
 #import "BasicDataController.h"
 
 
 @interface GQDataControllerDemoTests : XCTestCase
+
+@property (nonatomic, strong) BasicDataController *basicDataController;
+
+@property (nonatomic, strong) MantleSimpleDataController *mantleSimpleDataController;
 
 @end
 
@@ -21,6 +28,10 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    self.basicDataController = [[BasicDataController alloc] init];
+    
+    self.mantleSimpleDataController = [[MantleSimpleDataController alloc] init];
 }
 
 - (void)tearDown {
@@ -29,23 +40,47 @@
 }
 
 - (void)testsharedInstance {
-//    XCTAssertEqual([GQTestDataController sharedDataController], [GQTestDataController sharedDataController]);
+    XCTAssertEqual([BasicDataController sharedDataController], [BasicDataController sharedDataController]);
 }
 
 - (void)testCopy
 {
-//    GQTestDataController *dc = [[GQTestDataController alloc] init];
-//    dc.requestSuccessBlock = ^(void){};
-//    dc.requestFailureBlock = ^(NSError *error){};
-//    dc.logBlock = ^(NSString *log){};
-//    
-//    GQTestDataController *another = [dc copy];
+    self.basicDataController.requestSuccessBlock = ^(void){};
+    self.basicDataController.requestFailureBlock = ^(NSError *error){};
+    self.basicDataController.logBlock = ^(NSString *log){};
     
-//    XCTAssertNotEqual(dc, another, @"应该不是相同的地址");
-//    
-//    XCTAssertNotNil(another.requestSuccessBlock, @"属性没有复制成功");
-//    XCTAssertNotNil(another.requestFailureBlock, @"属性没有复制成功");
-//    XCTAssertNotNil(another.logBlock, @"属性没有复制成功");
+    BasicDataController *another = [self.basicDataController copy];
+    
+    XCTAssertNotEqual(self.basicDataController, another, @"应该不是相同的地址");
+    
+    XCTAssertNotNil(another.requestSuccessBlock, @"属性没有复制成功");
+    XCTAssertNotNil(another.requestFailureBlock, @"属性没有复制成功");
+    XCTAssertNotNil(another.logBlock, @"属性没有复制成功");
+}
+
+- (void)testMantleObjectListKeyPath
+{
+    XCTAssertEqualObjects(self.mantleSimpleDataController.mantleObjectListKeyPath, self.mantleSimpleDataController.mantleObjectKeyPath, @"mantleObjectListKeyPath默认返回mantleObjectKeyPath");
+}
+
+- (void)testMantleListModelClass
+{
+    XCTAssertEqual(self.mantleSimpleDataController.mantleListModelClass, self.mantleSimpleDataController.mantleModelClass, @"mantleListModelClass默认返回mantleModelClass");
+}
+
+- (void)testRequestOperationFailureError
+{
+    id operation = OCMClassMock([AFHTTPRequestOperation class]);
+    id error = OCMClassMock([NSError class]);
+    id delegate = OCMProtocolMock(@protocol(GQDataControllerDelegate));
+    
+    self.mantleSimpleDataController.delegate = delegate;
+    
+    [self.mantleSimpleDataController requestOperationFailure:operation error:error];
+    
+    OCMVerify([error localizedDescription]);
+    
+    OCMVerify([delegate dataController:self.mantleSimpleDataController didFailWithError:error]);
 }
 
 

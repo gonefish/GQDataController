@@ -1,1 +1,5 @@
 pod 'GQDataController', :path => '../'
+
+target :GQDataControllerDemoTests, :exclusive => true do
+    pod 'OCMock', '~> 3.2'
+end

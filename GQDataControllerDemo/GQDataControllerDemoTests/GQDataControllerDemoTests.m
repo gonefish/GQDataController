@@ -40,7 +40,7 @@
 }
 
 - (void)testsharedInstance {
-    XCTAssertEqual([BasicDataController sharedDataController], [BasicDataController sharedDataController]);
+    XCTAssertEqual([BasicDataController sharedDataController], [BasicDataController sharedDataController], @"单例");
 }
 
 - (void)testCopy
@@ -77,6 +77,15 @@
     OCMVerify([partialMock requestWithParams:[OCMArg isNil]]);
 }
 
+- (void)testRequestWithParams
+{
+    id partialMock = OCMPartialMock(self.basicDataController);
+    
+    [(GQDataController *)partialMock requestWithParams:nil];
+    
+    OCMVerify([partialMock requestWithParams:[OCMArg isNil] success:[OCMArg isNil] failure:[OCMArg isNil]]);
+}
+
 - (void)testRequestOperationFailureError
 {
     id operation = OCMClassMock([AFHTTPRequestOperation class]);
@@ -92,10 +101,32 @@
     OCMVerify([delegate dataController:self.mantleSimpleDataController didFailWithError:error]);
 }
 
-- (void)testRequestOpertaionSuccessResponseObject
+- (void)testHandleWithObject
 {
     
 }
 
+- (void)testRequestOpertaionSuccessResponseObjectIsValid
+{
+    BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
+    id operation = OCMClassMock([AFHTTPRequestOperation class]);
+    
+    [mockDataController requestOpertaionSuccess:operation responseObject:@{}];
+    
+    OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
+    
+    OCMVerify([mockDataController handleWithObject:[OCMArg any]]);
+}
+
+- (void)testRequestOpertaionSuccessResponseObjectIsInvalid
+{
+    BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
+    
+    id operation = OCMClassMock([AFHTTPRequestOperation class]);
+    
+    [mockDataController requestOpertaionSuccess:operation responseObject:@{}];
+    
+    OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
+}
 
 @end

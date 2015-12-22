@@ -74,7 +74,7 @@
     
     [(GQDataController *)partialMock request];
     
-    OCMVerify([partialMock requestWithParams:[OCMArg isNil]]);
+    OCMVerify([partialMock requestWithParams:nil]);
 }
 
 - (void)testRequestWithParams
@@ -83,22 +83,31 @@
     
     [(GQDataController *)partialMock requestWithParams:nil];
     
-    OCMVerify([partialMock requestWithParams:[OCMArg isNil] success:[OCMArg isNil] failure:[OCMArg isNil]]);
+    OCMVerify([partialMock requestWithParams:nil success:nil failure:nil]);
 }
 
 - (void)testRequestOperationFailureError
 {
-    id operation = OCMClassMock([AFHTTPRequestOperation class]);
-    id error = OCMClassMock([NSError class]);
     id delegate = OCMProtocolMock(@protocol(GQDataControllerDelegate));
-    
     self.mantleSimpleDataController.delegate = delegate;
+    
+    id operation = OCMClassMock([AFHTTPRequestOperation class]);
+    
+    id error = OCMClassMock([NSError class]);
+    
+    OCMStub([error code]).andReturn(0);
+    
+    self.mantleSimpleDataController.requestFailureBlock = ^(NSError *error) {
+        NSLog(@"%@", @([error code]));
+    };
     
     [self.mantleSimpleDataController requestOperationFailure:operation error:error];
     
     OCMVerify([error localizedDescription]);
     
     OCMVerify([delegate dataController:self.mantleSimpleDataController didFailWithError:error]);
+    
+    OCMVerify([error code]);
 }
 
 - (void)testHandleWithObject
@@ -111,20 +120,42 @@
     BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
     id operation = OCMClassMock([AFHTTPRequestOperation class]);
     
+    id delegate = OCMProtocolMock(@protocol(GQDataControllerDelegate));
+    mockDataController.delegate = delegate;
+    
+    NSString *foo = @"foo";
+    
+    mockDataController.requestSuccessBlock = ^{
+        XCTAssertEqualObjects(@"foo", foo);
+    };
+    
     [mockDataController requestOpertaionSuccess:operation responseObject:@{}];
     
     OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
     
     OCMVerify([mockDataController handleWithObject:[OCMArg any]]);
+    
+    OCMVerify([delegate dataControllerDidFinishLoading:[OCMArg any]]);
 }
 
 - (void)testRequestOpertaionSuccessResponseObjectIsInvalid
 {
     BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
     
+    id delegate = OCMProtocolMock(@protocol(GQDataControllerDelegate));
+    mockDataController.delegate = delegate;
+    
     id operation = OCMClassMock([AFHTTPRequestOperation class]);
     
+    OCMStub([mockDataController isValidWithObject:[OCMArg any]]).andReturn(NO);
+    
+    mockDataController.requestFailureBlock = ^(NSError *error) {
+        XCTAssertTrue([error.domain isEqualToString:GQDataControllerErrorDomain]);
+    };
+    
     [mockDataController requestOpertaionSuccess:operation responseObject:@{}];
+    
+    OCMVerify([delegate dataController:[OCMArg any] didFailWithError:[OCMArg any]]);
     
     OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
 }

@@ -17,6 +17,7 @@
     if (instance) {
         instance.pageIndexName = pageIndexName;
         instance.pageSizeName = pageSizeName;
+        instance.currentPageIndex = 1;
     }
     
     return instance;

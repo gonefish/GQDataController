@@ -26,12 +26,12 @@
 }
 
 - (void)testExample {
-    GQPagination *p = [GQPagination paginationWithPageIndexName:@"page"
+    GQPagination *pagination = [GQPagination paginationWithPageIndexName:@"page"
                                                    pageSizeName:@"size"];
     
-    XCTAssertEqual(p.pageIndexName, @"page");
-    XCTAssertEqual(p.pageSizeName, @"size");
-    XCTAssertEqual(p.pageSize, 10);
+    XCTAssertEqual(pagination.pageIndexName, @"page");
+    XCTAssertEqual(pagination.pageSizeName, @"size");
+    XCTAssertEqual(pagination.pageSize, 10);
     
 }
 

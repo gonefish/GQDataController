@@ -72,18 +72,37 @@
 {
     id partialMock = OCMPartialMock(self.basicDataController);
     
-    [(GQDataController *)partialMock request];
+    [(BasicDataController *)partialMock request];
     
     OCMVerify([partialMock requestWithParams:nil]);
 }
 
 - (void)testRequestWithParams
 {
-    id partialMock = OCMPartialMock(self.basicDataController);
+    BasicDataController *partialMock = OCMPartialMock(self.basicDataController);
     
-    [(GQDataController *)partialMock requestWithParams:nil];
+    [partialMock requestWithParams:nil];
     
     OCMVerify([partialMock requestWithParams:nil success:nil failure:nil]);
+}
+
+- (void)testQuestWithParamsSuccessFailure
+{
+    BasicDataController *partialMock = OCMPartialMock(self.basicDataController);
+    
+    GQPagination *pagination = [GQPagination paginationWithPageIndexName:@"page"
+                                                            pageSizeName:@"size"];
+    
+    XCTAssertEqual(pagination.paginationMode, GQPaginationModeReplace);
+    
+    pagination.paginationMode = GQPaginationModeInsert;
+    
+    partialMock.pagination = pagination;
+    
+    [partialMock requestWithParams:nil success:nil failure:nil];
+    
+    XCTAssertEqual(pagination.paginationMode, GQPaginationModeReplace);
+    XCTAssertEqual(pagination.currentPageIndex, 1);
 }
 
 - (void)testRequestOperationFailureError
@@ -113,6 +132,22 @@
 - (void)testHandleWithObject
 {
     
+}
+
+- (void)testRequestMore
+{
+    BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
+    
+    GQPagination *pagination = [GQPagination paginationWithPageIndexName:@"page"
+                                                            pageSizeName:@"size"];
+    
+    XCTAssertEqual(pagination.paginationMode, GQPaginationModeReplace);
+    
+    mockDataController.pagination = pagination;
+    
+    [mockDataController requestMore];
+    
+    XCTAssertEqual(mockDataController.pagination.paginationMode, GQPaginationModeInsert);
 }
 
 - (void)testRequestOpertaionSuccessResponseObjectIsValid

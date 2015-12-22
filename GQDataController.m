@@ -170,7 +170,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     self.requestFailureBlock = failure;
     
     if (self.pagination) {
-        self.pagination.currentPageIndex = 0;
+        self.pagination.currentPageIndex = 1;
         self.pagination.paginationMode = GQPaginationModeReplace;
     }
     

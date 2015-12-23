@@ -11,6 +11,7 @@
 
 #import <OCMock/OCMock.h>
 
+#import "IP.h"
 #import "MantleSimpleDataController.h"
 #import "BasicDataController.h"
 
@@ -131,7 +132,29 @@
 
 - (void)testHandleWithObject
 {
+    MantleSimpleDataController *mockDataController = OCMPartialMock(self.mantleSimpleDataController);
     
+    [mockDataController handleWithObject:@{@"origin" : @"127.0.0.1"}];
+    
+    XCTAssertEqualObjects([(IP *)mockDataController.mantleObject origin], @"127.0.0.1");
+    
+    [mockDataController handleWithObject:@[@{@"origin" : @"127.0.0.1"}]];
+    
+    XCTAssertEqualObjects([(IP *)[mockDataController.mantleObjectList firstObject] origin], @"127.0.0.1");
+}
+
+- (void)testHandleWithObject2
+{
+    MantleSimpleDataController *mockDataController = OCMPartialMock(self.mantleSimpleDataController);
+    OCMStub([mockDataController mantleObjectKeyPath]).andReturn(@"data");
+    
+    [mockDataController handleWithObject:@{@"data" : @{@"origin" : @"127.0.0.1"}}];
+    
+    XCTAssertEqualObjects([(IP *)mockDataController.mantleObject origin], @"127.0.0.1");
+    
+    [mockDataController handleWithObject:@{@"data" : @[@{@"origin" : @"127.0.0.1"}]}];
+    
+    XCTAssertEqualObjects([(IP *)[mockDataController.mantleObjectList firstObject] origin], @"127.0.0.1");
 }
 
 - (void)testRequestMore

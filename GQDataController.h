@@ -120,7 +120,7 @@ UICollectionViewDataSource
  *  接口请求的地址，可以有多个用于备用重试
  *
  */
-- (NSArray *)requestURLStrings;
+- (NSArray<NSString *> *)requestURLStrings;
 
 
 // ----------------

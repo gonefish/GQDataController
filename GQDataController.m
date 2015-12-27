@@ -265,7 +265,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return @"GET";
 }
 
-- (NSArray *)requestURLStrings
+- (NSArray<NSString *> *)requestURLStrings
 {
     return nil;
 }

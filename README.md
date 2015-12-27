@@ -160,9 +160,12 @@ GQDataController也实现NSCopying协议，你可以快速的复制当前的实�
 
 ## 安装
 
-pod 'GQDataController', '~> 0.1'
+### CocoaPods
 
-## 后续计划
+```
+pod 'GQDataController', '~> 0.2'
+```
 
-## 授权
+## LICENSE
 
+See LICENSE

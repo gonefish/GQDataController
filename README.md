@@ -158,6 +158,17 @@ GQDataController也实现NSCopying协议，你可以快速的复制当前的实�
 5. 分页
 6. 接口的Stub
 
+
+## 系统要求
+
+支持iOS 7以上
+
+第三库依赖：
+
+* AFNetworking 2.6.3
+* Mantle 1.5.6
+* OHHTTPStubs 4.6.0
+
 ## 安装
 
 ### CocoaPods
@@ -165,6 +176,35 @@ GQDataController也实现NSCopying协议，你可以快速的复制当前的实�
 ```
 pod 'GQDataController', '~> 0.2'
 ```
+
+
+## FAQ
+
+**是否支持XML的返回格式？**
+
+当前只支持JSON格式。
+
+**如何为接口添加公共参数？**
+
+自定义AFHTTPRequestSerializer，然后在初始化方法中设置
+
+```objc
+self.requestOperationManager.requestSerializer
+```
+
+**如何自定义接口响应**
+
+自定义AFJSONResponseSerializer，然后在初始化方法中设置
+
+```objc
+self.requestOperationManager.responseSerializer
+```
+
+你甚至可以自定义子类，用于将任意格式转换成JSON的适配器。
+
+**是否需要创建自己的基类？**
+
+总是继承自己的基类是最好的实践。你可以在基类里配置AFNetworking及其它自定义属性。
 
 ## LICENSE
 

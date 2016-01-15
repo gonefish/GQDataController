@@ -1,11 +1,10 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
-  s.version      = "0.2"
+  s.version      = "0.2.3"
   s.summary      = "A networking framework for MVVM in iOS"
 
   s.description  = <<-DESC
-                   封装AFNetworking和Mantle的MVVM实
-                   通过GQDataController进行视图的属性绑定
+                   一款符合MVVM模式的网络框架，通过混合AFNetworking和Mantle让你更方便的处理网络交互。
                    DESC
 
   s.homepage     = "https://github.com/gonefish/GQDataController"

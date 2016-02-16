@@ -43,11 +43,14 @@
 
 - (IBAction)loadMore:(id)sender
 {
-    [self.pageDataController requestMore];
+    [self.pageDataController requestMoreWithPageName:@"p"];
 }
 
 - (IBAction)reset:(id)sender
 {
+    [self.pageDataController.mantleObjectList removeAllObjects];
+    [self.tableView reloadData];
+    
     [self.pageDataController requestWithParams:nil success:^{
         
         [self.tableView reloadData];

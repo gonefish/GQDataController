@@ -97,7 +97,7 @@ UICollectionViewDataSource
 /**
  *  加载更多
  */
-- (void)requestMore;
+- (void)requestMoreWithPageName:(NSString *)pageName;
 
 /**
  *  取消当前的接口请求

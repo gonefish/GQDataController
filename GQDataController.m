@@ -173,12 +173,18 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     [self requestWithParams:params isRetry:NO];
 }
 
-- (void)requestMore
+- (void)requestMoreWithPageName:(NSString *)pageName
 {
     NSMutableDictionary *newParams = [self.requestParams mutableCopy];
     
     if (newParams == nil) {
         newParams = [NSMutableDictionary dictionary];
+    }
+    
+    if ([newParams objectForKey:pageName]) {
+        newParams[pageName] = @([[newParams objectForKey:pageName] integerValue] + 1);
+    } else {
+        newParams[pageName] = @(1);
     }
     
     [self requestWithParams:newParams isRetry:NO];

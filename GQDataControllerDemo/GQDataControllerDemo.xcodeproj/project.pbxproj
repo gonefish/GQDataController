@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AD25E42F65BEE6A3EC9A677C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 025DB711B4375FFBC704AD06 /* libPods.a */; };
 		DD3204BA9BA2977B17C38D4F /* libPods-GQDataControllerDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 586F7729215D861E00542FEB /* libPods-GQDataControllerDemoTests.a */; };
-		E32334661C19836F005DB096 /* GQPaginationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E32334651C19836F005DB096 /* GQPaginationTests.m */; };
 		E3450BEC1B07410A00E62B01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E3450BEB1B07410A00E62B01 /* main.m */; };
 		E3450BEF1B07410A00E62B01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E3450BEE1B07410A00E62B01 /* AppDelegate.m */; };
 		E3450BF51B07410A00E62B01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3450BF31B07410A00E62B01 /* Main.storyboard */; };
@@ -58,7 +57,6 @@
 		1C060036FC410FD50BB543F7 /* Pods-GQDataControllerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GQDataControllerDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GQDataControllerDemoTests/Pods-GQDataControllerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		586F7729215D861E00542FEB /* libPods-GQDataControllerDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GQDataControllerDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DA1A606D5A473240D858C40 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		E32334651C19836F005DB096 /* GQPaginationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQPaginationTests.m; sourceTree = "<group>"; };
 		E3450BE61B07410A00E62B01 /* GQDataControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GQDataControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3450BEA1B07410A00E62B01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3450BEB1B07410A00E62B01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -207,7 +205,6 @@
 			isa = PBXGroup;
 			children = (
 				E3450C051B07410A00E62B01 /* GQDataControllerDemoTests.m */,
-				E32334651C19836F005DB096 /* GQPaginationTests.m */,
 				E3450C031B07410A00E62B01 /* Supporting Files */,
 			);
 			path = GQDataControllerDemoTests;
@@ -532,7 +529,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3450C061B07410A00E62B01 /* GQDataControllerDemoTests.m in Sources */,
-				E32334661C19836F005DB096 /* GQPaginationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - GQDataController (0.1):
+  - GQDataController (0.2.3):
     - AFNetworking (~> 2.6.3)
     - Mantle (~> 1.5.6)
     - OHHTTPStubs (~> 4.6.0)
@@ -52,7 +52,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  GQDataController: 36383e6ce0bb146a6a20356ff913df483ab0caae
+  GQDataController: d380a6148572d39dd0fc804c19a109853e5263cd
   Mantle: a197db93e0f1e36194b1fdbc078219a8492eaef2
   OCMock: 28def049ef47f996b515a8eeea958be7ccab2dbb
   OHHTTPStubs: cb1aefbbeb4de4e741644455d4b945538e5248a2

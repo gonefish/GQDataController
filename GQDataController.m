@@ -170,37 +170,18 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     self.requestSuccessBlock = success;
     self.requestFailureBlock = failure;
     
-    if (self.pagination) {
-        self.pagination.currentPageIndex = 0;
-        self.pagination.paginationMode = GQPaginationModeReplace;
-    }
-    
     [self requestWithParams:params isRetry:NO];
 }
 
 - (void)requestMore
 {
-    if (self.pagination) {
-        self.pagination.paginationMode = GQPaginationModeInsert;
-        
-        NSMutableDictionary *newParams = [self.requestParams mutableCopy];
-        
-        if (newParams == nil) {
-            newParams = [NSMutableDictionary dictionary];
-        }
-        
-        if (self.pagination.pageIndexName) {
-            [newParams setObject:@(self.pagination.currentPageIndex + 1)
-                          forKey:self.pagination.pageIndexName];
-        }
-        
-        if (self.pagination.pageSizeName) {
-            [newParams setObject:@(self.pagination.pageSize)
-                          forKey:self.pagination.pageSizeName];
-        }
-        
-        [self requestWithParams:newParams isRetry:NO];
+    NSMutableDictionary *newParams = [self.requestParams mutableCopy];
+    
+    if (newParams == nil) {
+        newParams = [NSMutableDictionary dictionary];
     }
+    
+    [self requestWithParams:newParams isRetry:NO];
 }
 
 - (void)cancelRequest
@@ -481,32 +462,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if (models) {
-        if (self.pagination) {
-            switch (self.pagination.paginationMode) {
-                case GQPaginationModeInsert:
-                    // 播放数据
-                    if (self.mantleObjectList == nil) {
-                        self.mantleObjectList = [models mutableCopy];
-                    } else {
-                        [self.mantleObjectList addObjectsFromArray:models];
-                    }
-                    
-                    break;
-                    
-                case GQPaginationModeReplace:
-                    // 替换
-                    self.mantleObjectList = [models mutableCopy];
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            self.pagination.currentPageIndex++;
-            
-        } else {
-            // 如果没有指定pagination，总是替换当前数据
+        if (self.mantleObjectList == nil) {
             self.mantleObjectList = [models mutableCopy];
+        } else {
+            [self.mantleObjectList addObjectsFromArray:models];
         }
     }
 }

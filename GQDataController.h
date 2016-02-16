@@ -11,7 +11,6 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import "GQDataControllerDelegate.h"
-#import "GQPagination.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,8 +55,6 @@ UICollectionViewDataSource
 @property (nonatomic, copy) GQTableViewCellConfigureBlock tableViewCellConfigureBlock;
 
 @property (nonatomic, copy) GQCollectionViewCellConfigureBlock collectionViewCellConfigureBlock;
-
-@property (nonatomic, strong, nullable) GQPagination *pagination;
 
 
 /**

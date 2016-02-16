@@ -11,20 +11,6 @@
 @implementation PageDataController
 
 
-- (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate
-{
-    self = [super initWithDelegate:aDelegate];
-    
-    if (self) {
-        GQPagination *p = [GQPagination paginationWithPageIndexName:@"page"
-                                                       pageSizeName:@"size"];
-        
-        self.pagination = p;
-    }
-    
-    return self;
-}
-
 - (NSArray *)requestURLStrings
 {
     return @[@"https://itunes.apple.com/search?term=keynote&entity=software&limit=1"];

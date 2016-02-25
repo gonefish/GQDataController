@@ -468,10 +468,14 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if (models) {
-        if (self.mantleObjectList == nil) {
+        if (self.mantleObjectListUpdateStyle == GQMantleObjectListUpdateInsert) {
+            if (self.mantleObjectList == nil) {
+                self.mantleObjectList = [models mutableCopy];
+            } else {
+                [self.mantleObjectList addObjectsFromArray:models];
+            }
+        } else if (self.mantleObjectListUpdateStyle == GQMantleObjectListUpdateReplace) {
             self.mantleObjectList = [models mutableCopy];
-        } else {
-            [self.mantleObjectList addObjectsFromArray:models];
         }
     }
 }

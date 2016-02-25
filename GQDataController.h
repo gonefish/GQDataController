@@ -30,6 +30,11 @@ typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *m
 
 typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, MTLModel *model);
 
+typedef NS_ENUM(NSUInteger, GQMantleObjectListUpdateStyle) {
+    GQMantleObjectListUpdateInsert,
+    GQMantleObjectListUpdateReplace,
+};
+
 @interface GQDataController : NSObject <
 NSCopying,
 UITableViewDataSource,
@@ -44,11 +49,20 @@ UICollectionViewDataSource
 
 @property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
+// -------------
+// Mantle Object
+// -------------
+
 @property (nonatomic, strong, nullable) __kindof MTLModel<MTLJSONSerializing> *mantleObject;
 
 @property (nonatomic, strong, nullable) NSMutableArray<__kindof MTLModel *> *mantleObjectList;
 
-@property (nonatomic, copy) GQDataControllerLogBlock logBlock;
+@property (nonatomic, assign) GQMantleObjectListUpdateStyle mantleObjectListUpdateStyle;
+
+
+// -----------
+// Data Source
+// -----------
 
 @property (nonatomic, copy) NSString *cellIdentifier;
 
@@ -56,6 +70,11 @@ UICollectionViewDataSource
 
 @property (nonatomic, copy) GQCollectionViewCellConfigureBlock collectionViewCellConfigureBlock;
 
+// -----
+// Other
+// -----
+
+@property (nonatomic, copy) GQDataControllerLogBlock logBlock;
 
 /**
  *  共享实例的方法

@@ -41,13 +41,13 @@ UITableViewDataSource,
 UICollectionViewDataSource
 >
 
+@property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
+
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *httpSessionManager;
 
 @property (nonatomic, copy) GQRequestSuccessBlock requestSuccessBlock;
 
 @property (nonatomic, copy) GQRequestFailureBlock requestFailureBlock;
-
-@property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
 // -------------
 // Mantle Object

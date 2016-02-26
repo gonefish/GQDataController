@@ -167,8 +167,13 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                   success:(GQRequestSuccessBlock)success
                   failure:(GQRequestFailureBlock)failure
 {
-    self.requestSuccessBlock = success;
-    self.requestFailureBlock = failure;
+    if (success) {
+        self.requestSuccessBlock = success;
+    }
+    
+    if (failure) {
+        self.requestFailureBlock = failure;
+    }
     
     [self requestWithParams:params isRetry:NO];
 }
@@ -187,7 +192,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         newParams[pageName] = @(1);
     }
     
-    [self requestWithParams:newParams isRetry:NO];
+    [self requestWithParams:newParams];
 }
 
 - (void)cancelRequest

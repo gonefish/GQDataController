@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
   s.source_files  = "GQDataController*.{h,m}"
 
   s.dependency 'AFNetworking', '~> 2.6.3'
-  s.dependency 'Mantle', '~>1.5.6'
-  s.dependency 'OHHTTPStubs', '~> 4.6.0'
+  s.dependency 'Mantle', '~>1.5.7'
+  s.dependency 'OHHTTPStubs', '~> 4.7.1'
 end

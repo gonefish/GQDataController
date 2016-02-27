@@ -43,13 +43,14 @@
 
 - (IBAction)loadMore:(id)sender
 {
+    self.pageDataController.mantleObjectListUpdateStyle = GQMantleObjectListUpdateInsert;
+    
     [self.pageDataController requestMoreWithPageName:@"p"];
 }
 
 - (IBAction)reset:(id)sender
 {
-    [self.pageDataController.mantleObjectList removeAllObjects];
-    [self.tableView reloadData];
+    self.pageDataController.mantleObjectListUpdateStyle = GQMantleObjectListUpdateReplace;
     
     [self.pageDataController requestWithParams:nil success:^{
         

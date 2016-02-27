@@ -186,10 +186,12 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         newParams = [NSMutableDictionary dictionary];
     }
     
-    if ([newParams objectForKey:pageName]) {
-        newParams[pageName] = @([[newParams objectForKey:pageName] integerValue] + 1);
-    } else {
-        newParams[pageName] = @(1);
+    if (pageName) {
+        if ([newParams objectForKey:pageName]) {
+            newParams[pageName] = @([[newParams objectForKey:pageName] integerValue] + 1);
+        } else {
+            newParams[pageName] = @(1);
+        }
     }
     
     [self requestWithParams:newParams];

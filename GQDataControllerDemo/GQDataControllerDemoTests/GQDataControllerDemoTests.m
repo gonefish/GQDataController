@@ -87,23 +87,34 @@
     OCMVerify([partialMock requestWithParams:nil success:nil failure:nil]);
 }
 
-- (void)testQuestWithParamsSuccessFailure
+- (void)testRequestWithParamsSuccessFailure
 {
-//    BasicDataController *partialMock = OCMPartialMock(self.basicDataController);
-//    
-//    GQPagination *pagination = [GQPagination paginationWithPageIndexName:@"page"
-//                                                            pageSizeName:@"size"];
-//    
-//    XCTAssertEqual(pagination.paginationMode, GQPaginationModeReplace);
-//    
-//    pagination.paginationMode = GQPaginationModeInsert;
-//    
-//    partialMock.pagination = pagination;
-//    
-//    [partialMock requestWithParams:nil success:nil failure:nil];
-//    
-//    XCTAssertEqual(pagination.paginationMode, GQPaginationModeReplace);
-//    XCTAssertEqual(pagination.currentPageIndex, 1);
+    BasicDataController *partialMock = OCMPartialMock(self.basicDataController);
+    
+    [partialMock requestWithParams:nil success:^{
+        
+    } failure:^(NSError * _Nullable error) {
+        
+    }];
+    
+    XCTAssertNotNil(partialMock.requestSuccessBlock);
+    XCTAssertNotNil(partialMock.requestFailureBlock);
+    
+    [partialMock requestWithParams:nil success:nil failure:nil];
+    
+    XCTAssertNotNil(partialMock.requestSuccessBlock);
+    XCTAssertNotNil(partialMock.requestFailureBlock);
+    
+}
+
+- (void)testRequestMoreWithPageName
+{
+    BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
+    
+    [mockDataController requestMoreWithPageName:@"p"];
+    
+    OCMVerify([mockDataController requestWithParams:[OCMArg any]]);
+    
 }
 
 - (void)testRequestOperationFailureError
@@ -111,7 +122,7 @@
     id delegate = OCMProtocolMock(@protocol(GQDataControllerDelegate));
     self.mantleSimpleDataController.delegate = delegate;
     
-    id operation = OCMClassMock([AFHTTPRequestOperation class]);
+    id operation = OCMClassMock([NSURLSessionDataTask class]);
     
     id error = OCMClassMock([NSError class]);
     
@@ -157,26 +168,11 @@
     XCTAssertEqualObjects([(IP *)[mockDataController.mantleObjectList firstObject] origin], @"127.0.0.1");
 }
 
-- (void)testRequestMore
-{
-//    BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
-//    
-//    GQPagination *pagination = [GQPagination paginationWithPageIndexName:@"page"
-//                                                            pageSizeName:@"size"];
-//    
-//    XCTAssertEqual(pagination.paginationMode, GQPaginationModeReplace);
-//    
-//    mockDataController.pagination = pagination;
-//    
-//    [mockDataController requestMore];
-//    
-//    XCTAssertEqual(mockDataController.pagination.paginationMode, GQPaginationModeInsert);
-}
 
 - (void)testRequestOpertaionSuccessResponseObjectIsValid
 {
     BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
-    id operation = OCMClassMock([AFHTTPRequestOperation class]);
+    id task = OCMClassMock([NSURLSessionDataTask class]);
     
     id delegate = OCMProtocolMock(@protocol(GQDataControllerDelegate));
     mockDataController.delegate = delegate;
@@ -187,7 +183,7 @@
         XCTAssertEqualObjects(@"foo", foo);
     };
     
-    [mockDataController requestOpertaionSuccess:operation responseObject:@{}];
+    [mockDataController requestOpertaionSuccess:task responseObject:@{}];
     
     OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
     
@@ -203,7 +199,7 @@
     id delegate = OCMProtocolMock(@protocol(GQDataControllerDelegate));
     mockDataController.delegate = delegate;
     
-    id operation = OCMClassMock([AFHTTPRequestOperation class]);
+    id task = OCMClassMock([NSURLSessionDataTask class]);
     
     OCMStub([mockDataController isValidWithObject:[OCMArg any]]).andReturn(NO);
     
@@ -211,7 +207,7 @@
         XCTAssertTrue([error.domain isEqualToString:GQDataControllerErrorDomain]);
     };
     
-    [mockDataController requestOpertaionSuccess:operation responseObject:@{}];
+    [mockDataController requestOpertaionSuccess:task responseObject:@{}];
     
     OCMVerify([delegate dataController:[OCMArg any] didFailWithError:[OCMArg any]]);
     

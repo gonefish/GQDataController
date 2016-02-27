@@ -212,16 +212,13 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         [self handleWithObject:responseObject];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
-                [self.delegate dataControllerDidFinishLoading:self];
-            }
-            
-            if (self.requestSuccessBlock) {
-                self.requestSuccessBlock();
-            }
-        });
+        if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
+            [self.delegate dataControllerDidFinishLoading:self];
+        }
         
+        if (self.requestSuccessBlock) {
+            self.requestSuccessBlock();
+        }
     } else {
         NSError *error = nil;
         
@@ -231,16 +228,14 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                                     userInfo:@{ GQResponseObjectKey : responseObject }];
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
-                [self.delegate dataController:self
-                             didFailWithError:error];
-            }
-            
-            if (self.requestFailureBlock) {
-                self.requestFailureBlock(error);
-            }
-        });
+        if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
+            [self.delegate dataController:self
+                         didFailWithError:error];
+        }
+        
+        if (self.requestFailureBlock) {
+            self.requestFailureBlock(error);
+        }
     }
 }
 

@@ -13,19 +13,25 @@
 @optional
 
 /**
- *  将要数据加载
+ *  接口将要开始加载
  *
  */
 - (void)dataControllerWillStartLoading:(GQDataController *)controller;
 
 /**
- *  数据加载成功
+ *  接口加载加载成功
  *
  */
 - (void)dataControllerDidFinishLoading:(GQDataController *)controller;
 
 /**
- *  数据加载失败
+ *  接口加载取消
+ *
+ */
+- (void)dataControllerDidCancelLoading:(GQDataController *)controller;
+
+/**
+ *  接口加载失败
  *
  */
 - (void)dataController:(GQDataController *)controller didFailWithError:(NSError *)error;

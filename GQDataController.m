@@ -202,6 +202,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     if (self.URLSessionDataTask) {
         [self.URLSessionDataTask cancel];
         self.URLSessionDataTask = nil;
+        
+        if ([self.delegate respondsToSelector:@selector(dataControllerDidCancelLoading:)]) {
+            [self.delegate dataControllerDidCancelLoading:self];
+        }
     }
 }
 
@@ -411,6 +415,13 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                                                     parameters:params
                                                        success:successBlock
                                                        failure:failureBlock];
+        
+    } else if ([method isEqualToString:@"PATCH"]) {
+        
+        self.URLSessionDataTask = [self.httpSessionManager PATCH:urlString
+                                                      parameters:params
+                                                         success:successBlock
+                                                         failure:failureBlock];
         
     } else if ([method isEqualToString:@"DELETE"]) {
         

@@ -45,7 +45,7 @@
 {
     self.pageDataController.mantleObjectListUpdateStyle = GQMantleObjectListUpdateInsert;
     
-    [self.pageDataController requestMoreWithPageName:@"p"];
+    [self.pageDataController requestMore];
 }
 
 - (IBAction)reset:(id)sender

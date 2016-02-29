@@ -178,8 +178,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     [self requestWithParams:params isRetry:NO];
 }
 
-- (void)requestMoreWithPageName:(NSString *)pageName
+- (void)requestMore
 {
+    NSString *pageName = [self pageParameterName];
+    
     NSMutableDictionary *newParams = [self.requestParams mutableCopy];
     
     if (newParams == nil) {
@@ -267,6 +269,11 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 - (NSArray<NSString *> *)requestURLStrings
 {
     return nil;
+}
+
+- (NSString *)pageParameterName
+{
+    return @"p";
 }
 
 - (BOOL)isValidWithObject:(id)object

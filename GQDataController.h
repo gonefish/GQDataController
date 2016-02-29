@@ -116,7 +116,7 @@ UICollectionViewDataSource
 /**
  *  加载更多
  */
-- (void)requestMoreWithPageName:(NSString *)pageName;
+- (void)requestMore;
 
 /**
  *  取消当前的接口请求
@@ -138,6 +138,7 @@ UICollectionViewDataSource
  */
 - (NSArray<NSString *> *)requestURLStrings;
 
+- (NSString *)pageParameterName;
 
 // ----------------
 // 请求成功后的处理方法

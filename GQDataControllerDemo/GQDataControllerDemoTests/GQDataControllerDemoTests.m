@@ -107,11 +107,11 @@
     
 }
 
-- (void)testRequestMoreWithPageName
+- (void)testRequestMore
 {
     BasicDataController *mockDataController = OCMPartialMock(self.basicDataController);
     
-    [mockDataController requestMoreWithPageName:@"p"];
+    [mockDataController requestMore];
     
     OCMVerify([mockDataController requestWithParams:[OCMArg any]]);
     

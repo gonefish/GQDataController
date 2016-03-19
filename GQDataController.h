@@ -24,7 +24,7 @@ typedef void (^GQRequestSuccessBlock)(void);
 
 typedef void (^GQRequestFailureBlock)(NSError * _Nullable error);
 
-typedef void (^GQDataControllerLogBlock)(NSString *log);
+typedef void (^GQDataControllerLogBlock)(id logObject);
 
 typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *model);
 

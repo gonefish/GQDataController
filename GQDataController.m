@@ -446,11 +446,11 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)logWithObject:(id)object
 {
-    NSString *fullLog = [NSString stringWithFormat:@"GQDataController: %@", object];
-    
     if (self.logBlock) {
-        self.logBlock(fullLog);
+        self.logBlock(object);
     } else {
+        NSString *fullLog = [NSString stringWithFormat:@"GQDataController: %@", object];
+        
         NSLog(@"%@", fullLog);
     }
 }

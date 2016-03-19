@@ -43,8 +43,6 @@
 
 - (IBAction)loadMore:(id)sender
 {
-    self.pageDataController.mantleObjectListUpdateStyle = GQMantleObjectListUpdateInsert;
-    
     [self.pageDataController requestMore];
 }
 

@@ -196,6 +196,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         }
     }
     
+    // 默认插入模式
+    self.mantleObjectListUpdateStyle = GQMantleObjectListUpdateInsert;
+    
     [self requestWithParams:newParams];
 }
 

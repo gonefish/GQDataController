@@ -249,7 +249,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)requestOperationFailure:(NSURLSessionDataTask *)task error:(NSError *)error
 {
-    [self logWithString:[error localizedDescription]];
+    [self logWithObject:[error localizedDescription]];
     
     if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
         [self.delegate dataController:self
@@ -441,12 +441,12 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     [self.URLSessionDataTask resume];
     
-    [self logWithString:[self.URLSessionDataTask.currentRequest.URL absoluteString]];
+    [self logWithObject:self.URLSessionDataTask.currentRequest];
 }
 
-- (void)logWithString:(NSString *)log
+- (void)logWithObject:(id)object
 {
-    NSString *fullLog = [NSString stringWithFormat:@"GQDataController: %@", log];
+    NSString *fullLog = [NSString stringWithFormat:@"GQDataController: %@", object];
     
     if (self.logBlock) {
         self.logBlock(fullLog);
@@ -471,7 +471,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                                                error:&error];
     
     if (error) {
-        [self logWithString:[error localizedDescription]];
+        [self logWithObject:[error localizedDescription]];
     }
 }
 
@@ -489,7 +489,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                                               error:&error];
     
     if (error) {
-        [self logWithString:[error localizedDescription]];
+        [self logWithObject:[error localizedDescription]];
     }
     
     if (models) {

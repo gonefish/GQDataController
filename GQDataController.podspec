@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
-  s.version      = "0.3.2"
+  s.version      = "0.4"
   s.summary      = "A networking framework for MVVM in iOS"
 
   s.description  = <<-DESC
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.author       = { "Qian GuoQiang" => "gonefish@gmail.com" }
   s.source       = { :git => "https://github.com/gonefish/GQDataController.git", :tag => s.version.to_s }
 
-  s.source_files  = "GQDataController*.{h,m}"
+  s.source_files  = "GQDataController.{h,m}", "GQDynamicDataController.{h,m}"
 
   s.dependency 'AFNetworking', '~> 2.6.3'
   s.dependency 'Mantle', '~>1.5.7'

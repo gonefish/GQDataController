@@ -9,9 +9,13 @@
 #import "BasicViewController.h"
 #import "BasicDataController.h"
 
+#import <GQDataController/GQDynamicDataController.h>
+
 @interface BasicViewController () <GQDataControllerDelegate>
 
 @property (nonatomic, strong) BasicDataController *basicDataController;
+
+@property (nonatomic, strong) GQDynamicDataController *dynamicDataController;
 
 @property (nonatomic, weak) IBOutlet UILabel *label;
 
@@ -27,7 +31,14 @@
         self.basicDataController = [[BasicDataController alloc] initWithDelegate:self];
     }
     
+    if (self.dynamicDataController == nil) {
+        self.dynamicDataController = [GQDynamicDataController dataControllerWithURLString:@"http://httpbin.org/ip"];
+        self.dynamicDataController.delegate = self;
+    }
+    
     [self.basicDataController request];
+    
+    [self.dynamicDataController request];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,8 +48,13 @@
 
 - (void)dataControllerDidFinishLoading:(GQDataController *)controller
 {
-    self.label.text = [NSString stringWithFormat:@"IP: %@", self.basicDataController.ip];
+    if (controller == self.basicDataController) {
+        self.label.text = [NSString stringWithFormat:@"IP: %@", self.basicDataController.ip];
+    }
     
+    if (controller == self.dynamicDataController) {
+        NSLog(@"dynamicDataController: %@", self.dynamicDataController.responseObject);
+    }
 }
 
 @end

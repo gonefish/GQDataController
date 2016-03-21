@@ -16,7 +16,7 @@
     "tag": "0.4"
   },
   "source_files": [
-    "GQDataController.{h,m}",
+    "GQDataController*.{h,m}",
     "GQDynamicDataController.{h,m}"
   ],
   "dependencies": {

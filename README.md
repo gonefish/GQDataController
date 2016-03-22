@@ -63,16 +63,16 @@ Block风格
 
 ### 结果处理
 
-检测返回的结果是否有效
+原始对象，即AFNetworking返回的responseObject。
+
+```objc
+@property (nonatomic, copy, readonly) id responseObject;
+```
+
+检测返回的结果是否有效，如果返回NO，会进入失败流程，即使接口请求成功。
 
 ```objc
 - (BOOL)isValidWithObject:(id)object;
-```
-
-手动处理返回结果，object是由AFNetworking返回的JSON对象。
-
-```objc
-- (void)handleWithObject:(id)object;
 ```
 
 ## Mantle
@@ -109,16 +109,20 @@ GQDataController声现UITableViewDataSource和UICollectionViewDataSource，你�
 
 ### 分页
 
-GQPagination对象描述分页时的常用信息。
-
-```objc
-@property (nonatomic, strong, nullable) GQPagination *pagination;
-```
-
-以分页的方式请求
+GQDataController提供的便捷的分页请求方法：
 
 ```objc
 - (void)requestMore;
+```
+
+这个方法会复制之前的接口请求参数，然后对当前页的参数值进行+1处理。
+
+#### 自定义当前页参数名称
+
+返回接口分页请求时第几页的参数名称，默认返回值是p。
+
+```objc
+- (NSString *)pageParameterName;
 ```
 
 ## 其它
@@ -147,6 +151,15 @@ GQDataController也实现NSCopying协议，你可以快速的复制当前的实�
 
 这个子类都可以类方法来获取自己的单例。
 
+## GQDynamicDataController
+
+GQDynamicDataController是GQDataController的子类，它允许在不创建子类的情况下，初始化请求的地址和请求的方法，但不能定义其它的东西。通常在接口请求逻辑比较简单的情况下使用。
+
+```objc
++ (instancetype)dataControllerWithURLString:(NSString *)URLString;
+
++ (instancetype)dataControllerWithURLString:(NSString *)URLString requestMethod:(NSString *)method;
+```
 
 ## 系统要求
 

@@ -176,7 +176,7 @@ GQDynamicDataController是GQDataController的子类，它允许在不创建子�
 ### CocoaPods
 
 ```
-pod 'GQDataController', '~> 0.2'
+pod 'GQDataController'
 ```
 
 

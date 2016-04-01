@@ -14,6 +14,8 @@
 
 + (instancetype)dataControllerWithURLString:(NSString *)URLString requestMethod:(NSString *)method;
 
++ (instancetype)sharedDataController __attribute__((unavailable("Can't use singleton")));
+
 + (instancetype)new __attribute__((unavailable("Use dataControllerWithURLString: or dataControllerWithURLString:requestMethod: instead.")));
 
 - (instancetype)init __attribute__((unavailable("Use dataControllerWithURLString: or dataControllerWithURLString:requestMethod: instead.")));

@@ -140,6 +140,11 @@ UICollectionViewDataSource
  */
 - (NSArray<NSString *> *)requestURLStrings;
 
+
+/**
+ *  分页的参数名称
+ *
+ */
 - (NSString *)pageParameterName;
 
 // ----------------

@@ -1,33 +1,27 @@
 PODS:
-  - AFNetworking (2.6.3):
-    - AFNetworking/NSURLConnection (= 2.6.3)
-    - AFNetworking/NSURLSession (= 2.6.3)
-    - AFNetworking/Reachability (= 2.6.3)
-    - AFNetworking/Security (= 2.6.3)
-    - AFNetworking/Serialization (= 2.6.3)
-    - AFNetworking/UIKit (= 2.6.3)
-  - AFNetworking/NSURLConnection (2.6.3):
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.3):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.3)
-  - AFNetworking/Security (2.6.3)
-  - AFNetworking/Serialization (2.6.3)
-  - AFNetworking/UIKit (2.6.3):
-    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - GQDataController (0.4):
-    - AFNetworking (~> 2.6.3)
+    - AFNetworking (~> 3.1.0)
     - Mantle (~> 1.5.7)
     - OHHTTPStubs (~> 4.7.1)
   - Mantle (1.5.7):
     - Mantle/extobjc (= 1.5.7)
   - Mantle/extobjc (1.5.7)
-  - OCMock (3.2)
+  - OCMock (3.3)
   - OHHTTPStubs (4.7.1):
     - OHHTTPStubs/Default (= 4.7.1)
   - OHHTTPStubs/Core (4.7.1)
@@ -51,10 +45,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  GQDataController: de889d2f411a1759b0ced34135dfce2c06e58144
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  GQDataController: 16cedd899041d1d5521cb76574e4d1e773a03081
   Mantle: 4af47cf9547a4d0ad145a48cd0be3b411a5ae2b8
-  OCMock: 28def049ef47f996b515a8eeea958be7ccab2dbb
+  OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
   OHHTTPStubs: f7d1604d04d37d055460c0ef9af01bb249ded0fa
 
 COCOAPODS: 0.39.0

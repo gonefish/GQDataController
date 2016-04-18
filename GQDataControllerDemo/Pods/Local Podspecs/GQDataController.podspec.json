@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "AFNetworking": [
-      "~> 2.6.3"
+      "~> 3.1.0"
     ],
     "Mantle": [
       "~>1.5.7"

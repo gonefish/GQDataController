@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
-  s.version      = "0.9"
+  s.version      = "0.5"
   s.summary      = "A networking framework for MVVM in iOS"
 
   s.description  = <<-DESC
@@ -17,5 +17,6 @@ Pod::Spec.new do |s|
 
   s.dependency 'AFNetworking', '~> 3.1.0'
   s.dependency 'Mantle', '~>1.5.7'
-  s.dependency 'OHHTTPStubs', '~> 4.7.1'
+  s.dependency 'OHHTTPStubs', '~> 5.9.0'
+
 end

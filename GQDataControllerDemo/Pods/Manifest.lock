@@ -14,27 +14,27 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - GQDataController (0.4):
+  - GQDataController (0.5):
     - AFNetworking (~> 3.1.0)
     - Mantle (~> 1.5.7)
-    - OHHTTPStubs (~> 4.7.1)
+    - OHHTTPStubs (~> 4.8.0)
   - Mantle (1.5.7):
     - Mantle/extobjc (= 1.5.7)
   - Mantle/extobjc (1.5.7)
   - OCMock (3.3)
-  - OHHTTPStubs (4.7.1):
-    - OHHTTPStubs/Default (= 4.7.1)
-  - OHHTTPStubs/Core (4.7.1)
-  - OHHTTPStubs/Default (4.7.1):
+  - OHHTTPStubs (4.8.0):
+    - OHHTTPStubs/Default (= 4.8.0)
+  - OHHTTPStubs/Core (4.8.0)
+  - OHHTTPStubs/Default (4.8.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.7.1):
+  - OHHTTPStubs/JSON (4.8.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.7.1):
+  - OHHTTPStubs/NSURLSession (4.8.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.7.1)
+  - OHHTTPStubs/OHPathHelpers (4.8.0)
 
 DEPENDENCIES:
   - GQDataController (from `../`)
@@ -46,9 +46,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  GQDataController: 16cedd899041d1d5521cb76574e4d1e773a03081
+  GQDataController: 5cf232f5dd3c2b70b1e906a949e2c6b63a1296d2
   Mantle: 4af47cf9547a4d0ad145a48cd0be3b411a5ae2b8
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
-  OHHTTPStubs: f7d1604d04d37d055460c0ef9af01bb249ded0fa
+  OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
 
 COCOAPODS: 0.39.0

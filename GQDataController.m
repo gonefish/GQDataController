@@ -413,7 +413,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         self.URLSessionDataTask = [self.httpSessionManager GET:urlString
                                                     parameters:params
-                                                      progress:nil
                                                        success:successBlock
                                                        failure:failureBlock];
         
@@ -421,7 +420,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         
         self.URLSessionDataTask = [self.httpSessionManager POST:urlString
                                                      parameters:params
-                                                       progress:nil
                                                         success:successBlock
                                                         failure:failureBlock];
         

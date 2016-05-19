@@ -43,7 +43,7 @@ UICollectionViewDataSource
 
 @property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
-@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
+@property (nonatomic, strong, readonly) AFHTTPSessionManager *httpSessionManager;
 
 @property (nonatomic, copy) GQRequestSuccessBlock requestSuccessBlock;
 
@@ -204,13 +204,13 @@ UICollectionViewDataSource
  *  接口请求成功的处理
  *
  */
-- (void)requestOpertaionSuccess:(AFHTTPRequestOperation *)operation responseObject:(id)responseObject;
+- (void)requestOpertaionSuccess:(NSURLSessionDataTask *)task responseObject:(id)responseObject;
 
 /**
  *  接口请求失败的处理
  *
  */
-- (void)requestOperationFailure:(AFHTTPRequestOperation *)operation error:(NSError *)error;
+- (void)requestOperationFailure:(NSURLSessionDataTask *)task error:(NSError *)error;
 
 @end
 

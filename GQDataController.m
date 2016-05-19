@@ -21,7 +21,12 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 @interface GQDataController ()
 
-@property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
+@property (nonatomic, strong) AFHTTPSessionManager *httpSessionManager;
+
+/**
+ *  当前请求的Task
+ */
+@property (nonatomic, strong) NSURLSessionDataTask *URLSessionDataTask;
 
 /**
  *  请求参数备份
@@ -33,10 +38,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  */
 @property (nonatomic) NSUInteger requestCount;
 
-/**
- *  当前的请求
- */
-@property (nonatomic, weak) AFHTTPRequestOperation *currentHTTPRequestOperation;
 
 #if DEBUG
 @property (nonatomic, strong) id<OHHTTPStubsDescriptor> HTTPStubsDescriptor;
@@ -94,9 +95,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     self = [super init];
     
     if (self) {
-        _requestOperationManager = [AFHTTPRequestOperationManager manager];
+        _httpSessionManager = [[AFHTTPSessionManager alloc] init];
         
-        [(AFJSONResponseSerializer *)[_requestOperationManager responseSerializer] setRemovesKeysWithNullValues:YES];
+        [(AFJSONResponseSerializer *)[_httpSessionManager responseSerializer] setRemovesKeysWithNullValues:YES];
         
         _cellIdentifier = NSStringFromClass([self class]);
         
@@ -205,9 +206,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)cancelRequest
 {
-    if (self.currentHTTPRequestOperation) {
-        [self.currentHTTPRequestOperation cancel];
-        self.currentHTTPRequestOperation = nil;
+    if (self.URLSessionDataTask) {
+        [self.URLSessionDataTask cancel];
+        self.URLSessionDataTask = nil;
         
         if ([self.delegate respondsToSelector:@selector(dataControllerDidCancelLoading:)]) {
             [self.delegate dataControllerDidCancelLoading:self];
@@ -218,7 +219,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 #pragma mark - Custom Method
 
 
-- (void)requestOpertaionSuccess:(AFHTTPRequestOperation *)operation responseObject:(id)responseObject
+- (void)requestOpertaionSuccess:(NSURLSessionDataTask *)task responseObject:(id)responseObject
 {
     self.responseObject = responseObject;
     
@@ -253,7 +254,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
 }
 
-- (void)requestOperationFailure:(AFHTTPRequestOperation *)operation error:(NSError *)error
+- (void)requestOperationFailure:(NSURLSessionDataTask *)task error:(NSError *)error
 {
     [self logWithObject:[error localizedDescription]];
     
@@ -380,16 +381,16 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     __weak __typeof(self)weakSelf = self;
     
-    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject){
+    void (^successBlock)(NSURLSessionDataTask *, id) = ^(NSURLSessionDataTask *task, id responseObject){
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         
-        [strongSelf requestOpertaionSuccess:operation
+        [strongSelf requestOpertaionSuccess:task
                              responseObject:responseObject];
         
         strongSelf.requestCount = 0;
     };
     
-    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
+    void (^failureBlock)(NSURLSessionDataTask *, NSError *) = ^(NSURLSessionDataTask *task, NSError *error){
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         
         if (strongSelf.requestCount + 1 < [[strongSelf requestURLStrings] count]) {
@@ -399,7 +400,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
             [strongSelf requestWithParams:strongSelf.requestParams
                                   isRetry:YES];
         } else {
-            [strongSelf requestOperationFailure:operation
+            [strongSelf requestOperationFailure:task
                                           error:error];
         }
     };
@@ -409,36 +410,45 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if ([method isEqualToString:@"GET"]) {
-        self.currentHTTPRequestOperation = [self.requestOperationManager GET:urlString
-                                                                  parameters:params
-                                                                     success:successBlock
-                                                                     failure:failureBlock];
+        
+        self.URLSessionDataTask = [self.httpSessionManager GET:urlString
+                                                    parameters:params
+                                                       success:successBlock
+                                                       failure:failureBlock];
+        
     } else if ([method isEqualToString:@"POST"]) {
-        self.currentHTTPRequestOperation = [self.requestOperationManager POST:urlString
-                                                                   parameters:params
-                                                                      success:successBlock
-                                                                      failure:failureBlock];
+        
+        self.URLSessionDataTask = [self.httpSessionManager POST:urlString
+                                                     parameters:params
+                                                        success:successBlock
+                                                        failure:failureBlock];
+        
     } else if ([method isEqualToString:@"PUT"]) {
-        self.currentHTTPRequestOperation = [self.requestOperationManager PUT:urlString
-                                                                  parameters:params
-                                                                     success:successBlock
-                                                                     failure:failureBlock];
+        
+        self.URLSessionDataTask = [self.httpSessionManager PUT:urlString
+                                                    parameters:params
+                                                       success:successBlock
+                                                       failure:failureBlock];
         
     } else if ([method isEqualToString:@"PATCH"]) {
         
-        self.currentHTTPRequestOperation = [self.requestOperationManager PATCH:urlString
-                                                                    parameters:params
-                                                                       success:successBlock
-                                                                       failure:failureBlock];
+        self.URLSessionDataTask = [self.httpSessionManager PATCH:urlString
+                                                      parameters:params
+                                                         success:successBlock
+                                                         failure:failureBlock];
         
     } else if ([method isEqualToString:@"DELETE"]) {
-        self.currentHTTPRequestOperation = [self.requestOperationManager DELETE:urlString
-                                                                     parameters:params
-                                                                        success:successBlock
-                                                                        failure:failureBlock];
+        
+        self.URLSessionDataTask = [self.httpSessionManager DELETE:urlString
+                                                       parameters:params
+                                                          success:successBlock
+                                                          failure:failureBlock];
+        
     }
     
-    [self logWithObject:self.currentHTTPRequestOperation.request];
+    [self.URLSessionDataTask resume];
+    
+    [self logWithObject:self.URLSessionDataTask.currentRequest];
 }
 
 - (void)logWithObject:(id)object

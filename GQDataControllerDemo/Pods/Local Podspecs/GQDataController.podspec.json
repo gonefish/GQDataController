@@ -1,6 +1,6 @@
 {
   "name": "GQDataController",
-  "version": "0.6",
+  "version": "0.7",
   "summary": "A networking framework for MVVM in iOS",
   "description": "一款符合MVVM模式的网络框架，通过混合AFNetworking和Mantle让你更方便的处理网络交互。",
   "homepage": "https://github.com/gonefish/GQDataController",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/gonefish/GQDataController.git",
-    "tag": "0.6"
+    "tag": "0.7"
   },
   "source_files": [
     "GQDataController*.{h,m}",

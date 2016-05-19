@@ -7,10 +7,9 @@
 //
 
 #import "MTLModel+NSCoding.h"
-#import "MTLEXTRuntimeExtensions.h"
-#import "MTLEXTScope.h"
+#import <Mantle/EXTRuntimeExtensions.h>
+#import <Mantle/EXTScope.h>
 #import "MTLReflection.h"
-#import <objc/runtime.h>
 
 // Used in archives to store the modelVersion of the archived instance.
 static NSString * const MTLModelVersionKey = @"MTLModelVersion";

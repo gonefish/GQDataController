@@ -1,46 +1,40 @@
 PODS:
-  - AFNetworking (2.6.3):
-    - AFNetworking/NSURLConnection (= 2.6.3)
-    - AFNetworking/NSURLSession (= 2.6.3)
-    - AFNetworking/Reachability (= 2.6.3)
-    - AFNetworking/Security (= 2.6.3)
-    - AFNetworking/Serialization (= 2.6.3)
-    - AFNetworking/UIKit (= 2.6.3)
-  - AFNetworking/NSURLConnection (2.6.3):
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.6.3):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.6.3)
-  - AFNetworking/Security (2.6.3)
-  - AFNetworking/Serialization (2.6.3)
-  - AFNetworking/UIKit (2.6.3):
-    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - GQDataController (0.6):
-    - AFNetworking (~> 2.6.3)
-    - Mantle (~> 1.5.7)
-    - OHHTTPStubs (~> 4.8.0)
-  - Mantle (1.5.7):
-    - Mantle/extobjc (= 1.5.7)
-  - Mantle/extobjc (1.5.7)
+    - AFNetworking (~> 3.1.0)
+    - Mantle (~> 2.0.7)
+    - OHHTTPStubs (~> 5.0.0)
+  - Mantle (2.0.7):
+    - Mantle/extobjc (= 2.0.7)
+  - Mantle/extobjc (2.0.7)
   - OCMock (3.3)
-  - OHHTTPStubs (4.8.0):
-    - OHHTTPStubs/Default (= 4.8.0)
-  - OHHTTPStubs/Core (4.8.0)
-  - OHHTTPStubs/Default (4.8.0):
+  - OHHTTPStubs (5.0.0):
+    - OHHTTPStubs/Default (= 5.0.0)
+  - OHHTTPStubs/Core (5.0.0)
+  - OHHTTPStubs/Default (5.0.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (4.8.0):
+  - OHHTTPStubs/JSON (5.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (4.8.0):
+  - OHHTTPStubs/NSURLSession (5.0.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (4.8.0)
+  - OHHTTPStubs/OHPathHelpers (5.0.0)
 
 DEPENDENCIES:
   - GQDataController (from `../`)
@@ -51,10 +45,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  GQDataController: c3762f73d1394ab614ed48434d7b3a68a5674866
-  Mantle: 4af47cf9547a4d0ad145a48cd0be3b411a5ae2b8
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  GQDataController: 3287f6efa75665c878576ce87e8bc66fa11e3f76
+  Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
-  OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
+  OHHTTPStubs: a5d2e9eea07869d42ec03338325f398bc520e159
 
 COCOAPODS: 0.39.0

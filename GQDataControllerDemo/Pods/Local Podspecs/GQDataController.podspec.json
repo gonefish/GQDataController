@@ -5,7 +5,7 @@
   "description": "一款符合MVVM模式的网络框架，通过混合AFNetworking和Mantle让你更方便的处理网络交互。",
   "homepage": "https://github.com/gonefish/GQDataController",
   "platforms": {
-    "ios": "7.0"
+    "ios": "8.0"
   },
   "license": "MIT",
   "authors": {
@@ -21,13 +21,13 @@
   ],
   "dependencies": {
     "AFNetworking": [
-      "~> 2.6.3"
+      "~> 3.1.0"
     ],
     "Mantle": [
-      "~> 1.5.7"
+      "~> 2.0.7"
     ],
     "OHHTTPStubs": [
-      "~> 4.8.0"
+      "~> 5.0.0"
     ]
   }
 }

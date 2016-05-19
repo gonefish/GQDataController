@@ -7,7 +7,7 @@
 //  Released under the MIT license.
 //
 
-#import "MTLEXTRuntimeExtensions.h"
+#import "EXTRuntimeExtensions.h"
 
 #import <Foundation/Foundation.h>
 

@@ -1,4 +1,4 @@
-# Mantle
+# Mantle [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 Mantle makes it easy to write a simple model layer for your Cocoa or Cocoa Touch
 application.
@@ -209,6 +209,8 @@ typedef enum : NSUInteger {
     return @{
         @"URL": @"url",
         @"HTMLURL": @"html_url",
+        @"number": @"number",
+        @"state": @"state",
         @"reporterLogin": @"user.login",
         @"assignee": @"assignee",
         @"updatedAt": @"updated_at"
@@ -231,13 +233,13 @@ typedef enum : NSUInteger {
 }
 
 + (NSValueTransformer *)assigneeJSONTransformer {
-    return [NSValueTransformer mtl_JSONDictionaryTransformerWithModelClass:GHUser.class];
+    return [MTLJSONAdapter dictionaryTransformerWithModelClass:GHUser.class];
 }
 
 + (NSValueTransformer *)updatedAtJSONTransformer {
-    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
-        return [self.dateFormatter dateFromString:str];
-    } reverseBlock:^(NSDate *date) {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [self.dateFormatter dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
         return [self.dateFormatter stringFromDate:date];
     }];
 }
@@ -270,9 +272,9 @@ it easy to specify how new model data should be integrated.
 > There's no way to turn a `GHIssue` _back_ into JSON.
 
 This is where reversible transformers really come in handy. `+[MTLJSONAdapter
-JSONDictionaryFromModel:]` can transform any model object conforming to
+JSONDictionaryFromModel:error:]` can transform any model object conforming to
 `<MTLJSONSerializing>` back into a JSON dictionary. `+[MTLJSONAdapter
-JSONArrayForModels:]` is the same but turns an array of model objects into an JSON array of dictionaries.
+JSONArrayFromModels:error:]` is the same but turns an array of model objects into an JSON array of dictionaries.
 
 > If the interface of `GHIssue` changes down the road, existing archives might break.
 
@@ -292,14 +294,14 @@ XYUser *user = [MTLJSONAdapter modelOfClass:XYUser.class fromJSONDictionary:JSON
 ```
 
 ```objc
-NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user];
+NSError *error = nil;
+NSDictionary *JSONDictionary = [MTLJSONAdapter JSONDictionaryFromModel:user error:&error];
 ```
 
 ### `+JSONKeyPathsByPropertyKey`
 
 The dictionary returned by this method specifies how your model object's
-properties map to the keys in the JSON representation. Properties that map to
-`NSNull` will not be present in the JSON representation, for example:
+properties map to the keys in the JSON representation, for example:
 
 ```objc
 
@@ -317,8 +319,8 @@ properties map to the keys in the JSON representation. Properties that map to
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
-        @"createdAt": @"created_at",
-        @"meUser": NSNull.null
+        @"name": @"name",
+        @"createdAt": @"created_at"
     };
 }
 
@@ -337,14 +339,16 @@ properties map to the keys in the JSON representation. Properties that map to
 In this example, the `XYUser` class declares four properties that Mantle
 handles in different ways:
 
-- `name` is implicitly mapped to a key of the same name in the JSON
-  representation.
+- `name` is mapped to a key of the same name in the JSON representation.
 - `createdAt` is converted to its snake case equivalent.
 - `meUser` is not serialized into JSON.
 - `helper` is initialized exactly once after JSON deserialization.
 
 Use `-[NSDictionary mtl_dictionaryByAddingEntriesFromDictionary:]` if your
 model's superclass also implements `MTLJSONSerializing` to merge their mappings.
+
+If you'd like to map all properties of a Model class to themselves, you can use
+the `+[NSDictionary mtl_identityPropertyMapWithModel:]` helper method.
 
 When deserializing JSON using
 `+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]`, JSON keys that don't
@@ -384,10 +388,9 @@ that are commonly represented as strings in JSON can be transformed to `NSDate`s
 like so:
 
 ```objc
-+ (NSValueTransformer *)createdAtJSONTransformer {
-    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
-        return [self.dateFormatter dateFromString:str];
-    } reverseBlock:^(NSDate *date) {
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSString *dateString, BOOL *success, NSError *__autoreleasing *error) {
+        return [self.dateFormatter dateFromString:dateString];
+    } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
         return [self.dateFormatter stringFromDate:date];
     }];
 }
@@ -467,7 +470,7 @@ in memory at once, Core Data may be a better choice.
 
 ## System Requirements
 
-Mantle supports OS X 10.7+ and iOS 5.0+.
+Mantle supports OS X 10.9+ and iOS 8.0+.
 
 ## Importing Mantle
 
@@ -475,21 +478,13 @@ To add Mantle to your application:
 
  1. Add the Mantle repository as a submodule of your application's repository.
  1. Run `script/bootstrap` from within the Mantle folder.
- 1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project or
-    workspace.
- 1. On the "Build Phases" tab of your application target, add Mantle to the
-    "Link Binary With Libraries" phase.
-    * **On iOS**, add `libMantle.a`.
-    * **On OS X**, add `Mantle.framework`. Mantle must also be added to any
-      "Copy Frameworks" build phase. If you don't already have one, simply add a
-      "Copy Files" build phase and target the "Frameworks" destination.
- 1. Add `"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include" $(inherited)`
-    to the "Header Search Paths" build setting (this is only
-    necessary for archive builds, but it has no negative effect otherwise).
- 1. **For iOS targets**, add `-ObjC` to the "Other Linker Flags" build setting.
- 1. **If you added Mantle to a project (not a workspace)**, you will also need
-    to add the appropriate Mantle target to the "Target Dependencies" of your
-    application.
+ 1. Drag and drop `Mantle.xcodeproj` into your application's Xcode project. Unfortunately, an [Xcode bug](http://www.openradar.appspot.com/19676555) means you should probably not add it to a workspace.
+ 1. On the "General" tab of your application target, add `Mantle.framework` to the "Embedded Binaries".
+
+[Carthage](https://github.com/Carthage/Carthage) users can simply add Mantle to their `Cartfile`:
+```
+github "Mantle/Mantle"
+```
 
 If you would prefer to use [CocoaPods](http://cocoapods.org), there are some
 [Mantle podspecs](https://github.com/CocoaPods/Specs/tree/master/Specs/Mantle) that

@@ -163,13 +163,13 @@ GQDynamicDataController是GQDataController的子类，它允许在不创建子�
 
 ## 系统要求
 
-支持iOS 7以上
+需要iOS 8以上
 
 第三库依赖：
 
-* AFNetworking 2.6.3
-* Mantle 1.5.6
-* OHHTTPStubs 4.6.0
+* AFNetworking 3.X
+* Mantle 2.X
+* OHHTTPStubs 4.0 or higher
 
 ## 安装
 

@@ -298,6 +298,33 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
 }
 
+- (Class)modelAdapterClass
+{
+    return [GQMantleAdapter class];
+}
+
+- (Class)mantleModelClass
+{
+    return Nil;
+}
+
+- (Class)mantleListModelClass
+{
+    return [self mantleModelClass];
+}
+
+- (NSString *)mantleObjectKeyPath
+{
+    return nil;
+}
+
+- (NSString *)mantleObjectListKeyPath
+{
+    return [self mantleObjectKeyPath];
+}
+
+#pragma mark - Private
+
 - (void)handleMantleWithObject:(id)object
 {
     // 处理mantleObjectKeyPath
@@ -331,32 +358,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
 }
 
-- (Class)modelAdapterClass
-{
-    return [GQMantleAdapter class];
-}
-
-- (Class)mantleModelClass
-{
-    return Nil;
-}
-
-- (Class)mantleListModelClass
-{
-    return [self mantleModelClass];
-}
-
-- (NSString *)mantleObjectKeyPath
-{
-    return nil;
-}
-
-- (NSString *)mantleObjectListKeyPath
-{
-    return [self mantleObjectKeyPath];
-}
-
-#pragma mark - Private
 
 - (void)requestWithParams:(NSDictionary *)params isRetry:(BOOL)retry
 {
@@ -476,13 +477,19 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  */
 - (void)handleMantleObjectWithDictionary:(NSDictionary *)dictionary
 {
+    Class adapterClass = [self modelAdapterClass];
     Class mantleModelClass = [self mantleModelClass];
+    
+    id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:dictionary
+                                                               modelClass:mantleModelClass];
+    
     
     NSError *error;
     
-    self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
-                                  fromJSONDictionary:dictionary
-                                               error:&error];
+    self.mantleObject = [adapter modelObject];
+//    self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
+//                                  fromJSONDictionary:dictionary
+//                                               error:&error];
     
     if (error) {
         [self logWithObject:[error localizedDescription]];
@@ -498,9 +505,15 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 {
     NSError *error;
     
-    NSArray *models = [MTLJSONAdapter modelsOfClass:mantleClass
-                                      fromJSONArray:array
-                                              error:&error];
+    Class adapterClass = [self modelAdapterClass];
+    id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:array
+                                                               modelClass:mantleClass];
+    
+    
+    NSArray *models = [adapter modelArray];
+//    NSArray *models = [MTLJSONAdapter modelsOfClass:mantleClass
+//                                      fromJSONArray:array
+//                                              error:&error];
     
     if (error) {
         [self logWithObject:[error localizedDescription]];

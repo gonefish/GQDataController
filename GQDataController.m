@@ -331,6 +331,11 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
 }
 
+- (Class)modelAdapterClass
+{
+    return [GQMantleAdapter class];
+}
+
 - (Class)mantleModelClass
 {
     return Nil;

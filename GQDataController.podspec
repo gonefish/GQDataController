@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.author       = { "Qian GuoQiang" => "gonefish@gmail.com" }
   s.source       = { :git => "https://github.com/gonefish/GQDataController.git", :tag => s.version.to_s }
 
-  s.source_files  = "GQDataController*.{h,m}", "GQDynamicDataController.{h,m}"
+  s.source_files  = "GQDataController*.{h,m}", "GQDynamicDataController.{h,m}", "GQMantleAdapter.{h,m}", "GQModelAdapter.h"
 
   s.dependency 'AFNetworking', '~> 3.0'
   s.dependency 'Mantle', '~> 2.0'

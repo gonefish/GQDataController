@@ -10,6 +10,8 @@
 #import <Mantle/Mantle.h>
 #import <AFNetworking/AFNetworking.h>
 
+#import "GQMantleAdapter.h"
+
 #import "GQDataControllerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -166,6 +168,8 @@ UICollectionViewDataSource
 // ------------
 // Mantle相关方法
 // ------------
+
+- (Class)modelAdapterClass;
 
 /**
  *  返回需要转换的Mantle模型类

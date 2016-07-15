@@ -16,7 +16,7 @@
     return @[@"https://itunes.apple.com/search?term=keynote&entity=software&limit=1"];
 }
 
-- (Class)mantleModelClass
+- (Class)objectModelClass
 {
     return [AppInfo class];
 }

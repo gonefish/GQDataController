@@ -15,7 +15,7 @@
     return @[@"http://httpbin.org/headers"];
 }
 
-- (Class)mantleModelClass
+- (Class)objectModelClass
 {
     return [Header class];
 }

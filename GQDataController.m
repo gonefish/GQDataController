@@ -199,7 +199,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     // 默认插入模式
-    self.mantleObjectListUpdateStyle = GQMantleObjectListUpdateInsert;
+    self.modelArrayUpdateStyle = GQModelArrayUpdateStyleInsert;
     
     [self requestWithParams:newParams];
 }
@@ -225,7 +225,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     if ([self isValidWithObject:responseObject]) {
         
-        [self handleWithObject:responseObject];
+        [self handleWithJSONObject:responseObject];
         
         if ([self.delegate respondsToSelector:@selector(dataControllerDidFinishLoading:)]) {
             [self.delegate dataControllerDidFinishLoading:self];
@@ -288,44 +288,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return YES;
 }
 
-- (void)handleWithObject:(id)object
-{
-    // 默认实现对Mantle的支持
-    Class mantleModelClass = [self mantleModelClass];
-    
-    if (mantleModelClass != Nil) {
-        [self handleMantleWithObject:object];
-    }
-}
-
-- (Class)modelAdapterClass
-{
-    return [GQMantleAdapter class];
-}
-
-- (Class)mantleModelClass
-{
-    return Nil;
-}
-
-- (Class)mantleListModelClass
-{
-    return [self mantleModelClass];
-}
-
-- (NSString *)mantleObjectKeyPath
-{
-    return nil;
-}
-
-- (NSString *)mantleObjectListKeyPath
-{
-    return [self mantleObjectKeyPath];
-}
-
-#pragma mark - Private
-
-- (void)handleMantleWithObject:(id)object
+- (void)handleWithJSONObject:(id)object
 {
     // 处理mantleObjectKeyPath
     NSString *objectKeyPath = [self mantleObjectKeyPath];
@@ -337,9 +300,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]
-        && [self mantleModelClass] != Nil) {
+        && [self objectModelClass] != Nil) {
         
-        [self handleMantleObjectWithDictionary:mantleObjectJSON];
+        [self handleModelObjectWithDictionary:mantleObjectJSON];
     }
     
     // 处理mantleObjectListKeyPath
@@ -353,10 +316,37 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     if ([mantleObjectListJSON isKindOfClass:[NSArray class]]
         && [self mantleListModelClass] != Nil) {
-        [self handleMantleObjectListWithArray:mantleObjectListJSON
-                                  mantleClass:[self mantleListModelClass]];
+        
+        [self handleModelArrayWithArray:mantleObjectListJSON];
     }
 }
+
+- (Class)modelAdapterClass
+{
+    return [GQMantleAdapter class];
+}
+
+- (Class)objectModelClass
+{
+    return Nil;
+}
+
+- (Class)mantleListModelClass
+{
+    return [self objectModelClass];
+}
+
+- (NSString *)mantleObjectKeyPath
+{
+    return nil;
+}
+
+- (NSString *)mantleObjectListKeyPath
+{
+    return [self mantleObjectKeyPath];
+}
+
+#pragma mark - Private
 
 
 - (void)requestWithParams:(NSDictionary *)params isRetry:(BOOL)retry
@@ -475,10 +465,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  *
  *  @param dictionary 转换的字典
  */
-- (void)handleMantleObjectWithDictionary:(NSDictionary *)dictionary
+- (void)handleModelObjectWithDictionary:(NSDictionary *)dictionary
 {
     Class adapterClass = [self modelAdapterClass];
-    Class mantleModelClass = [self mantleModelClass];
+    Class mantleModelClass = [self objectModelClass];
     
     id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:dictionary
                                                                modelClass:mantleModelClass];
@@ -487,9 +477,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     NSError *error;
     
     self.mantleObject = [adapter modelObject];
-//    self.mantleObject = [MTLJSONAdapter modelOfClass:mantleModelClass
-//                                  fromJSONDictionary:dictionary
-//                                               error:&error];
     
     if (error) {
         [self logWithObject:[error localizedDescription]];
@@ -501,32 +488,30 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  *
  *  @param array 转换的数组
  */
-- (void)handleMantleObjectListWithArray:(NSArray *)array mantleClass:(Class)mantleClass
+- (void)handleModelArrayWithArray:(NSArray *)array
 {
     NSError *error;
     
     Class adapterClass = [self modelAdapterClass];
+    Class modelClass = [self mantleListModelClass];
     id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:array
-                                                               modelClass:mantleClass];
+                                                               modelClass:modelClass];
     
     
     NSArray *models = [adapter modelArray];
-//    NSArray *models = [MTLJSONAdapter modelsOfClass:mantleClass
-//                                      fromJSONArray:array
-//                                              error:&error];
     
     if (error) {
         [self logWithObject:[error localizedDescription]];
     }
     
     if (models) {
-        if (self.mantleObjectListUpdateStyle == GQMantleObjectListUpdateInsert) {
+        if (self.modelArrayUpdateStyle == GQModelArrayUpdateStyleInsert) {
             if (self.mantleObjectList == nil) {
                 self.mantleObjectList = [models mutableCopy];
             } else {
                 [self.mantleObjectList addObjectsFromArray:models];
             }
-        } else if (self.mantleObjectListUpdateStyle == GQMantleObjectListUpdateReplace) {
+        } else if (self.modelArrayUpdateStyle == GQModelArrayUpdateStyleReplace) {
             self.mantleObjectList = [models mutableCopy];
         }
     }

@@ -15,7 +15,7 @@
     return @[@"http://httpbin.org/ip"];
 }
 
-- (void)handleWithObject:(id)object
+- (void)handleWithJSONObject:(id)object
 {
     self.ip = [object objectForKey:@"origin"];
 }

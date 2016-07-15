@@ -32,9 +32,9 @@ typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *m
 
 typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, MTLModel *model);
 
-typedef NS_ENUM(NSUInteger, GQMantleObjectListUpdateStyle) {
-    GQMantleObjectListUpdateInsert,
-    GQMantleObjectListUpdateReplace,
+typedef NS_ENUM(NSUInteger, GQModelArrayUpdateStyle) {
+    GQModelArrayUpdateStyleInsert,
+    GQModelArrayUpdateStyleReplace,
 };
 
 @interface GQDataController : NSObject <
@@ -57,11 +57,15 @@ UICollectionViewDataSource
 // Mantle Object
 // -------------
 
+@property (nonatomic, strong, nullable) id modelObject;
+
 @property (nonatomic, strong, nullable) __kindof MTLModel<MTLJSONSerializing> *mantleObject;
 
 @property (nonatomic, strong, nullable) NSMutableArray<__kindof MTLModel *> *mantleObjectList;
 
-@property (nonatomic, assign) GQMantleObjectListUpdateStyle mantleObjectListUpdateStyle;
+@property (nonatomic, strong, nullable) NSMutableArray *modelArray;
+
+@property (nonatomic, assign) GQModelArrayUpdateStyle modelArrayUpdateStyle;
 
 
 // -----------
@@ -163,7 +167,7 @@ UICollectionViewDataSource
  *  处理结果的方法
  *
  */
-- (void)handleWithObject:(id)object;
+- (void)handleWithJSONObject:(id)object;
 
 // ------------
 // Mantle相关方法

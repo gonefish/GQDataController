@@ -15,7 +15,7 @@
     return @[@"http://httpbin.org/ip"];
 }
 
-- (Class)mantleModelClass
+- (Class)objectModelClass
 {
     return [IP class];
 }

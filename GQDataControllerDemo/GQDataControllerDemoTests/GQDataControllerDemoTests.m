@@ -145,11 +145,11 @@
 {
     MantleSimpleDataController *mockDataController = OCMPartialMock(self.mantleSimpleDataController);
     
-    [mockDataController handleWithObject:@{@"origin" : @"127.0.0.1"}];
+    [mockDataController handleWithJSONObject:@{@"origin" : @"127.0.0.1"}];
     
     XCTAssertEqualObjects([(IP *)mockDataController.mantleObject origin], @"127.0.0.1");
     
-    [mockDataController handleWithObject:@[@{@"origin" : @"127.0.0.1"}]];
+    [mockDataController handleWithJSONObject:@[@{@"origin" : @"127.0.0.1"}]];
     
     XCTAssertEqualObjects([(IP *)[mockDataController.mantleObjectList firstObject] origin], @"127.0.0.1");
 }
@@ -159,11 +159,11 @@
     MantleSimpleDataController *mockDataController = OCMPartialMock(self.mantleSimpleDataController);
     OCMStub([mockDataController mantleObjectKeyPath]).andReturn(@"data");
     
-    [mockDataController handleWithObject:@{@"data" : @{@"origin" : @"127.0.0.1"}}];
+    [mockDataController handleWithJSONObject:@{@"data" : @{@"origin" : @"127.0.0.1"}}];
     
     XCTAssertEqualObjects([(IP *)mockDataController.mantleObject origin], @"127.0.0.1");
     
-    [mockDataController handleWithObject:@{@"data" : @[@{@"origin" : @"127.0.0.1"}]}];
+    [mockDataController handleWithJSONObject:@{@"data" : @[@{@"origin" : @"127.0.0.1"}]}];
     
     XCTAssertEqualObjects([(IP *)[mockDataController.mantleObjectList firstObject] origin], @"127.0.0.1");
 }
@@ -187,7 +187,7 @@
     
     OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
     
-    OCMVerify([mockDataController handleWithObject:[OCMArg any]]);
+    OCMVerify([mockDataController handleWithJSONObject:[OCMArg any]]);
     
     OCMVerify([delegate dataControllerDidFinishLoading:[OCMArg any]]);
 }

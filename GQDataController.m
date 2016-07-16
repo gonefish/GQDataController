@@ -476,7 +476,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     NSError *error;
     
-    self.mantleObject = [adapter modelObject];
+    self.modelObject = [adapter modelObject];
     
     if (error) {
         [self logWithObject:[error localizedDescription]];
@@ -506,13 +506,13 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     if (models) {
         if (self.modelArrayUpdateStyle == GQModelArrayUpdateStyleInsert) {
-            if (self.mantleObjectList == nil) {
-                self.mantleObjectList = [models mutableCopy];
+            if (self.modelArray == nil) {
+                self.modelArray = [models mutableCopy];
             } else {
-                [self.mantleObjectList addObjectsFromArray:models];
+                [self.modelArray addObjectsFromArray:models];
             }
         } else if (self.modelArrayUpdateStyle == GQModelArrayUpdateStyleReplace) {
-            self.mantleObjectList = [models mutableCopy];
+            self.modelArray = [models mutableCopy];
         }
     }
 }
@@ -524,7 +524,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
     
-    MTLModel *model = [self.mantleObjectList objectAtIndex:indexPath.row];
+    MTLModel *model = [self.modelArray objectAtIndex:indexPath.row];
     
     if (self.tableViewCellConfigureBlock) {
         self.tableViewCellConfigureBlock(cell, model);
@@ -535,21 +535,21 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.mantleObjectList count];
+    return [self.modelArray count];
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.mantleObjectList count];
+    return [self.modelArray count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
     
-    MTLModel *model = [self.mantleObjectList objectAtIndex:indexPath.row];
+    MTLModel *model = [self.modelArray objectAtIndex:indexPath.row];
     
     if (self.collectionViewCellConfigureBlock) {
         self.collectionViewCellConfigureBlock(cell, model);

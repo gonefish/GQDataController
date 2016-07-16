@@ -48,7 +48,7 @@
 
 - (IBAction)reset:(id)sender
 {
-    self.pageDataController.mantleObjectListUpdateStyle = GQMantleObjectListUpdateReplace;
+    self.pageDataController.modelArrayUpdateStyle = GQModelArrayUpdateStyleReplace;
     
     [self.pageDataController requestWithParams:nil success:^{
         

@@ -35,7 +35,7 @@
     }
     
     [self.mantleSimpleDataController requestWithParams:nil success:^{
-        IP *ip = weakSelf.mantleSimpleDataController.mantleObject;
+        IP *ip = weakSelf.mantleSimpleDataController.modelObject;
         
         weakSelf.ipLabel.text = [NSString stringWithFormat:@"IP: %@", ip.origin];
         
@@ -49,7 +49,7 @@
     }
     
     [self.mantleComplexDataController requestWithParams:nil success:^{
-        Header *header = weakSelf.mantleComplexDataController.mantleObject;
+        Header *header = weakSelf.mantleComplexDataController.modelObject;
         
         weakSelf.userAgentLabel.text = [NSString stringWithFormat:@"User-Agent: %@", header.userAgent];
         

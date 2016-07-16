@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Mantle/Mantle.h>
 #import <AFNetworking/AFNetworking.h>
 
 #import "GQMantleAdapter.h"
 
 #import "GQDataControllerDelegate.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,9 +28,9 @@ typedef void (^GQRequestFailureBlock)(NSError * _Nullable error);
 
 typedef void (^GQDataControllerLogBlock)(id logObject);
 
-typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, MTLModel *model);
+typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, id modelObject);
 
-typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, MTLModel *model);
+typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, id modelObject);
 
 typedef NS_ENUM(NSUInteger, GQModelArrayUpdateStyle) {
     GQModelArrayUpdateStyleInsert,
@@ -58,10 +58,6 @@ UICollectionViewDataSource
 // -------------
 
 @property (nonatomic, strong, nullable) id modelObject;
-
-@property (nonatomic, strong, nullable) __kindof MTLModel<MTLJSONSerializing> *mantleObject;
-
-@property (nonatomic, strong, nullable) NSMutableArray<__kindof MTLModel *> *mantleObjectList;
 
 @property (nonatomic, strong, nullable) NSMutableArray *modelArray;
 

@@ -9,10 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AFNetworking/AFNetworking.h>
 
-#import "GQMantleAdapter.h"
-
 #import "GQDataControllerDelegate.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,9 +29,9 @@ typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, id modelObj
 
 typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, id modelObject);
 
-typedef NS_ENUM(NSUInteger, GQModelArrayUpdateStyle) {
-    GQModelArrayUpdateStyleInsert,
-    GQModelArrayUpdateStyleReplace,
+typedef NS_ENUM(NSUInteger, GQModelObjectListUpdatePolicy) {
+    GQModelObjectListUpdatePolicyInsert,
+    GQModelObjectListUpdatePolicyReplace,
 };
 
 @interface GQDataController : NSObject <
@@ -54,14 +51,14 @@ UICollectionViewDataSource
 @property (nonatomic, copy, readonly) id responseObject;
 
 // -------------
-// Mantle Object
+// Model Object
 // -------------
 
 @property (nonatomic, strong, nullable) id modelObject;
 
-@property (nonatomic, strong, nullable) NSMutableArray *modelArray;
+@property (nonatomic, strong, nullable) NSMutableArray *modelObjectList;
 
-@property (nonatomic, assign) GQModelArrayUpdateStyle modelArrayUpdateStyle;
+@property (nonatomic, assign) GQModelObjectListUpdatePolicy modelObjectListUpdatePolicy;
 
 
 // -----------
@@ -176,28 +173,28 @@ UICollectionViewDataSource
  *
  *  @return Mantle的Class
  */
-- (Class)mantleModelClass;
+- (Class)modelObjectClass;
 
 /**
  *  需要转换的JSON Dictionary位于整个Dictionary中的位置
  *
  *  @return Key Path
  */
-- (NSString *)mantleObjectKeyPath;
-
-/**
- *  objectList的键值映射
- *
- *  @return Key Path
- */
-- (NSString *)mantleObjectListKeyPath;
+- (NSString *)modelObjectKeyPath;
 
 /**
  *  指定用于转换到mantleList中的类
  *
  *  @return Mantle的Class
  */
-- (Class)mantleListModelClass;
+- (Class)modelObjectListClass;
+
+/**
+ *  objectList的键值映射
+ *
+ *  @return Key Path
+ */
+- (NSString *)modelObjectListKeyPath;
 
 
 // ----------------

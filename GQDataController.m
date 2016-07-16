@@ -7,6 +7,7 @@
 //
 
 #import "GQDataController.h"
+#import "GQMantleAdapter.h"
 
 #if DEBUG
 #import <OHHTTPStubs/OHHTTPStubs.h>
@@ -199,7 +200,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     // 默认插入模式
-    self.modelArrayUpdateStyle = GQModelArrayUpdateStyleInsert;
+    self.modelObjectListUpdatePolicy = GQModelObjectListUpdatePolicyInsert;
     
     [self requestWithParams:newParams];
 }
@@ -291,7 +292,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 - (void)handleWithJSONObject:(id)object
 {
     // 处理mantleObjectKeyPath
-    NSString *objectKeyPath = [self mantleObjectKeyPath];
+    NSString *objectKeyPath = [self modelObjectKeyPath];
     
     id mantleObjectJSON = object;
     
@@ -306,7 +307,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     // 处理mantleObjectListKeyPath
-    NSString *objectListKeyPath = [self mantleObjectListKeyPath];
+    NSString *objectListKeyPath = [self modelObjectListKeyPath];
     
     id mantleObjectListJSON = object;
     
@@ -315,7 +316,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if ([mantleObjectListJSON isKindOfClass:[NSArray class]]
-        && [self mantleListModelClass] != Nil) {
+        && [self modelObjectListClass] != Nil) {
         
         [self handleModelArrayWithArray:mantleObjectListJSON];
     }
@@ -331,19 +332,19 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return Nil;
 }
 
-- (Class)mantleListModelClass
+- (Class)modelObjectListClass
 {
     return [self objectModelClass];
 }
 
-- (NSString *)mantleObjectKeyPath
+- (NSString *)modelObjectKeyPath
 {
     return nil;
 }
 
-- (NSString *)mantleObjectListKeyPath
+- (NSString *)modelObjectListKeyPath
 {
-    return [self mantleObjectKeyPath];
+    return [self modelObjectKeyPath];
 }
 
 #pragma mark - Private
@@ -493,26 +494,26 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     NSError *error;
     
     Class adapterClass = [self modelAdapterClass];
-    Class modelClass = [self mantleListModelClass];
+    Class modelClass = [self modelObjectListClass];
     id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:array
                                                                modelClass:modelClass];
     
     
-    NSArray *models = [adapter modelArray];
+    NSArray *models = [adapter modelObjectList];
     
     if (error) {
         [self logWithObject:[error localizedDescription]];
     }
     
     if (models) {
-        if (self.modelArrayUpdateStyle == GQModelArrayUpdateStyleInsert) {
-            if (self.modelArray == nil) {
-                self.modelArray = [models mutableCopy];
+        if (self.modelObjectListUpdatePolicy == GQModelObjectListUpdatePolicyInsert) {
+            if (self.modelObjectList == nil) {
+                self.modelObjectList = [models mutableCopy];
             } else {
-                [self.modelArray addObjectsFromArray:models];
+                [self.modelObjectList addObjectsFromArray:models];
             }
-        } else if (self.modelArrayUpdateStyle == GQModelArrayUpdateStyleReplace) {
-            self.modelArray = [models mutableCopy];
+        } else if (self.modelObjectListUpdatePolicy == GQModelObjectListUpdatePolicyReplace) {
+            self.modelObjectList = [models mutableCopy];
         }
     }
 }
@@ -524,7 +525,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier
                                                             forIndexPath:indexPath];
     
-    MTLModel *model = [self.modelArray objectAtIndex:indexPath.row];
+    id model = [self.modelObjectList objectAtIndex:indexPath.row];
     
     if (self.tableViewCellConfigureBlock) {
         self.tableViewCellConfigureBlock(cell, model);
@@ -535,21 +536,21 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.modelArray count];
+    return [self.modelObjectList count];
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.modelArray count];
+    return [self.modelObjectList count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
     
-    MTLModel *model = [self.modelArray objectAtIndex:indexPath.row];
+    id model = [self.modelObjectList objectAtIndex:indexPath.row];
     
     if (self.collectionViewCellConfigureBlock) {
         self.collectionViewCellConfigureBlock(cell, model);

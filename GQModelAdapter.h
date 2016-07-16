@@ -14,7 +14,7 @@
 
 - (id)modelObject;
 
-- (NSArray *)modelArray;
+- (NSArray *)modelObjectList;
 
 @optional
 

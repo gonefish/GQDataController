@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) MTLModel *mantleObject;
 
-@property (nonatomic, copy) NSArray *mantleArray;
+@property (nonatomic, copy) NSArray *mantleObjectArray;
 
 @property (nonatomic, strong) NSError *error;
 
@@ -35,7 +35,7 @@
             
         } else if ([jsonObject isKindOfClass:[NSArray class]]) {
             
-            _mantleArray = [MTLJSONAdapter modelsOfClass:modelClass
+            _mantleObjectArray = [MTLJSONAdapter modelsOfClass:modelClass
                                            fromJSONArray:jsonObject
                                                    error:&error];
         }
@@ -52,11 +52,28 @@
     return self.mantleObject;
 }
 
-- (NSArray *)modelArray
+- (NSArray *)modelObjectList
 {
-    return self.mantleArray;
+    return self.mantleObjectArray;
 }
 
 @end
 
+
+@implementation GQDataController (GQMantleAdapter)
+
+- (__kindof MTLModel *)mantleObject
+{
+    NSAssert([self.modelObject isKindOfClass:[MTLModel class]], @"Must be a MTLModel instance.");
+    
+    return self.modelObject;
+}
+
+- (NSMutableArray<__kindof MTLModel *> *)mantleObjectList
+{
+    return self.modelObjectList;
+}
+
+
+@end
 

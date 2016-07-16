@@ -61,12 +61,12 @@
 
 - (void)testMantleObjectListKeyPath
 {
-    XCTAssertEqualObjects(self.mantleSimpleDataController.mantleObjectListKeyPath, self.mantleSimpleDataController.mantleObjectKeyPath, @"mantleObjectListKeyPath默认返回mantleObjectKeyPath");
+    XCTAssertEqualObjects(self.mantleSimpleDataController.modelObjectListKeyPath, self.mantleSimpleDataController.modelObjectListKeyPath, @"mantleObjectListKeyPath默认返回mantleObjectKeyPath");
 }
 
 - (void)testMantleListModelClass
 {
-//    XCTAssertEqual(self.mantleSimpleDataController.mantleListModelClass, self.mantleSimpleDataController.mantleModelClass, @"mantleListModelClass默认返回mantleModelClass");
+//    XCTAssertEqual(self.mantleSimpleDataController.modelObjectListClass, self.mantleSimpleDataController.modelObjectClass, @"mantleListModelClass默认返回mantleModelClass");
 }
 
 - (void)testRequest
@@ -151,13 +151,13 @@
     
     [mockDataController handleWithJSONObject:@[@{@"origin" : @"127.0.0.1"}]];
     
-    XCTAssertEqualObjects([(IP *)[mockDataController.modelArray firstObject] origin], @"127.0.0.1");
+    XCTAssertEqualObjects([(IP *)[mockDataController.modelObjectList firstObject] origin], @"127.0.0.1");
 }
 
 - (void)testHandleWithObject2
 {
     MantleSimpleDataController *mockDataController = OCMPartialMock(self.mantleSimpleDataController);
-    OCMStub([mockDataController mantleObjectKeyPath]).andReturn(@"data");
+    OCMStub([mockDataController modelObjectKeyPath]).andReturn(@"data");
     
     [mockDataController handleWithJSONObject:@{@"data" : @{@"origin" : @"127.0.0.1"}}];
     
@@ -165,7 +165,7 @@
     
     [mockDataController handleWithJSONObject:@{@"data" : @[@{@"origin" : @"127.0.0.1"}]}];
     
-    XCTAssertEqualObjects([(IP *)[mockDataController.modelArray firstObject] origin], @"127.0.0.1");
+    XCTAssertEqualObjects([(IP *)[mockDataController.modelObjectList firstObject] origin], @"127.0.0.1");
 }
 
 

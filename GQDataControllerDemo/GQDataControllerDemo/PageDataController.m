@@ -21,7 +21,7 @@
     return [AppInfo class];
 }
 
-- (NSString *)mantleObjectKeyPath
+- (NSString *)modelObjectKeyPath
 {
     return @"results";
 }

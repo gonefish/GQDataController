@@ -20,7 +20,7 @@
     return [Header class];
 }
 
-- (NSString *)mantleObjectKeyPath
+- (NSString *)modelObjectKeyPath
 {
     return @"headers";
 }

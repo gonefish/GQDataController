@@ -12,11 +12,29 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = { "Qian GuoQiang" => "gonefish@gmail.com" }
   s.source       = { :git => "https://github.com/gonefish/GQDataController.git", :tag => s.version.to_s }
+  s.default_subspec = 'Default'
 
-  s.source_files = 'GQDataController/**/*'
+  s.subspec 'Core' do |core|
 
-  s.dependency 'AFNetworking', '~> 3.0'
-  s.dependency 'Mantle', '~> 2.0'
-  s.dependency 'OHHTTPStubs', '>= 4.0'
+  	core.dependency 'AFNetworking', '~> 3.0'
+  	core.dependency 'OHHTTPStubs', '>= 4.0'
+    core.source_files = 'GQDataController/*.{h,m}'
+
+  end
+
+  s.subspec 'Default' do |default|
+
+  	default.dependency 'GQDataController/Core'
+    default.source_files = 'GQDataController/Adapter/GQDefaultAdapter.{h,m}'
+
+  end
+
+  s.subspec 'Mantle' do |mantle|
+
+    mantle.dependency 'Mantle', '~> 2.0'
+    mantle.dependency 'GQDataController/Core'
+    s.source_files = 'GQDataController/Adapter/GQMantleAdapter.{h,m}'
+    
+  end
 
 end

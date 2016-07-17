@@ -1,6 +1,7 @@
 
 target 'GQDataControllerDemo' do
     pod 'GQDataController', :path => '../'
+    pod 'GQDataController/Mantle', :path => '../'
 
     target 'GQDataControllerDemoTests' do
         pod 'OCMock', '~> 3.2'

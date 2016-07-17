@@ -1,1 +1,1 @@
-../../../../../GQDataController/Adapter/GQModelAdapter.h
+../../../../../GQDataController/GQModelAdapter.h

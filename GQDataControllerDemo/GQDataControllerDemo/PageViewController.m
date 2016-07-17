@@ -48,7 +48,7 @@
 
 - (IBAction)reset:(id)sender
 {
-    self.pageDataController.modelArrayUpdateStyle = GQModelArrayUpdateStyleReplace;
+    self.pageDataController.modelObjectListUpdatePolicy = GQModelObjectListUpdatePolicyReplace;
     
     [self.pageDataController requestWithParams:nil success:^{
         

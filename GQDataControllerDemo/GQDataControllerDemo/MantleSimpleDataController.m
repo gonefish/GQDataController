@@ -7,6 +7,7 @@
 //
 
 #import "MantleSimpleDataController.h"
+#import <GQDataController/GQMantleAdapter.h>
 
 @implementation MantleSimpleDataController
 
@@ -18,6 +19,11 @@
 - (Class)objectModelClass
 {
     return [IP class];
+}
+
+- (Class)modelAdapterClass
+{
+    return [GQMantleAdapter class];
 }
 
 @end

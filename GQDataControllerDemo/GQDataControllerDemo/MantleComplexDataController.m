@@ -7,6 +7,7 @@
 //
 
 #import "MantleComplexDataController.h"
+#import <GQDataController/GQMantleAdapter.h>
 
 @implementation MantleComplexDataController
 
@@ -23,6 +24,11 @@
 - (NSString *)modelObjectKeyPath
 {
     return @"headers";
+}
+
+- (Class)modelAdapterClass
+{
+    return [GQMantleAdapter class];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "PageDataController.h"
+#import <GQDataController/GQMantleAdapter.h>
 
 @implementation PageDataController
 
@@ -24,6 +25,11 @@
 - (NSString *)modelObjectKeyPath
 {
     return @"results";
+}
+
+- (Class)modelAdapterClass
+{
+    return [GQMantleAdapter class];
 }
 
 @end

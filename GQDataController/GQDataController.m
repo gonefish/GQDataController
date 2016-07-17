@@ -7,7 +7,7 @@
 //
 
 #import "GQDataController.h"
-#import "GQMantleAdapter.h"
+#import "GQDefaultAdapter.h"
 
 #if DEBUG
 #import <OHHTTPStubs/OHHTTPStubs.h>
@@ -224,7 +224,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 {
     self.responseObject = responseObject;
     
-    if ([self isValidWithObject:responseObject]) {
+    if ([self isValidWithJSONObject:responseObject]) {
         
         [self handleWithJSONObject:responseObject];
         
@@ -284,7 +284,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return @"p";
 }
 
-- (BOOL)isValidWithObject:(id)object
+- (BOOL)isValidWithJSONObject:(id)object
 {
     return YES;
 }
@@ -324,7 +324,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (Class)modelAdapterClass
 {
-    return [GQMantleAdapter class];
+    return [GQDefaultAdapter class];
 }
 
 - (Class)objectModelClass

@@ -185,7 +185,7 @@
     
     [mockDataController requestOpertaionSuccess:task responseObject:@{}];
     
-    OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
+    OCMVerify([mockDataController isValidWithJSONObject:[OCMArg any]]);
     
     OCMVerify([mockDataController handleWithJSONObject:[OCMArg any]]);
     
@@ -201,7 +201,7 @@
     
     id task = OCMClassMock([NSURLSessionDataTask class]);
     
-    OCMStub([mockDataController isValidWithObject:[OCMArg any]]).andReturn(NO);
+    OCMStub([mockDataController isValidWithJSONObject:[OCMArg any]]).andReturn(NO);
     
     mockDataController.requestFailureBlock = ^(NSError *error) {
         XCTAssertTrue([error.domain isEqualToString:GQDataControllerErrorDomain]);
@@ -211,7 +211,7 @@
     
     OCMVerify([delegate dataController:[OCMArg any] didFailWithError:[OCMArg any]]);
     
-    OCMVerify([mockDataController isValidWithObject:[OCMArg any]]);
+    OCMVerify([mockDataController isValidWithJSONObject:[OCMArg any]]);
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "DataSourceDataController.h"
+#import <GQDataController/GQMantleAdapter.h>
 
 @implementation DataSourceDataController
 
@@ -23,6 +24,11 @@
 - (NSString *)modelObjectKeyPath
 {
     return @"results";
+}
+
+- (Class)modelAdapterClass
+{
+    return [GQMantleAdapter class];
 }
 
 @end

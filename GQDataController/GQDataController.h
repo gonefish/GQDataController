@@ -154,7 +154,7 @@ UICollectionViewDataSource
  *  检测返回的结果是否有效
  *
  */
-- (BOOL)isValidWithObject:(id)object;
+- (BOOL)isValidWithJSONObject:(id)object;
 
 /**
  *  处理结果的方法
@@ -163,7 +163,7 @@ UICollectionViewDataSource
 - (void)handleWithJSONObject:(id)object;
 
 // ------------
-// Mantle相关方法
+// Model相关方法
 // ------------
 
 - (Class)modelAdapterClass;

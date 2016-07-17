@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
     mantle.dependency 'Mantle', '~> 2.0'
     mantle.dependency 'GQDataController/Core'
     s.source_files = 'GQDataController/Adapter/GQMantleAdapter.{h,m}'
-    
+
   end
 
 end

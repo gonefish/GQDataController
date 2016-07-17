@@ -33,7 +33,15 @@ Pod::Spec.new do |s|
 
     mantle.dependency 'Mantle', '~> 2.0'
     mantle.dependency 'GQDataController/Core'
-    s.source_files = 'GQDataController/Adapter/GQMantleAdapter.{h,m}'
+    mantle.source_files = 'GQDataController/Adapter/GQMantleAdapter.{h,m}'
+
+  end
+
+  s.subspec 'YYModel' do |yymodel|
+
+    yymodel.dependency 'YYModel', '~> 1.0'
+    yymodel.dependency 'GQDataController/Core'
+    yymodel.source_files = 'GQDataController/Adapter/GQYYModelAdapter.{h,m}'
 
   end
 

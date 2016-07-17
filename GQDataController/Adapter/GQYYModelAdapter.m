@@ -1,14 +1,14 @@
 //
-//  GQDefaultAdapter.m
-//  Pods
+//  GQYYModelAdapter.m
+//  
 //
-//  Created by 钱国强 on 16/7/16.
+//  Created by 钱国强 on 16/7/17.
 //
 //
 
-#import "GQDefaultAdapter.h"
+#import "GQYYModelAdapter.h"
 
-@interface GQDefaultAdapter ()
+@interface GQYYModelAdapter ()
 
 @property (nonatomic, copy) NSDictionary *object;
 
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation GQDefaultAdapter
+@implementation GQYYModelAdapter
 
 - (instancetype)initWithJSONObject:(id)jsonObject modelClass:(Class)modelClass
 {
@@ -25,27 +25,27 @@
     if (self) {
         if ([jsonObject isKindOfClass:[NSDictionary class]]) {
             
-            self.object = jsonObject;
+            self.object = [modelClass yy_modelWithDictionary:jsonObject];
             
         } else if ([jsonObject isKindOfClass:[NSArray class]]) {
             
-            self.objectList = jsonObject;
+            self.objectList = [NSArray yy_modelArrayWithClass:modelClass json:jsonObject];
             
         }
-        
     }
     
     return self;
+    
 }
 
 - (id)modelObject
 {
-    
+    return self.object;
 }
 
 - (NSArray *)modelObjectList
 {
-    
+    return self.objectList;
 }
 
 @end

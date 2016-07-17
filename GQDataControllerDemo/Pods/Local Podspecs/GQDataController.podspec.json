@@ -16,7 +16,6 @@
     "tag": "0.8"
   },
   "default_subspecs": "Default",
-  "source_files": "GQDataController/Adapter/GQMantleAdapter.{h,m}",
   "subspecs": [
     {
       "name": "Core",
@@ -48,7 +47,20 @@
         "GQDataController/Core": [
 
         ]
-      }
+      },
+      "source_files": "GQDataController/Adapter/GQMantleAdapter.{h,m}"
+    },
+    {
+      "name": "YYModel",
+      "dependencies": {
+        "YYModel": [
+          "~> 1.0"
+        ],
+        "GQDataController/Core": [
+
+        ]
+      },
+      "source_files": "GQDataController/Adapter/GQYYModelAdapter.{h,m}"
     }
   ]
 }

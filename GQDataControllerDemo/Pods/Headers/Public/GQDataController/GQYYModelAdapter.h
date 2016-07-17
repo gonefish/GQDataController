@@ -1,0 +1,1 @@
+../../../../../GQDataController/Adapter/GQYYModelAdapter.h

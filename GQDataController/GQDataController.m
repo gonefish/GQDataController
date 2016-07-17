@@ -469,6 +469,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 - (void)handleModelObjectWithDictionary:(NSDictionary *)dictionary
 {
     Class adapterClass = [self modelAdapterClass];
+    
+    NSAssert([adapterClass conformsToProtocol:@protocol(GQModelAdapter)], @"Must be implement GQModelAdapter protocol");
+    
     Class mantleModelClass = [self objectModelClass];
     
     id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:dictionary
@@ -494,6 +497,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     NSError *error;
     
     Class adapterClass = [self modelAdapterClass];
+    
+    NSAssert([adapterClass conformsToProtocol:@protocol(GQModelAdapter)], @"Must be implement GQModelAdapter protocol");
+    
     Class modelClass = [self modelObjectListClass];
     id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:array
                                                                modelClass:modelClass];

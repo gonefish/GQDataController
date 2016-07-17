@@ -24,6 +24,9 @@ PODS:
   - GQDataController/Mantle (0.8):
     - GQDataController/Core
     - Mantle (~> 2.0)
+  - GQDataController/YYModel (0.8):
+    - GQDataController/Core
+    - YYModel (~> 1.0)
   - Mantle (2.0.7):
     - Mantle/extobjc (= 2.0.7)
   - Mantle/extobjc (2.0.7)
@@ -41,10 +44,12 @@ PODS:
   - OHHTTPStubs/NSURLSession (5.0.0):
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (5.0.0)
+  - YYModel (1.0.4)
 
 DEPENDENCIES:
   - GQDataController (from `../`)
   - GQDataController/Mantle (from `../`)
+  - GQDataController/YYModel (from `../`)
   - OCMock (~> 3.2)
 
 EXTERNAL SOURCES:
@@ -53,11 +58,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  GQDataController: 12c472dbc6e5586ab5bfb6eca4564a737c8e4579
+  GQDataController: 3d339ad32e7e97db3524c68f989ffdef46d1ea21
   Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
   OHHTTPStubs: a5d2e9eea07869d42ec03338325f398bc520e159
+  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 100c1002cc15caece717aaff2d6ab5ec85a6d1c5
+PODFILE CHECKSUM: 2ce0f6de6ab7cdf2763aca7bfaea903f9c8c939b
 
 COCOAPODS: 1.0.1

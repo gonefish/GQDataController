@@ -42,11 +42,11 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   GQDataController:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  GQDataController: f1afd1d383406efd6f6c511c60b26e880617b05d
+  GQDataController: ccf9fff363d17a34c94f75066aa053ace12678bb
   Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
   OHHTTPStubs: a5d2e9eea07869d42ec03338325f398bc520e159

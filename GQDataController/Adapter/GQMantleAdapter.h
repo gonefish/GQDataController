@@ -6,13 +6,16 @@
 //
 //
 
+#import <Foundation/Foundation.h>
 #import "GQModelAdapter.h"
-#import <Mantle/Mantle.h>
 #import "GQDataController.h"
+
+#import <Mantle/Mantle.h>
 
 @interface GQMantleAdapter : NSObject <GQModelAdapter>
 
 @end
+
 
 @interface GQDataController (GQMantleAdapter)
 

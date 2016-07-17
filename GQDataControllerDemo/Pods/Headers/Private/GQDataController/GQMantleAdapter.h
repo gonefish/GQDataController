@@ -1,1 +1,1 @@
-../../../../../GQMantleAdapter.h
+../../../../../GQDataController/Adapter/GQMantleAdapter.h

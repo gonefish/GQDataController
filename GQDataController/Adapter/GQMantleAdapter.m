@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) MTLModel *mantleObject;
 
-@property (nonatomic, copy) NSArray *mantleObjectArray;
+@property (nonatomic, copy) NSArray *mantleObjectList;
 
 @property (nonatomic, strong) NSError *error;
 
@@ -29,13 +29,13 @@
         
         if ([jsonObject isKindOfClass:[NSDictionary class]]) {
             
-            _mantleObject = [MTLJSONAdapter modelOfClass:modelClass
+            self.mantleObject = [MTLJSONAdapter modelOfClass:modelClass
                                       fromJSONDictionary:jsonObject
                                                    error:&error];
             
         } else if ([jsonObject isKindOfClass:[NSArray class]]) {
             
-            _mantleObjectArray = [MTLJSONAdapter modelsOfClass:modelClass
+            self.mantleObjectList = [MTLJSONAdapter modelsOfClass:modelClass
                                            fromJSONArray:jsonObject
                                                    error:&error];
         }
@@ -54,7 +54,7 @@
 
 - (NSArray *)modelObjectList
 {
-    return self.mantleObjectArray;
+    return self.mantleObjectList;
 }
 
 @end

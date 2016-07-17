@@ -1,1 +1,1 @@
-../../../../../GQDataControllerDelegate.h
+../../../../../GQDataController/GQDataControllerDelegate.h

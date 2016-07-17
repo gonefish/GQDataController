@@ -61,6 +61,30 @@
         ]
       },
       "source_files": "GQDataController/Adapter/GQYYModelAdapter.{h,m}"
+    },
+    {
+      "name": "JSONModel",
+      "dependencies": {
+        "JSONModel": [
+          "~> 1.0"
+        ],
+        "GQDataController/Core": [
+
+        ]
+      },
+      "source_files": "GQDataController/Adapter/GQJSONModelAdapter.{h,m}"
+    },
+    {
+      "name": "MJExtension",
+      "dependencies": {
+        "MJExtension": [
+          "~> 3.0"
+        ],
+        "GQDataController/Core": [
+
+        ]
+      },
+      "source_files": "GQDataController/Adapter/GQMJExtensionAdapter.{h,m}"
     }
   ]
 }

@@ -45,4 +45,22 @@ Pod::Spec.new do |s|
 
   end
 
+  s.subspec 'JSONModel' do |jsonmodel|
+
+    jsonmodel.dependency 'JSONModel', '~> 1.0'
+    jsonmodel.dependency 'GQDataController/Core'
+    jsonmodel.source_files = 'GQDataController/Adapter/GQJSONModelAdapter.{h,m}'
+
+  end
+
+  s.subspec 'MJExtension' do |mjextension|
+
+    mjextension.dependency 'MJExtension', '~> 3.0'
+    mjextension.dependency 'GQDataController/Core'
+    mjextension.source_files = 'GQDataController/Adapter/GQMJExtensionAdapter.{h,m}'
+
+  end
+
+  
+
 end

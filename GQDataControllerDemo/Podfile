@@ -3,6 +3,8 @@ target 'GQDataControllerDemo' do
     pod 'GQDataController', :path => '../'
     pod 'GQDataController/Mantle', :path => '../'
     pod 'GQDataController/YYModel', :path => '../'
+    pod 'GQDataController/JSONModel', :path => '../'
+    pod 'GQDataController/MJExtension', :path => '../'
 
     target 'GQDataControllerDemoTests' do
         pod 'OCMock', '~> 3.2'

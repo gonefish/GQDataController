@@ -35,7 +35,6 @@
     }
     
     return self;
-    
 }
 
 - (id)modelObject

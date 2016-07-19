@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "GQModelAdapter.h"
 
 @interface GQDefaultAdapter : NSObject <GQModelAdapter>

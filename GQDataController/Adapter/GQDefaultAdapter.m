@@ -40,12 +40,13 @@
 
 - (id)modelObject
 {
-    
+    return self.object;
 }
 
 - (NSArray *)modelObjectList
 {
-    
+    return self.objectList;
 }
 
 @end
+

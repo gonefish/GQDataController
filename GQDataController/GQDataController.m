@@ -291,35 +291,9 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)handleWithJSONObject:(id)object
 {
-    // 处理mantleObjectKeyPath
-    NSString *objectKeyPath = [self modelObjectKeyPath];
+    [self handleModelObjectWithJSONObject:object];
     
-    id mantleObjectJSON = object;
-    
-    if (objectKeyPath) { // 允许自定义转换的JSON节点
-        mantleObjectJSON = [object valueForKeyPath:objectKeyPath];
-    }
-    
-    if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]
-        && [self modelObjectClass] != Nil) {
-        
-        [self handleModelObjectWithDictionary:mantleObjectJSON];
-    }
-    
-    // 处理mantleObjectListKeyPath
-    NSString *objectListKeyPath = [self modelObjectListKeyPath];
-    
-    id mantleObjectListJSON = object;
-    
-    if (objectListKeyPath) { // 允许自定义转换的JSON节点
-        mantleObjectListJSON = [object valueForKeyPath:objectListKeyPath];
-    }
-    
-    if ([mantleObjectListJSON isKindOfClass:[NSArray class]]
-        && [self modelObjectListClass] != Nil) {
-        
-        [self handleModelArrayWithArray:mantleObjectListJSON];
-    }
+    [self handleModelObjectListWithJSONObject:object];
 }
 
 - (Class)modelAdapterClass
@@ -458,6 +432,40 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         NSString *fullLog = [NSString stringWithFormat:@"GQDataController: %@", object];
         
         NSLog(@"%@", fullLog);
+    }
+}
+
+- (void)handleModelObjectWithJSONObject:(id)object
+{
+    // 处理mantleObjectKeyPath
+    NSString *objectKeyPath = [self modelObjectKeyPath];
+    
+    id mantleObjectJSON = object;
+    
+    if (objectKeyPath) { // 允许自定义转换的JSON节点
+        mantleObjectJSON = [object valueForKeyPath:objectKeyPath];
+    }
+    
+    if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]) {
+        
+        [self handleModelObjectWithDictionary:mantleObjectJSON];
+    }
+}
+
+- (void)handleModelObjectListWithJSONObject:(id)object
+{
+    // 处理mantleObjectListKeyPath
+    NSString *objectListKeyPath = [self modelObjectListKeyPath];
+    
+    id mantleObjectListJSON = object;
+    
+    if (objectListKeyPath) { // 允许自定义转换的JSON节点
+        mantleObjectListJSON = [object valueForKeyPath:objectListKeyPath];
+    }
+    
+    if ([mantleObjectListJSON isKindOfClass:[NSArray class]]) {
+        
+        [self handleModelArrayWithArray:mantleObjectListJSON];
     }
 }
 

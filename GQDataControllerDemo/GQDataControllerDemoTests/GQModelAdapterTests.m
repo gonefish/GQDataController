@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
+#import <GQDataController/GQDefaultAdapter.h>
 #import <GQDataController/GQMantleAdapter.h>
 #import <GQDataController/GQJSONModelAdapter.h>
 #import <GQDataController/GQYYModelAdapter.h>
@@ -70,6 +71,24 @@
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testDefaultAdapter
+{
+    GQDefaultAdapter *adapter = [[GQDefaultAdapter alloc] initWithJSONObject:self.jsonObject modelClass:nil];
+    
+    XCTAssertTrue([[adapter modelObject] isKindOfClass:[NSDictionary class]]);
+    
+    XCTAssertNil([adapter modelObjectList]);
+}
+
+- (void)testDefaultAdapter2
+{
+    GQDefaultAdapter *adapter = [[GQDefaultAdapter alloc] initWithJSONObject:self.jsonArray modelClass:nil];
+    
+    XCTAssertTrue([[adapter modelObjectList][0] isKindOfClass:[NSDictionary class]]);
+    
+    XCTAssertNil([adapter modelObject]);
 }
 
 - (void)testMantleAdapter

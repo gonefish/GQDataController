@@ -10,6 +10,6 @@
 
 @interface BasicDataController : GQDataController
 
-@property (nonatomic, strong) NSString *ip;
+- (NSString *)ip;
 
 @end

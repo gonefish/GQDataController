@@ -16,7 +16,7 @@
     return @[@"http://httpbin.org/headers"];
 }
 
-- (Class)objectModelClass
+- (Class)modelObjectClass
 {
     return [Header class];
 }

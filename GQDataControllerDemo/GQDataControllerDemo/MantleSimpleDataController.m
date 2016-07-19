@@ -7,7 +7,7 @@
 //
 
 #import "MantleSimpleDataController.h"
-#import <GQDataController/GQMantleAdapter.h>
+
 
 @implementation MantleSimpleDataController
 
@@ -16,7 +16,7 @@
     return @[@"http://httpbin.org/ip"];
 }
 
-- (Class)objectModelClass
+- (Class)modelObjectClass
 {
     return [IP class];
 }

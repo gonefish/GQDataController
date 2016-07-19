@@ -8,6 +8,7 @@
 
 #import <GQDataController/GQDataController.h>
 #import "IP.h"
+#import <GQDataController/GQMantleAdapter.h>
 
 @interface MantleSimpleDataController : GQDataController
 

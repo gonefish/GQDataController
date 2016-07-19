@@ -16,15 +16,15 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |core|
 
-  	core.dependency 'AFNetworking', '~> 3.0'
-  	core.dependency 'OHHTTPStubs', '>= 4.0'
+    core.dependency 'AFNetworking', '~> 3.0'
+    core.dependency 'OHHTTPStubs', '>= 4.0'
     core.source_files = 'GQDataController/*.{h,m}'
 
   end
 
   s.subspec 'Default' do |default|
 
-  	default.dependency 'GQDataController/Core'
+    default.dependency 'GQDataController/Core'
     default.source_files = 'GQDataController/Adapter/GQDefaultAdapter.{h,m}'
 
   end
@@ -60,7 +60,5 @@ Pod::Spec.new do |s|
     mjextension.source_files = 'GQDataController/Adapter/GQMJExtensionAdapter.{h,m}'
 
   end
-
-  
 
 end

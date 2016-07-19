@@ -301,7 +301,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if ([mantleObjectJSON isKindOfClass:[NSDictionary class]]
-        && [self objectModelClass] != Nil) {
+        && [self modelObjectClass] != Nil) {
         
         [self handleModelObjectWithDictionary:mantleObjectJSON];
     }
@@ -327,14 +327,14 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return [GQDefaultAdapter class];
 }
 
-- (Class)objectModelClass
+- (Class)modelObjectClass
 {
     return Nil;
 }
 
 - (Class)modelObjectListClass
 {
-    return [self objectModelClass];
+    return [self modelObjectClass];
 }
 
 - (NSString *)modelObjectKeyPath
@@ -472,7 +472,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     NSAssert([adapterClass conformsToProtocol:@protocol(GQModelAdapter)], @"Must be implement GQModelAdapter protocol");
     
-    Class mantleModelClass = [self objectModelClass];
+    Class mantleModelClass = [self modelObjectClass];
     
     id<GQModelAdapter> adapter = [[adapterClass alloc] initWithJSONObject:dictionary
                                                                modelClass:mantleModelClass];

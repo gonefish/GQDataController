@@ -1,9 +1,9 @@
 //
 //  GQModelAdapter.h
-//  Pods
+//  GQDataController
 //
 //  Created by QianGuoqiang on 16/7/13.
-//
+//  Copyright (c) 2016年 Qian GuoQiang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

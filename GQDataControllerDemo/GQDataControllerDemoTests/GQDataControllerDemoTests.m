@@ -66,7 +66,7 @@
 
 - (void)testMantleListModelClass
 {
-//    XCTAssertEqual(self.mantleSimpleDataController.modelObjectListClass, self.mantleSimpleDataController.modelObjectClass, @"mantleListModelClass默认返回mantleModelClass");
+    XCTAssertEqual(self.mantleSimpleDataController.modelObjectListClass, self.mantleSimpleDataController.modelObjectClass, @"mantleListModelClass默认返回mantleModelClass");
 }
 
 - (void)testRequest

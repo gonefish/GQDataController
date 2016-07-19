@@ -35,6 +35,7 @@
 		E37430711C149D8A00D369D0 /* StubDataController.json in Resources */ = {isa = PBXBuildFile; fileRef = E37430701C149D8A00D369D0 /* StubDataController.json */; };
 		E37B50951C12FF9A002E2CB8 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37B50931C12FF9A002E2CB8 /* BasicViewController.m */; };
 		E37B50981C1300C9002E2CB8 /* BasicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E37B50971C1300C9002E2CB8 /* BasicViewController.xib */; };
+		E3B5EA361D3E24DF00E42997 /* GQModelAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B5EA351D3E24DF00E42997 /* GQModelAdapterTests.m */; };
 		E3B82A831C15EB22009AC14F /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B82A811C15EB22009AC14F /* PageViewController.m */; };
 		E3B82A841C15EB22009AC14F /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B82A821C15EB22009AC14F /* PageViewController.xib */; };
 		E3B82A881C15EB7B009AC14F /* PageDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B82A871C15EB7B009AC14F /* PageDataController.m */; };
@@ -103,6 +104,7 @@
 		E37B50931C12FF9A002E2CB8 /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicViewController.m; sourceTree = "<group>"; };
 		E37B50971C1300C9002E2CB8 /* BasicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BasicViewController.xib; sourceTree = "<group>"; };
 		E398397D1B725FD6009BF809 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		E3B5EA351D3E24DF00E42997 /* GQModelAdapterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQModelAdapterTests.m; sourceTree = "<group>"; };
 		E3B82A801C15EB22009AC14F /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
 		E3B82A811C15EB22009AC14F /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
 		E3B82A821C15EB22009AC14F /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			children = (
 				E3450C051B07410A00E62B01 /* GQDataControllerDemoTests.m */,
 				E32AC6C11CA0F14900AC1911 /* GQDynamicDataControllerTests.m */,
+				E3B5EA351D3E24DF00E42997 /* GQModelAdapterTests.m */,
 				E3450C031B07410A00E62B01 /* Supporting Files */,
 			);
 			path = GQDataControllerDemoTests;
@@ -533,6 +536,7 @@
 			files = (
 				E3450C061B07410A00E62B01 /* GQDataControllerDemoTests.m in Sources */,
 				E32AC6C21CA0F14900AC1911 /* GQDynamicDataControllerTests.m in Sources */,
+				E3B5EA361D3E24DF00E42997 /* GQModelAdapterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

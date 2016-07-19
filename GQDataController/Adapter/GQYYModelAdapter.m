@@ -10,7 +10,7 @@
 
 @interface GQYYModelAdapter ()
 
-@property (nonatomic, copy) NSDictionary *object;
+@property (nonatomic, strong) id object;
 
 @property (nonatomic, copy) NSArray *objectList;
 

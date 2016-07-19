@@ -33,7 +33,7 @@
             
         } else if ([jsonObject isKindOfClass:[NSArray class]]) {
             
-            self.jsonModelObjectList = [JSONModel arrayOfModelsFromDictionaries:jsonObject error:&error];
+            self.jsonModelObjectList = [modelClass arrayOfModelsFromDictionaries:jsonObject error:&error];
             
         }
         
@@ -52,6 +52,22 @@
 - (NSArray *)modelObjectList
 {
     return self.jsonModelObjectList;
+}
+
+@end
+
+@implementation GQDataController (GQJSONModelAdapter)
+
+- (__kindof JSONModel *)jsonModelObject
+{
+    NSAssert([self.modelObject isKindOfClass:[JSONModel class]], @"Must be a MTLModel instance.");
+    
+    return self.modelObject;
+}
+
+- (NSMutableArray<__kindof JSONModel *> *)jsonModelObjectList
+{
+    return self.modelObjectList;
 }
 
 @end

@@ -8,9 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import "GQModelAdapter.h"
+#import "GQDataController.h"
 
 #import <JSONModel/JSONModel.h>
 
 @interface GQJSONModelAdapter : NSObject <GQModelAdapter>
+
+@end
+
+@interface GQDataController (GQJSONModelAdapter)
+
+- (__kindof JSONModel *)jsonModelObject;
+
+- (NSMutableArray<__kindof JSONModel *> *)jsonModelObjectList;
 
 @end

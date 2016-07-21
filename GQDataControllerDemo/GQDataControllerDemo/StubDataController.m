@@ -15,9 +15,9 @@
     return @[@"http://httpbin.org/ip"];
 }
 
-- (void)handleWithJSONObject:(id)object
+- (NSString *)ip
 {
-    self.ip = [object objectForKey:@"origin"];
+    return [self.modelObject objectForKey:@"origin"];
 }
 
 @end

@@ -10,6 +10,6 @@
 
 @interface StubDataController : GQDataController
 
-@property (nonatomic, strong) NSString *ip;
+- (NSString *)ip;
 
 @end

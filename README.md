@@ -1,7 +1,26 @@
 GQDataController
 =================
 
-GQDataController是一款符合MVVM模式的网络框架，通过混合AFNetworking和Mantle让你更方便的处理网络交互。
+GQDataController是一个专门用于处理网络API和模型对象的控制器，你可以理解为MVVM或者[MVC-N](https://realm.io/news/slug-marcus-zarra-exploring-mvcn-swift/)构架。
+
+GQDataController使用AFNetworking的[AFHTTPSessionManager](https://github.com/AFNetworking/AFNetworking#afurlsessionmanager)处理网络请求，内置对[Mantle](https://github.com/Mantle/Mantle)，[JSONModel](https://github.com/jsonmodel/jsonmodel)，[YYModel](https://github.com/ibireme/YYModel)，[MJExtension](https://github.com/CoderMJLee/MJExtension) 模型类的支持。你也可以通过简单的扩展来添加额外的模型类。
+
+通过GQDataController，你可以创建非常易于使用和高复用的网络接口代码。
+
+
+## 架构
+
+1. GQDataController
+2. GQDataControllerDelegate
+3. GQDynamicDataController
+4. GQModelAdapter
+ 5. Default
+ 1. JSONModel
+ 2. Mantle
+ 3. MJExtension
+ 4. YYModel
+
+ 
 
 ## 基本使用
 
@@ -75,7 +94,7 @@ Block风格
 - (BOOL)isValidWithObject:(id)object;
 ```
 
-## Mantle
+## GQModelAdapter
 
 GQDataController可以自动的将AFNetworking返回的结果转换成Mantle对象。在GQDataController中定义了mantleObject和mantleObjectList 2个实例属性。如果转换的JSON是字典，会将结果赋值到mantleObject；如果转换的JSON是数组，则会将结果赋值到mantleObjectList。
 

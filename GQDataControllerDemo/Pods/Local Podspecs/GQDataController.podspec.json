@@ -63,6 +63,18 @@
       "source_files": "GQDataController/Adapter/GQYYModelAdapter.{h,m}"
     },
     {
+      "name": "YYKit",
+      "dependencies": {
+        "YYKit": [
+
+        ],
+        "GQDataController/Core": [
+
+        ]
+      },
+      "source_files": "GQDataController/Adapter/GQYYModelAdapter.{h,m}"
+    },
+    {
       "name": "JSONModel",
       "dependencies": {
         "JSONModel": [

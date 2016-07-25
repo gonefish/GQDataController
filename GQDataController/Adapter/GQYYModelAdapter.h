@@ -9,7 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "GQModelAdapter.h"
 
-#import <YYModel/YYModel.h>
+
+#if __has_include(<YYModel/YYModel.h>)
+    #import <YYModel/YYModel.h>
+
+    #define GQYYModelHasPrefix 1
+#else
+    #import <YYKit/NSObject+YYModel.h>
+
+    #define GQYYModelHasPrefix 0
+#endif
 
 @interface GQYYModelAdapter : NSObject <GQModelAdapter>
 

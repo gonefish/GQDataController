@@ -45,6 +45,14 @@ Pod::Spec.new do |s|
 
   end
 
+  s.subspec 'YYKit' do |yykit|
+
+    yykit.dependency 'YYKit'
+    yykit.dependency 'GQDataController/Core'
+    yykit.source_files = 'GQDataController/Adapter/GQYYModelAdapter.{h,m}'
+
+  end
+
   s.subspec 'JSONModel' do |jsonmodel|
 
     jsonmodel.dependency 'JSONModel'

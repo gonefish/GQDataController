@@ -2251,6 +2251,27 @@
 			};
 			name = Release;
 		};
+		1E9F625250956E82D7247922085F8B56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA6332213E3C9E3317B970CEF1E2C07E /* GQDataController.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/GQDataController/GQDataController-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 		3C51C0C1DF1AF101E0EF749B8E660489 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B4C7B80977BD5BC8607ED2727E69F9EC /* AFNetworking.xcconfig */;
@@ -2335,27 +2356,6 @@
 			};
 			name = Debug;
 		};
-		725E4721ECEC9B2CFF58CDD2561B06CD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA6332213E3C9E3317B970CEF1E2C07E /* GQDataController.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/GQDataController/GQDataController-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
 		7560FDF5A4D2872B5535DC2C5FD54EC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 47A7BC55E84C60380A80B48E8B3D805E /* OCMock.xcconfig */;
@@ -2376,6 +2376,27 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
+		};
+		7C8254D897C8392C5F23691DA3B8EA91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA6332213E3C9E3317B970CEF1E2C07E /* GQDataController.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/GQDataController/GQDataController-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
 		};
 		85A93C19B0393C88418D0E7473F5E3D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2429,27 +2450,6 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/OHHTTPStubs/OHHTTPStubs-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		A42A7C4D31D642A7EFC6693E5E913977 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA6332213E3C9E3317B970CEF1E2C07E /* GQDataController.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/GQDataController/GQDataController-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -2665,8 +2665,8 @@
 		128EF981EE8EA57008E86B1A129AAFE1 /* Build configuration list for PBXNativeTarget "GQDataController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				725E4721ECEC9B2CFF58CDD2561B06CD /* Debug */,
-				A42A7C4D31D642A7EFC6693E5E913977 /* Release */,
+				1E9F625250956E82D7247922085F8B56 /* Debug */,
+				7C8254D897C8392C5F23691DA3B8EA91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

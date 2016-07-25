@@ -18,21 +18,21 @@ PODS:
     - GQDataController/Default (= 0.8)
   - GQDataController/Core (0.8):
     - AFNetworking (~> 3.0)
-    - OHHTTPStubs (>= 4.0)
+    - OHHTTPStubs
   - GQDataController/Default (0.8):
     - GQDataController/Core
   - GQDataController/JSONModel (0.8):
     - GQDataController/Core
-    - JSONModel (~> 1.0)
+    - JSONModel
   - GQDataController/Mantle (0.8):
     - GQDataController/Core
-    - Mantle (~> 2.0)
+    - Mantle
   - GQDataController/MJExtension (0.8):
     - GQDataController/Core
-    - MJExtension (~> 3.0)
+    - MJExtension
   - GQDataController/YYModel (0.8):
     - GQDataController/Core
-    - YYModel (~> 1.0)
+    - YYModel
   - JSONModel (1.2.0)
   - Mantle (2.0.7):
     - Mantle/extobjc (= 2.0.7)
@@ -68,7 +68,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  GQDataController: 11ca184cd4d1d3909495196155eacced1ef48b54
+  GQDataController: cb2fc43c992ac9f6025146846c55e32e59f67b08
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
   Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
   MJExtension: f9ae6ddc0f1c482c3c9af750280ccebd14381958

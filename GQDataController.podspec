@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/gonefish/GQDataController"
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "7.0"
   s.license      = "MIT"
   s.author       = { "Qian GuoQiang" => "gonefish@gmail.com" }
   s.source       = { :git => "https://github.com/gonefish/GQDataController.git", :tag => s.version.to_s }
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
 
     core.dependency 'AFNetworking', '~> 3.0'
-    core.dependency 'OHHTTPStubs', '>= 4.0'
+    core.dependency 'OHHTTPStubs'
     core.source_files = 'GQDataController/*.{h,m}'
 
   end
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Mantle' do |mantle|
 
-    mantle.dependency 'Mantle', '~> 2.0'
+    mantle.dependency 'Mantle'
     mantle.dependency 'GQDataController/Core'
     mantle.source_files = 'GQDataController/Adapter/GQMantleAdapter.{h,m}'
 
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'YYModel' do |yymodel|
 
-    yymodel.dependency 'YYModel', '~> 1.0'
+    yymodel.dependency 'YYModel'
     yymodel.dependency 'GQDataController/Core'
     yymodel.source_files = 'GQDataController/Adapter/GQYYModelAdapter.{h,m}'
 
@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'JSONModel' do |jsonmodel|
 
-    jsonmodel.dependency 'JSONModel', '~> 1.0'
+    jsonmodel.dependency 'JSONModel'
     jsonmodel.dependency 'GQDataController/Core'
     jsonmodel.source_files = 'GQDataController/Adapter/GQJSONModelAdapter.{h,m}'
 
@@ -55,7 +55,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'MJExtension' do |mjextension|
 
-    mjextension.dependency 'MJExtension', '~> 3.0'
+    mjextension.dependency 'MJExtension'
     mjextension.dependency 'GQDataController/Core'
     mjextension.source_files = 'GQDataController/Adapter/GQMJExtensionAdapter.{h,m}'
 

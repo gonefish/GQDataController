@@ -8,7 +8,7 @@ target 'GQDataControllerDemo' do
     pod 'GQDataController/MJExtension', :path => '../'
 
     target 'GQDataControllerDemoTests' do
-        pod 'OCMock', '~> 3.2'
+        pod 'OCMock', '~> 3.0'
     end
 end
 

@@ -60,7 +60,7 @@ DEPENDENCIES:
   - GQDataController/Mantle (from `../`)
   - GQDataController/MJExtension (from `../`)
   - GQDataController/YYModel (from `../`)
-  - OCMock (~> 3.2)
+  - OCMock (~> 3.0)
 
 EXTERNAL SOURCES:
   GQDataController:
@@ -76,6 +76,6 @@ SPEC CHECKSUMS:
   OHHTTPStubs: 592f74439d2d72615115cf99a954237a3fbe26e5
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 4becbdf1fb59a9e219ec82bad76720166639143b
+PODFILE CHECKSUM: 0cb799086cce53dc2c4ee7a073de2ea5a39a18ec
 
 COCOAPODS: 1.0.1

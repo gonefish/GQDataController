@@ -48,8 +48,6 @@ UICollectionViewDataSource
 
 @property (nonatomic, copy) GQRequestFailureBlock requestFailureBlock;
 
-@property (nonatomic, copy, readonly) id responseObject;
-
 // -------------
 // Model Object
 // -------------

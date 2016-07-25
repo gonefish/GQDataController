@@ -53,7 +53,7 @@
     }
     
     if (controller == self.dynamicDataController) {
-        NSLog(@"dynamicDataController: %@", self.dynamicDataController.responseObject);
+        NSLog(@"dynamicDataController: %@", self.dynamicDataController.modelObject);
     }
 }
 

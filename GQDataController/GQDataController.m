@@ -44,8 +44,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 @property (nonatomic, strong) id<OHHTTPStubsDescriptor> HTTPStubsDescriptor;
 #endif
 
-@property (nonatomic, copy) id responseObject;
-
 @end
 
 @implementation GQDataController
@@ -222,8 +220,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)requestOpertaionSuccess:(NSURLSessionDataTask *)task responseObject:(id)responseObject
 {
-    self.responseObject = responseObject;
-    
     if ([self isValidWithJSONObject:responseObject]) {
         
         [self handleWithJSONObject:responseObject];

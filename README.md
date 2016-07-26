@@ -7,22 +7,7 @@ GQDataController使用AFNetworking的[AFHTTPSessionManager](https://github.com/A
 
 通过GQDataController，你可以创建非常易于使用和高复用的网络接口代码。
 
-
-## 架构
-
-1. GQDataController
-2. GQDataControllerDelegate
-3. GQDynamicDataController
-4. GQModelAdapter
- 5. Default
- 1. JSONModel
- 2. Mantle
- 3. MJExtension
- 4. YYModel
-
- 
-
-## 基本使用
+## GQDataController和GQDynamicDataController
 
 GQDataController是一个抽象类，使用前需要先创建新的子类。每个子类表示一种接口交互。
 
@@ -30,7 +15,7 @@ GQDataController是一个抽象类，使用前需要先创建新的子类。每�
 
 ```objc
 - (NSArray *)requestURLStrings;
-```
+``` 
 
 通过初始化方法创建实例。
 
@@ -82,37 +67,55 @@ Block风格
 
 ### 结果处理
 
-原始对象，即AFNetworking返回的responseObject。
-
-```objc
-@property (nonatomic, copy, readonly) id responseObject;
-```
-
 检测返回的结果是否有效，如果返回NO，会进入失败流程，即使接口请求成功。
 
 ```objc
 - (BOOL)isValidWithObject:(id)object;
 ```
 
-## GQModelAdapter
+### GQDynamicDataController
 
-GQDataController可以自动的将AFNetworking返回的结果转换成Mantle对象。在GQDataController中定义了mantleObject和mantleObjectList 2个实例属性。如果转换的JSON是字典，会将结果赋值到mantleObject；如果转换的JSON是数组，则会将结果赋值到mantleObjectList。
-
-### 启用Mantle转换
-
-mantleObject和mantleObjectList都有相对应的配置方法，你需要手动指定转换用的Class和JSON路径(可选)。
-
-默认实现中mantleObjectListKeyPath和mantleListModelClass会返回mantleObjectKeyPath和mantleModelClass的值。
+GQDynamicDataController是GQDataController的子类，它允许在不创建子类的情况下，初始化请求的地址和请求的方法，但不能定义其它的东西。通常在接口请求逻辑比较简单的情况下使用。
 
 ```objc
-- (Class)mantleModelClass;
++ (instancetype)dataControllerWithURLString:(NSString *)URLString;
 
-- (NSString *)mantleObjectKeyPath;
-
-- (Class)mantleListModelClass;
-
-- (NSString *)mantleObjectListKeyPath;
++ (instancetype)dataControllerWithURLString:(NSString *)URLString requestMethod:(NSString *)method;
 ```
+
+## GQModelAdapter
+
+GQDataController使用GQModelAdapter来转换AFNetworking返回的JSON对象。你可以根据自己的需求指定不同的适配器，目前支持：Mantle、JSONModel、YYModel、MJExtension。或者通过GQModelAdapter协议创建自己的适配器。
+
+```objc
+- (Class)modelAdapterClass;
+```
+
+默认使用GQDefaultAdapter，不做任何转换。如果需要使用其它的模型转换，请重写这个方法。
+
+GQDataController会把转换后的值存放到特定的变量中。如果转换的JSON是字典，会将结果赋值到modelObject；如果转换的JSON是数组，则会将结果赋值到modelObjectList。
+
+```objc
+@property (nonatomic, strong, nullable) id modelObject;
+
+@property (nonatomic, strong, nullable) NSMutableArray *modelObjectList;
+```
+
+modelObject和modelObjectList都有相对应的配置方法，你需要手动指定转换用的Class和JSON路径(可选)。
+
+默认实现中modelObjectListKeyPath和modelObjectListClass会返回modelObjectKeyPath和modelObjectClass的值。
+
+```objc
+- (Class)modelObjectClass;
+
+- (NSString *)modelObjectKeyPath;
+
+- (Class)modelObjectListClass;
+
+- (NSString *)modelObjectListKeyPath;
+```
+
+## 其它
 
 ### 内置DataSource
 
@@ -144,8 +147,6 @@ GQDataController提供的便捷的分页请求方法：
 - (NSString *)pageParameterName;
 ```
 
-## 其它
-
 ### 接口重试
 
 可以设置多个请求地址，方便在接口请求失败时，使用另外的地址继续请求。
@@ -170,25 +171,21 @@ GQDataController也实现NSCopying协议，你可以快速的复制当前的实�
 
 这个子类都可以类方法来获取自己的单例。
 
-## GQDynamicDataController
 
-GQDynamicDataController是GQDataController的子类，它允许在不创建子类的情况下，初始化请求的地址和请求的方法，但不能定义其它的东西。通常在接口请求逻辑比较简单的情况下使用。
-
-```objc
-+ (instancetype)dataControllerWithURLString:(NSString *)URLString;
-
-+ (instancetype)dataControllerWithURLString:(NSString *)URLString requestMethod:(NSString *)method;
-```
 
 ## 系统要求
 
-需要iOS 8以上
+需要iOS 7以上
 
 第三库依赖：
 
 * AFNetworking 3.X
-* Mantle 2.X
-* OHHTTPStubs 4.0 or higher
+* OHHTTPStubs
+* (可选) Mantle
+* (可选) JSONModel
+* (可选) MJExtension
+* (可选) YYModel or YYKit
+
 
 ## 安装
 

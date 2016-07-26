@@ -1,13 +1,76 @@
 GQDataController
 =================
 
-GQDataController是一个专门用于处理网络API和模型对象的控制器，你可以理解为MVVM或者[MVC-N](https://realm.io/news/slug-marcus-zarra-exploring-mvcn-swift/)构架。
+GQDataController是一种专门用于处理网络API和模型对象的控制器，你可以理解为MVVM或者[MVC-N](https://realm.io/cn/news/slug-marcus-zarra-exploring-mvcn-swift/)构架。
 
-GQDataController使用AFNetworking的[AFHTTPSessionManager](https://github.com/AFNetworking/AFNetworking#afurlsessionmanager)处理网络请求，内置对[Mantle](https://github.com/Mantle/Mantle)，[JSONModel](https://github.com/jsonmodel/jsonmodel)，[YYModel](https://github.com/ibireme/YYModel)，[MJExtension](https://github.com/CoderMJLee/MJExtension) 模型类的支持。你也可以通过简单的扩展来添加额外的模型类。
+GQDataController使用AFNetworking的[AFHTTPSessionManager](https://github.com/AFNetworking/AFNetworking#afurlsessionmanager)处理网络请求，并将结果转换成模型对象，内置对[Mantle](https://github.com/Mantle/Mantle)，[JSONModel](https://github.com/jsonmodel/jsonmodel)，[YYModel](https://github.com/ibireme/YYModel)，[MJExtension](https://github.com/CoderMJLee/MJExtension) 模型的支持。
 
-通过GQDataController，你可以创建非常易于使用和高复用的网络接口代码。
+通过GQDataController，你可以创建非常易于使用和高复用的网络API代码。
 
-## GQDataController和GQDynamicDataController
+## 如何使用
+
+### 定义子类
+
+```objc
+@interface BasicDataController : GQDataController
+
+- (NSString *)ip;
+
+@end
+
+@implementation BasicDataController
+
+- (NSArray *)requestURLStrings
+{
+    return @[@"http://httpbin.org/ip"];
+}
+
+- (NSString *)ip
+{
+    return [self.modelObject objectForKey:@"origin"];
+}
+
+@end
+```
+
+### 请求接口
+
+创建实例
+
+```objc
+self.basicDataController = [[BasicDataController alloc] initWithDelegate:self]
+
+```
+
+不带参数的接口请求。
+
+```objc
+[self.basicDataController request];
+```
+
+带参数的接口请求
+
+```objc
+[self.basicDataController requestWithParams:@{@"foo" : @"bar"}];
+```
+
+Block风格
+
+```objc                  
+[self.basicDataController requestWithParams:nil success:^{
+
+        // ...
+        
+    } failure:^(NSError * _Nullable error) {
+    
+    	// ...
+        
+}];
+```
+
+
+
+## GQDataController
 
 GQDataController是一个抽象类，使用前需要先创建新的子类。每个子类表示一种接口交互。
 
@@ -17,13 +80,69 @@ GQDataController是一个抽象类，使用前需要先创建新的子类。每�
 - (NSArray *)requestURLStrings;
 ``` 
 
-通过初始化方法创建实例。
+可以设置多个请求地址，方便在接口请求失败时，使用另外的地址继续请求。
+
+HTTP Method
 
 ```objc
-- (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate;
+- (NSString *)requestMethod;
 ```
 
-### GQDataControllerDelegate委托方法
+默认返回GET。
+
+### 校验处理
+
+检测返回的结果是否有效，如果返回NO，会进入失败流程，即使接口请求成功。
+
+```objc
+- (BOOL)isValidWithJSONObject:(id)object;
+```
+
+### 数据源
+
+GQDataController采用UITableViewDataSource和UICollectionViewDataSource，帮助你创建[更轻量的ViewControllers](https://objccn.io/issue-1-1/)。
+
+```objc
+@property (nonatomic, copy) NSString *cellIdentifier;
+
+@property (nonatomic, copy) GQTableViewCellConfigureBlock tableViewCellConfigureBlock;
+
+@property (nonatomic, copy) GQCollectionViewCellConfigureBlock collectionViewCellConfigureBlock;
+```
+
+### 分页
+
+GQDataController提供的便捷的分页请求方法：
+
+```objc
+- (void)requestMore;
+```
+
+这个方法会复制之前的接口请求参数，然后对当前页的参数值进行+1处理。
+
+返回接口分页请求时第几页的参数名称，默认返回值是p。
+
+```objc
+- (NSString *)pageParameterName;
+```
+
+### 接口Stub
+
+GQDataController也集成了OHHTTPStubs，允许你使用本地JSON文件来做为接口返回，该功能只在定义过DEBUG宏的条件下开启。
+
+### 复制
+
+GQDataController也实现NSCopying协议，你可以快速的复制当前的实例。
+
+### 单例
+
+```objc
++ (instancetype)sharedDataController;
+```
+
+这个子类都可以类方法来获取自己的单例。
+
+## GQDataControllerDelegate
 
 GQDataControllerDelegate定义了3个方法用于回调，当然你也可以选择Block风格的回调。
 
@@ -35,45 +154,7 @@ GQDataControllerDelegate定义了3个方法用于回调，当然你也可以选�
 - (void)dataController:(GQDataController *)controller didFailWithError:(NSError *)error;
 ```
 
-### 接口请求
-
-创建完实例后，你可以发起请求接口
-
-不带参数的接口请求。
-
-```objc
-- (void)request;
-```
-
-带参数的接口请求
-
-```objc
-- (void)requestWithParams:(NSDictionary *)params;
-```
-
-Block风格
-
-```objc
-- (void)requestWithParams:(nullable NSDictionary *)params
-                  success:(nullable GQRequestSuccessBlock)success
-                  failure:(nullable GQRequestFailureBlock)failure;
-```
-
-### 其它配置
-
-```objc
-- (NSString *)requestMethod;
-```
-
-### 结果处理
-
-检测返回的结果是否有效，如果返回NO，会进入失败流程，即使接口请求成功。
-
-```objc
-- (BOOL)isValidWithObject:(id)object;
-```
-
-### GQDynamicDataController
+## GQDynamicDataController
 
 GQDynamicDataController是GQDataController的子类，它允许在不创建子类的情况下，初始化请求的地址和请求的方法，但不能定义其它的东西。通常在接口请求逻辑比较简单的情况下使用。
 
@@ -115,62 +196,6 @@ modelObject和modelObjectList都有相对应的配置方法，你需要手动指
 - (NSString *)modelObjectListKeyPath;
 ```
 
-## 其它
-
-### 内置DataSource
-
-GQDataController声现UITableViewDataSource和UICollectionViewDataSource，你可以快速的创建DataSource。
-
-```objc
-@property (nonatomic, copy) NSString *cellIdentifier;
-
-@property (nonatomic, copy) GQTableViewCellConfigureBlock tableViewCellConfigureBlock;
-
-@property (nonatomic, copy) GQCollectionViewCellConfigureBlock collectionViewCellConfigureBlock;
-```
-
-### 分页
-
-GQDataController提供的便捷的分页请求方法：
-
-```objc
-- (void)requestMore;
-```
-
-这个方法会复制之前的接口请求参数，然后对当前页的参数值进行+1处理。
-
-#### 自定义当前页参数名称
-
-返回接口分页请求时第几页的参数名称，默认返回值是p。
-
-```objc
-- (NSString *)pageParameterName;
-```
-
-### 接口重试
-
-可以设置多个请求地址，方便在接口请求失败时，使用另外的地址继续请求。
-
-```objc
-- (NSArray *)requestURLStrings;
-```
-
-### 接口Stub
-
-GQDataController也集成了OHHTTPStubs，允许你使用本地JSON文件来做为接口返回，该功能只在定义过DEBUG宏的条件下开启。
-
-### 复制
-
-GQDataController也实现NSCopying协议，你可以快速的复制当前的实例。
-
-### 单例
-
-```objc
-+ (instancetype)sharedDataController;
-```
-
-这个子类都可以类方法来获取自己的单例。
-
 
 
 ## 系统要求
@@ -191,10 +216,15 @@ GQDataController也实现NSCopying协议，你可以快速的复制当前的实�
 
 ### CocoaPods
 
-```
+```ruby
 pod 'GQDataController'
-```
 
+#pod 'GQDataController/Mantle'
+#pod 'GQDataController/YYModel'
+#pod 'GQDataController/YYKit'
+#pod 'GQDataController/JSONModel'
+#pod 'GQDataController/MJExtension'
+```
 
 ## 例子
 

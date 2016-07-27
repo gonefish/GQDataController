@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
-  s.version      = "0.8"
+  s.version      = "1.0"
   s.summary      = "A networking framework for MVVM in iOS"
 
   s.description  = <<-DESC
@@ -14,25 +14,18 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/gonefish/GQDataController.git", :tag => s.version.to_s }
   s.default_subspec = 'Default'
 
-  s.subspec 'Core' do |core|
-
-    core.dependency 'AFNetworking', '~> 3.0'
-    core.dependency 'OHHTTPStubs'
-    core.source_files = 'GQDataController/*.{h,m}'
-
-  end
-
   s.subspec 'Default' do |default|
 
-    default.dependency 'GQDataController/Core'
-    default.source_files = 'GQDataController/Adapter/GQDefaultAdapter.{h,m}'
+    default.dependency 'AFNetworking', '~> 3.0'
+    default.dependency 'OHHTTPStubs'
+    default.source_files = 'GQDataController/*.{h,m}', 'GQDataController/Adapter/GQDefaultAdapter.{h,m}'
 
   end
 
   s.subspec 'Mantle' do |mantle|
 
     mantle.dependency 'Mantle'
-    mantle.dependency 'GQDataController/Core'
+    mantle.dependency 'GQDataController/Default'
     mantle.source_files = 'GQDataController/Adapter/GQMantleAdapter.{h,m}'
 
   end
@@ -40,7 +33,7 @@ Pod::Spec.new do |s|
   s.subspec 'YYModel' do |yymodel|
 
     yymodel.dependency 'YYModel'
-    yymodel.dependency 'GQDataController/Core'
+    yymodel.dependency 'GQDataController/Default'
     yymodel.source_files = 'GQDataController/Adapter/GQYYModelAdapter.{h,m}'
 
   end
@@ -48,7 +41,7 @@ Pod::Spec.new do |s|
   s.subspec 'YYKit' do |yykit|
 
     yykit.dependency 'YYKit'
-    yykit.dependency 'GQDataController/Core'
+    yykit.dependency 'GQDataController/Default'
     yykit.source_files = 'GQDataController/Adapter/GQYYModelAdapter.{h,m}'
 
   end
@@ -56,7 +49,7 @@ Pod::Spec.new do |s|
   s.subspec 'JSONModel' do |jsonmodel|
 
     jsonmodel.dependency 'JSONModel'
-    jsonmodel.dependency 'GQDataController/Core'
+    jsonmodel.dependency 'GQDataController/Default'
     jsonmodel.source_files = 'GQDataController/Adapter/GQJSONModelAdapter.{h,m}'
 
   end
@@ -64,7 +57,7 @@ Pod::Spec.new do |s|
   s.subspec 'MJExtension' do |mjextension|
 
     mjextension.dependency 'MJExtension'
-    mjextension.dependency 'GQDataController/Core'
+    mjextension.dependency 'GQDataController/Default'
     mjextension.source_files = 'GQDataController/Adapter/GQMJExtensionAdapter.{h,m}'
 
   end

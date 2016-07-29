@@ -128,7 +128,7 @@ GQDataController提供的便捷的分页请求方法：
 
 ### 接口Stub
 
-GQDataController也集成了OHHTTPStubs，允许你使用本地JSON文件来做为接口返回，该功能只在定义过DEBUG宏的条件下开启。
+GQDataController允许你直接使用本地JSON文件来做为接口返回，该功能只在定义过DEBUG宏的条件下开启。
 
 ### 复制
 
@@ -205,7 +205,6 @@ modelObject和modelObjectList都有相对应的配置方法，你需要手动指
 第三库依赖：
 
 * AFNetworking 3.X
-* OHHTTPStubs
 * (可选) Mantle
 * (可选) JSONModel
 * (可选) MJExtension

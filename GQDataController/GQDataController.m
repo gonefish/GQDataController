@@ -8,7 +8,10 @@
 
 #import "GQDataController.h"
 #import "GQDefaultAdapter.h"
+
+#if DEBUG
 #import "GQHTTPStub.h"
+#endif
 
 NSString * const GQDataControllerErrorDomain = @"GQDataControllerErrorDomain";
 
@@ -83,15 +86,24 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (NSURLSessionConfiguration *)makeSessionConfiguration
 {
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    static dispatch_once_t onceToken;
+    static NSURLSessionConfiguration *_sessionConfiguration = nil;
     
-    NSMutableArray * protocolsArray = [sessionConfiguration.protocolClasses mutableCopy];
+    dispatch_once(&onceToken, ^{
+        _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        
+#if DEBUG
+        
+        NSMutableArray * protocolsArray = [_sessionConfiguration.protocolClasses mutableCopy];
+        
+        [protocolsArray insertObject:[GQHTTPStub class] atIndex:0];
+        
+        _sessionConfiguration.protocolClasses = protocolsArray;
+        
+#endif
+    });
     
-    [protocolsArray insertObject:[GQHTTPStub class] atIndex:0];
-    
-    sessionConfiguration.protocolClasses = protocolsArray;
-    
-    return sessionConfiguration;
+    return _sessionConfiguration;
 }
 
 - (instancetype)init
@@ -353,7 +365,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                                                               ofType:[localJSONName pathExtension]];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:localJSONPath]) {
-        
         
         [self.httpSessionManager.requestSerializer setValue:localJSONPath
                                          forHTTPHeaderField:@"X-GQHTTPStub"];

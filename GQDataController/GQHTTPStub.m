@@ -50,11 +50,13 @@
     }
 }
 
-- (void)stopLoading {
+- (void)stopLoading
+{
     
 }
 
-+ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
+{
     return request;
 }
 

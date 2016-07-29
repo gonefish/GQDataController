@@ -18,7 +18,6 @@ PODS:
     - GQDataController/Default (= 1.0)
   - GQDataController/Default (1.0):
     - AFNetworking (~> 3.0)
-    - OHHTTPStubs
   - GQDataController/JSONModel (1.0):
     - GQDataController/Default
     - JSONModel
@@ -37,19 +36,6 @@ PODS:
   - Mantle/extobjc (2.0.7)
   - MJExtension (3.0.11)
   - OCMock (3.3.1)
-  - OHHTTPStubs (5.1.0):
-    - OHHTTPStubs/Default (= 5.1.0)
-  - OHHTTPStubs/Core (5.1.0)
-  - OHHTTPStubs/Default (5.1.0):
-    - OHHTTPStubs/Core
-    - OHHTTPStubs/JSON
-    - OHHTTPStubs/NSURLSession
-    - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.1.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.1.0):
-    - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.1.0)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
@@ -66,12 +52,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  GQDataController: bdbf0536afcb2ec707e9a2e21c68d40bf5d832ee
+  GQDataController: f2a17f6eed6f3755a96ee997612589b4d7c9ecd4
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
   Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
   MJExtension: f9ae6ddc0f1c482c3c9af750280ccebd14381958
   OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
-  OHHTTPStubs: 592f74439d2d72615115cf99a954237a3fbe26e5
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
 PODFILE CHECKSUM: 0cb799086cce53dc2c4ee7a073de2ea5a39a18ec

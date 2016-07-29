@@ -17,7 +17,6 @@ Pod::Spec.new do |s|
   s.subspec 'Default' do |default|
 
     default.dependency 'AFNetworking', '~> 3.0'
-    default.dependency 'OHHTTPStubs'
     default.source_files = 'GQDataController/*.{h,m}', 'GQDataController/Adapter/GQDefaultAdapter.{h,m}'
 
   end

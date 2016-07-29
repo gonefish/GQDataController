@@ -8,11 +8,7 @@
 
 #import "GQDataController.h"
 #import "GQDefaultAdapter.h"
-
-#if DEBUG
-#import <OHHTTPStubs/OHHTTPStubs.h>
-#import <OHHTTPStubs/OHPathHelpers.h>
-#endif
+#import "GQHTTPStub.h"
 
 NSString * const GQDataControllerErrorDomain = @"GQDataControllerErrorDomain";
 
@@ -39,10 +35,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
  */
 @property (nonatomic) NSUInteger requestCount;
 
-
-#if DEBUG
-@property (nonatomic, strong) id<OHHTTPStubsDescriptor> HTTPStubsDescriptor;
-#endif
 
 @end
 
@@ -89,43 +81,29 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return aController;
 }
 
+- (NSURLSessionConfiguration *)makeSessionConfiguration
+{
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSMutableArray * protocolsArray = [sessionConfiguration.protocolClasses mutableCopy];
+    
+    [protocolsArray insertObject:[GQHTTPStub class] atIndex:0];
+    
+    sessionConfiguration.protocolClasses = protocolsArray;
+    
+    return sessionConfiguration;
+}
+
 - (instancetype)init
 {
     self = [super init];
     
     if (self) {
-        _httpSessionManager = [[AFHTTPSessionManager alloc] init];
+        _httpSessionManager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[self makeSessionConfiguration]];
         
         [(AFJSONResponseSerializer *)[_httpSessionManager responseSerializer] setRemovesKeysWithNullValues:YES];
         
         _cellIdentifier = NSStringFromClass([self class]);
-        
-#if DEBUG
-        NSString *localJSONName = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
-        
-        _HTTPStubsDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-            for (NSString *urlString in [self requestURLStrings]) {
-                
-                if ([request.URL.absoluteString hasPrefix:urlString]) {
-                    NSString *path = OHPathForFileInBundle(localJSONName, [NSBundle mainBundle]);
-                    
-                    // 路径匹配和存在本地结果文件时才返回
-                    if (path) {
-                        return YES;
-                    }
-                }
-            }
-            
-            return NO;
-        } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
-            // 读取本地JSON $className.json
-            NSString *path = OHPathForFileInBundle(localJSONName, [NSBundle mainBundle]);
-            
-            return [OHHTTPStubsResponse responseWithFileAtPath:path
-                                                    statusCode:200
-                                                       headers:@{@"Content-Type":@"application/json"}];
-        }];
-#endif
     }
     
     return self;
@@ -142,15 +120,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return self;
 }
 
-
-- (void)dealloc
-{
-#if DEBUG
-    if (self.HTTPStubsDescriptor) {
-        [OHHTTPStubs removeStub:self.HTTPStubsDescriptor];
-    }
-#endif
-}
 
 #pragma mark - Public 
 
@@ -375,6 +344,22 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     if ([self.delegate respondsToSelector:@selector(dataControllerWillStartLoading:)]) {
         [self.delegate dataControllerWillStartLoading:self];
     }
+    
+#if DEBUG
+    
+    NSString *localJSONName = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
+    
+    NSString *localJSONPath = [[NSBundle mainBundle] pathForResource:[localJSONName stringByDeletingPathExtension]
+                                                              ofType:[localJSONName pathExtension]];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:localJSONPath]) {
+        
+        
+        [self.httpSessionManager.requestSerializer setValue:localJSONPath
+                                         forHTTPHeaderField:@"X-GQHTTPStub"];
+    }
+    
+#endif
     
     if ([method isEqualToString:@"GET"]) {
         

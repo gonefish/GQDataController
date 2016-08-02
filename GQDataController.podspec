@@ -61,4 +61,12 @@ Pod::Spec.new do |s|
 
   end
 
+  s.subspec 'SQLite' do |sqlite|
+
+    sqlite.library = 'sqlite3'
+    sqlite.dependency 'GQDataController/Default'
+    sqlite.source_files = 'GQDataController/SQLite/*.{h,m}'
+
+  end
+
 end

@@ -88,6 +88,16 @@
         ]
       },
       "source_files": "GQDataController/Adapter/GQMJExtensionAdapter.{h,m}"
+    },
+    {
+      "name": "SQLite",
+      "libraries": "sqlite3",
+      "dependencies": {
+        "GQDataController/Default": [
+
+        ]
+      },
+      "source_files": "GQDataController/SQLite/*.{h,m}"
     }
   ]
 }

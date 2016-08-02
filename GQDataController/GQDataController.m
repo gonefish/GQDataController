@@ -210,7 +210,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         }
         
         if (self.requestSuccessBlock) {
-            self.requestSuccessBlock();
+            self.requestSuccessBlock(self);
         }
     } else {
         NSError *error = nil;
@@ -227,7 +227,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         }
         
         if (self.requestFailureBlock) {
-            self.requestFailureBlock(error);
+            self.requestFailureBlock(self, error);
         }
     }
 }
@@ -242,7 +242,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     }
     
     if (self.requestFailureBlock) {
-        self.requestFailureBlock(error);
+        self.requestFailureBlock(self, error);
     }
 }
 

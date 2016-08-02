@@ -19,15 +19,15 @@ extern const NSInteger GQDataControllerErrorInvalidObject;
 
 extern NSString * const GQResponseObjectKey;
 
-typedef void (^GQRequestSuccessBlock)(void);
+typedef void (^GQRequestSuccessBlock)(__kindof GQDataController *controller);
 
-typedef void (^GQRequestFailureBlock)(NSError * _Nullable error);
+typedef void (^GQRequestFailureBlock)(__kindof GQDataController *controller, NSError * _Nullable error);
 
 typedef void (^GQDataControllerLogBlock)(id logObject);
 
-typedef void (^GQTableViewCellConfigureBlock)(UITableViewCell *cell, id modelObject);
+typedef void (^GQTableViewCellConfigureBlock)(__kindof UITableViewCell *cell, id modelObject);
 
-typedef void (^GQCollectionViewCellConfigureBlock)(UICollectionViewCell *cell, id modelObject);
+typedef void (^GQCollectionViewCellConfigureBlock)(__kindof UICollectionViewCell *cell, id modelObject);
 
 typedef NS_ENUM(NSUInteger, GQModelObjectListUpdatePolicy) {
     GQModelObjectListUpdatePolicyInsert,

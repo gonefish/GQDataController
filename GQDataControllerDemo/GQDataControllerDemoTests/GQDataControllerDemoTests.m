@@ -46,8 +46,8 @@
 
 - (void)testCopy
 {
-    self.basicDataController.requestSuccessBlock = ^(void){};
-    self.basicDataController.requestFailureBlock = ^(NSError *error){};
+    self.basicDataController.requestSuccessBlock = ^(GQDataController *controller){};
+    self.basicDataController.requestFailureBlock = ^(GQDataController *controller, NSError *error){};
     self.basicDataController.logBlock = ^(NSString *log){};
     
     BasicDataController *another = [self.basicDataController copy];
@@ -91,9 +91,9 @@
 {
     BasicDataController *partialMock = OCMPartialMock(self.basicDataController);
     
-    [partialMock requestWithParams:nil success:^{
+    [partialMock requestWithParams:nil success:^(GQDataController *controller){
         
-    } failure:^(NSError * _Nullable error) {
+    } failure:^(GQDataController *controller, NSError * _Nullable error) {
         
     }];
     
@@ -128,7 +128,7 @@
     
     OCMStub([error code]).andReturn(0);
     
-    self.mantleSimpleDataController.requestFailureBlock = ^(NSError *error) {
+    self.mantleSimpleDataController.requestFailureBlock = ^(GQDataController *controller, NSError *error) {
         NSLog(@"%@", @([error code]));
     };
     
@@ -179,7 +179,7 @@
     
     NSString *foo = @"foo";
     
-    mockDataController.requestSuccessBlock = ^{
+    mockDataController.requestSuccessBlock = ^(GQDataController *controller){
         XCTAssertEqualObjects(@"foo", foo);
     };
     
@@ -203,7 +203,7 @@
     
     OCMStub([mockDataController isValidWithJSONObject:[OCMArg any]]).andReturn(NO);
     
-    mockDataController.requestFailureBlock = ^(NSError *error) {
+    mockDataController.requestFailureBlock = ^(GQDataController *controller, NSError *error) {
         XCTAssertTrue([error.domain isEqualToString:GQDataControllerErrorDomain]);
     };
     

@@ -29,12 +29,12 @@
     
     __weak __typeof(self) weakSelf = self;
     
-    [self.basicDataController requestWithParams:nil success:^{
+    [self.basicDataController requestWithParams:nil success:^(BasicDataController *controller) {
         weakSelf.label.text = [NSString stringWithFormat:@"IP: %@", self.basicDataController.ip];
         
         NSLog(@"Block Style");
         
-    } failure:^(NSError * _Nullable error) {
+    } failure:^(BasicDataController *controller, NSError * _Nullable error) {
         
     }];
 }

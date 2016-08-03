@@ -39,6 +39,9 @@
 {
     NSDictionary *info = [self.sqliteDataController.modelObjectList objectAtIndex:0];
     
+    NSLog(@"%@", info[@"firstname"]);
+    NSLog(@"%@", info[@"lastname"]);
+    
     self.label.text = [NSString stringWithFormat:@"%@ %@", info[@"firstname"], info[@"lastname"]];
 }
 

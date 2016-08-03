@@ -1,7 +1,7 @@
 //
 //  JSONAPI.m
 //
-//  @version 1.2
+//  @version 1.3
 //  @author Marin Todorov (http://www.underplot.com) and contributors
 //
 
@@ -16,6 +16,9 @@
 
 #import "JSONAPI.h"
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#pragma GCC diagnostic ignored "-Wdeprecated-implementations"
+
 #pragma mark - helper error model class
 @interface JSONAPIRPCErrorModel: JSONModel
 @property (assign, nonatomic) int code;
@@ -26,6 +29,7 @@
 #pragma mark - static variables
 
 static JSONAPI* sharedInstance = nil;
+
 static long jsonRpcId = 0;
 
 #pragma mark - JSONAPI() private interface
@@ -64,7 +68,7 @@ static long jsonRpcId = 0;
 +(void)getWithPath:(NSString*)path andParams:(NSDictionary*)params completion:(JSONObjectBlock)completeBlock
 {
     NSString* fullURL = [NSString stringWithFormat:@"%@%@", sharedInstance.baseURLString, path];
-    
+
     [JSONHTTPClient getJSONFromURLWithString: fullURL params:params completion:^(NSDictionary *json, JSONModelError *e) {
         completeBlock(json, e);
     }];
@@ -74,7 +78,7 @@ static long jsonRpcId = 0;
 +(void)postWithPath:(NSString*)path andParams:(NSDictionary*)params completion:(JSONObjectBlock)completeBlock
 {
     NSString* fullURL = [NSString stringWithFormat:@"%@%@", sharedInstance.baseURLString, path];
-    
+
     [JSONHTTPClient postJSONFromURLWithString: fullURL params:params completion:^(NSDictionary *json, JSONModelError *e) {
         completeBlock(json, e);
     }];
@@ -83,7 +87,7 @@ static long jsonRpcId = 0;
 #pragma mark - RPC methods
 +(void)__rpcRequestWithObject:(id)jsonObject completion:(JSONObjectBlock)completeBlock
 {
-    
+
     NSData* jsonRequestData = [NSJSONSerialization dataWithJSONObject:jsonObject
                                                               options:kNilOptions
                                                                 error:nil];
@@ -111,7 +115,7 @@ static long jsonRpcId = 0;
                                                    e = [JSONModelError errorBadResponse];
                                                }
                                            }
-                                           
+
                                            //invoke the callback
                                            completeBlock(result, e);
                                        }
@@ -122,7 +126,7 @@ static long jsonRpcId = 0;
 {
     NSAssert(method, @"No method specified");
     if (!args) args = @[];
-    
+
     [self __rpcRequestWithObject:@{
                                   //rpc 1.0
                                   @"id": @(++jsonRpcId),
@@ -135,7 +139,7 @@ static long jsonRpcId = 0;
 {
     NSAssert(method, @"No method specified");
     if (!params) params = @[];
-    
+
     [self __rpcRequestWithObject:@{
                                   //rpc 2.0
                                   @"jsonrpc": @"2.0",

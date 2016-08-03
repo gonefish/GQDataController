@@ -40,6 +40,8 @@
 		E3B82A841C15EB22009AC14F /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B82A821C15EB22009AC14F /* PageViewController.xib */; };
 		E3B82A881C15EB7B009AC14F /* PageDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B82A871C15EB7B009AC14F /* PageDataController.m */; };
 		E3FA14881B07B6BD008CC764 /* BasicDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FA14871B07B6BD008CC764 /* BasicDataController.m */; };
+		E3FFC9121D51EC0F00086D4D /* GQSQLiteProtocolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FFC9111D51EC0F00086D4D /* GQSQLiteProtocolTests.m */; };
+		E3FFC9141D51EC8B00086D4D /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = E3FFC9131D51EC8B00086D4D /* db.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +114,8 @@
 		E3B82A871C15EB7B009AC14F /* PageDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageDataController.m; sourceTree = "<group>"; };
 		E3FA14861B07B6BD008CC764 /* BasicDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicDataController.h; sourceTree = "<group>"; };
 		E3FA14871B07B6BD008CC764 /* BasicDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicDataController.m; sourceTree = "<group>"; };
+		E3FFC9111D51EC0F00086D4D /* GQSQLiteProtocolTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQSQLiteProtocolTests.m; sourceTree = "<group>"; };
+		E3FFC9131D51EC8B00086D4D /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +190,7 @@
 				E3450BE91B07410A00E62B01 /* Supporting Files */,
 				E35E09481C0FF0DA00026628 /* DemoListViewController.h */,
 				E35E09491C0FF0DA00026628 /* DemoListViewController.m */,
+				E3FFC90E1D51EB8500086D4D /* SQLite */,
 				E37B50991C13027E002E2CB8 /* 基本使用 */,
 				E374304B1C13CC3000D369D0 /* 使用Block风格的回调 */,
 				E37430511C13D16100D369D0 /* 使用Mantle处理返回结果 */,
@@ -211,6 +216,7 @@
 				E3450C051B07410A00E62B01 /* GQDataControllerDemoTests.m */,
 				E32AC6C11CA0F14900AC1911 /* GQDynamicDataControllerTests.m */,
 				E3B5EA351D3E24DF00E42997 /* GQModelAdapterTests.m */,
+				E3FFC9111D51EC0F00086D4D /* GQSQLiteProtocolTests.m */,
 				E3450C031B07410A00E62B01 /* Supporting Files */,
 			);
 			path = GQDataControllerDemoTests;
@@ -301,6 +307,14 @@
 				E3B82A871C15EB7B009AC14F /* PageDataController.m */,
 			);
 			name = "分页";
+			sourceTree = "<group>";
+		};
+		E3FFC90E1D51EB8500086D4D /* SQLite */ = {
+			isa = PBXGroup;
+			children = (
+				E3FFC9131D51EC8B00086D4D /* db.sqlite */,
+			);
+			name = SQLite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -397,6 +411,7 @@
 				E3B82A841C15EB22009AC14F /* PageViewController.xib in Resources */,
 				E37430711C149D8A00D369D0 /* StubDataController.json in Resources */,
 				E37430501C13D15A00D369D0 /* MantleViewController.xib in Resources */,
+				E3FFC9141D51EC8B00086D4D /* db.sqlite in Resources */,
 				E3450BF71B07410A00E62B01 /* Images.xcassets in Resources */,
 				E374304A1C13CC2B00D369D0 /* BlockViewController.xib in Resources */,
 			);
@@ -535,6 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3450C061B07410A00E62B01 /* GQDataControllerDemoTests.m in Sources */,
+				E3FFC9121D51EC0F00086D4D /* GQSQLiteProtocolTests.m in Sources */,
 				E32AC6C21CA0F14900AC1911 /* GQDynamicDataControllerTests.m in Sources */,
 				E3B5EA361D3E24DF00E42997 /* GQModelAdapterTests.m in Sources */,
 			);

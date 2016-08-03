@@ -6,7 +6,6 @@ target 'GQDataControllerDemo' do
     #pod 'GQDataController/YYKit', :path => '../'
     pod 'GQDataController/JSONModel', :path => '../'
     pod 'GQDataController/MJExtension', :path => '../'
-    pod 'GQDataController/SQLite', :path => '../'
 
     target 'GQDataControllerDemoTests' do
         pod 'OCMock', '~> 3.0'

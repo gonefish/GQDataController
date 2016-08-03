@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Default' do |default|
 
+    default.library = 'sqlite3'
     default.dependency 'AFNetworking', '~> 3.0'
     default.source_files = 'GQDataController/*.{h,m}', 'GQDataController/Adapter/GQDefaultAdapter.{h,m}'
 
@@ -58,14 +59,6 @@ Pod::Spec.new do |s|
     mjextension.dependency 'MJExtension'
     mjextension.dependency 'GQDataController/Default'
     mjextension.source_files = 'GQDataController/Adapter/GQMJExtensionAdapter.{h,m}'
-
-  end
-
-  s.subspec 'SQLite' do |sqlite|
-
-    sqlite.library = 'sqlite3'
-    sqlite.dependency 'GQDataController/Default'
-    sqlite.source_files = 'GQDataController/SQLite/*.{h,m}'
 
   end
 

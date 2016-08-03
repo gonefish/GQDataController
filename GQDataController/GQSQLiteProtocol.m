@@ -20,20 +20,47 @@
 {
     NSURLRequest *request = [self request];
     
-    NSString *sqlitePath = request.URL.path;
-    NSString *query = @"";
+    NSArray *resultArray = [self queryDBWithURL:request.URL];
+    
+    if ([NSJSONSerialization isValidJSONObject:resultArray]) {
+        
+        NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
+                                                                  statusCode:200
+                                                                 HTTPVersion:@"HTTP/1.1"
+                                                                headerFields:@{@"Content-Type":@"application/json"}];
+        
+        NSData *responseData = [NSJSONSerialization dataWithJSONObject:resultArray options:0 error:nil];
+        
+        [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        [self.client URLProtocol:self didLoadData:responseData];
+        [self.client URLProtocolDidFinishLoading:self];
+        
+    } else {
+        [self.client URLProtocol:self didFailWithError:nil];
+    }
+}
+
+- (void)stopLoading
+{
+    
+}
+
+- (NSArray *)queryDBWithURL:(NSURL *)url
+{
+    NSString *sqlitePath = url.path;
+    NSString *query = [url gq_sql];
     
     sqlite3 *sqlite3Database;
     
     BOOL openRel = sqlite3_open([sqlitePath UTF8String], &sqlite3Database);
+    
+    NSMutableArray *resultArray = [NSMutableArray array];
     
     if (openRel == SQLITE_OK) {
         
         sqlite3_stmt *stmt;
         
         BOOL prepareRel = sqlite3_prepare_v2(sqlite3Database, [query UTF8String], -1, &stmt, NULL);
-        
-        NSMutableArray *resultArray = [NSMutableArray array];
         
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             
@@ -42,8 +69,6 @@
             int totalColumns = sqlite3_column_count(stmt);
             
             for (int i = 0; i < totalColumns; i++) {
-                
-                [rowDictionary removeAllObjects];
                 
                 // 获取column的名字
                 char *columnName = sqlite3_column_name(stmt, i);
@@ -84,37 +109,53 @@
         }
         
         sqlite3_finalize(stmt);
-        
-        if ([NSJSONSerialization isValidJSONObject:resultArray]) {
-            
-            NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
-                                                                      statusCode:200
-                                                                     HTTPVersion:@"HTTP/1.1"
-                                                                    headerFields:@{@"Content-Type":@"application/json"}];
-            
-            NSData *responseData = [NSJSONSerialization dataWithJSONObject:resultArray options:0 error:nil];
-            
-            [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-            [self.client URLProtocol:self didLoadData:responseData];
-            [self.client URLProtocolDidFinishLoading:self];
-            
-        } else {
-            [self.client URLProtocol:self didFailWithError:nil];
-        }
     }
     
     sqlite3_close(sqlite3Database);
     
-}
-
-- (void)stopLoading
-{
-    
+    return resultArray;
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
 {
     return request;
+}
+
+@end
+
+NSString * const GQSQLiteURLQueryKey = @"gqsql";
+
+@implementation NSURL (GQSQLiteProtocol)
+
++ (instancetype)sqliteURLWithDatabaseName:(NSString *)databaseName sql:(NSString *)sql
+{
+    NSString *databaseFilePath = [[NSBundle mainBundle] pathForResource:[databaseName stringByDeletingPathExtension]
+                                                                 ofType:[databaseName pathExtension]];
+    
+    NSString *encodingSql = [sql stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    
+    NSString *urlString = [NSString stringWithFormat:@"gqsqlite://%@?%@=%@", databaseFilePath, GQSQLiteURLQueryKey, encodingSql];
+    
+    return  [NSURL URLWithString:urlString];
+}
+
+- (NSString *)gq_sql
+{
+    NSArray<NSString *> *queryItems = [[self.query stringByRemovingPercentEncoding] componentsSeparatedByString:@"&"];
+    
+    __block NSString *sql = nil;
+    
+    [queryItems enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj hasPrefix:GQSQLiteURLQueryKey]) {
+            
+            sql = [obj stringByReplacingOccurrencesOfString:@"gqsql=" withString:@""];
+            
+            *stop = YES;
+        }
+    }];
+    
+    return sql;
+    
 }
 
 @end

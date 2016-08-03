@@ -1,8 +1,6 @@
-## Magical Data Modelling Framework for JSON
+## Magical Data Modeling Framework for JSON
 
-### Version 1.2.0
-
-#####NB: Swift works in a different way under the hood than Objective-C. Therefore I can't find a way to re-create JSONModel in Swift. JSONModel in Objective-C works in Swift apps through CocoaPods or as an imported Objective-C library.
+### Version 1.3.0
 
 ---
 If you like JSONModel and use it, could you please:
@@ -33,11 +31,11 @@ Adding JSONModel to your project
 
 #### Get it as: 1) source files
 
-1. Download the JSONModel repository as a [zip file](https://github.com/icanzilb/JSONModel/archive/master.zip) or clone it
+1. Download the JSONModel repository as a [zip file](https://github.com/jsonmodel/jsonmodel/archive/master.zip) or clone it
 2. Copy the JSONModel sub-folder into your Xcode project
 3. Link your app to SystemConfiguration.framework
 
-#### or 2) via Cocoa pods
+#### or 2) via CocoaPods
 
 In your project's **Podfile** add the JSONModel pod:
 
@@ -51,15 +49,12 @@ If you want to read more about CocoaPods, have a look at [this short tutorial](h
 In your project's **Cartfile** add the JSONModel:
 
 ```ruby
-github "icanzilb/JSONModel"
+github "jsonmodel/jsonmodel"
 ```
 
-#### Source code documentation
-The source code includes class docs, which you can build yourself and import into Xcode:
+#### Docs
 
-1. If you don't already have [appledoc](http://gentlebytes.com/appledoc/) installed, install it with [homebrew](http://brew.sh/) by typing `brew install appledoc`.
-2. Install the documentation into Xcode by typing `appledoc .` in the root directory of the repository.
-3. Restart Xcode if it's already running.
+You can find the generated docs online at: [http://cocoadocs.org/docsets/JSONModel](http://cocoadocs.org/docsets/JSONModel)
 
 ------------------------------------
 Basic usage
@@ -67,7 +62,7 @@ Basic usage
 
 Consider you have a JSON like this:
 ```javascript
-{"id":"10", "country":"Germany", "dialCode": 49, "isInEurope":true}
+{ "id": "10", "country": "Germany", "dialCode": 49, "isInEurope": true }
 ```
 
  * Create a new Objective-C class for your data model and make it inherit the JSONModel class.
@@ -232,6 +227,8 @@ Examples
 @implementation OrderModel
 @end
 </pre>
+
+Note: the angle brackets after <code>NSArray</code> contain a protocol. This is not the same as the new Objective-C generics system. They are not mutually exclusive, but for JSONModel to work, the protocol must be in place.
 </td>
 </tr>
 </table>
@@ -401,57 +398,6 @@ Examples
 </tr>
 </table>
 
-
-#### Lazy convert collection items from dictionaries to models
-<table>
-<tr>
-<td valign="top">
-<pre>
-{
-  "order_id": 104,
-  "total_price": 103.45,
-  "products" : [
-    {
-      "id": "123",
-      "name": "Product #1",
-      "price": 12.95
-    },
-    {
-      "id": "137",
-      "name": "Product #2",
-      "price": 82.95
-    }
-  ]
-}
-</pre>
-</td>
-<td valign="top">
-<pre>
-@protocol ProductModel
-@end
-
-@interface ProductModel : JSONModel
-@property (assign, nonatomic) int id;
-@property (strong, nonatomic) NSString* name;
-@property (assign, nonatomic) float price;
-@end
-
-@implementation ProductModel
-@end
-
-@interface OrderModel : JSONModel
-@property (assign, nonatomic) int order_id;
-@property (assign, nonatomic) float total_price;
-@property (strong, nonatomic) NSArray&lt;ProductModel, <b>ConvertOnDemand</b>&gt;* products;
-@end
-
-@implementation OrderModel
-@end
-</pre>
-</td>
-</tr>
-</table>
-
 #### Using the built-in thin HTTP client
 
 ```objective-c
@@ -532,7 +478,34 @@ NSString* string = [pm toJSONString];
 
 ```
 
-* json validation
+#### Custom JSON validation
+
+```objective-c
+
+@interface ProductModel : JSONModel
+@property (assign, nonatomic) int id;
+@property (strong, nonatomic) NSString* name;
+@property (assign, nonatomic) float price;
+@property (strong, nonatomic) NSLocale *locale;
+@property (strong, nonatomic) NSNumber <Ignore> *minNameLength;
+@end
+
+@implementation ProductModel
+
+- (BOOL)validate:(NSError *__autoreleasing *)error {
+    BOOL valid = [super validate:error];
+
+    if (self.name.length < self.minNameLength.integerValue) {
+        *error = [NSError errorWithDomain:@"me.mycompany.com" code:1 userInfo:nil];
+        valid = NO;
+    }
+
+    return valid;
+}
+
+@end
+
+```
 * error handling
 * custom data validation
 * automatic compare and equality features
@@ -546,9 +519,11 @@ Misc
 Author: [Marin Todorov](http://www.touch-code-magazine.com)
 
 Contributors: Christian Hoffmann, Mark Joslin, Julien Vignali, Symvaro GmbH, BB9z.
-Also everyone who did successful [pull requests](https://github.com/icanzilb/JSONModel/graphs/contributors).
+Also everyone who did successful [pull requests](https://github.com/jsonmodel/jsonmodel/graphs/contributors).
 
-Change log : [https://github.com/icanzilb/JSONModel/blob/master/Changelog.md](https://github.com/icanzilb/JSONModel/blob/master/Changelog.md)
+Change log : [https://github.com/jsonmodel/jsonmodel/blob/master/CHANGELOG.md](https://github.com/jsonmodel/jsonmodel/blob/master/CHANGELOG.md)
+
+Utility to generate JSONModel classes from JSON data: https://github.com/dofork/json2object
 
 -------
 #### License

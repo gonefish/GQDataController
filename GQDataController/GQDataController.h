@@ -10,6 +10,7 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import "GQDataControllerDelegate.h"
+#import "GQSQLiteProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

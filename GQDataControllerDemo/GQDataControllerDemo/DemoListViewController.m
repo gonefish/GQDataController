@@ -30,7 +30,8 @@
                            @"MantleViewController",
                            @"DataSourceViewController",
                            @"PageViewController",
-                           @"StubViewController"];
+                           @"StubViewController",
+                           @"SQLiteViewController"];
 }
 
 - (void)didReceiveMemoryWarning {

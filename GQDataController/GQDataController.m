@@ -92,15 +92,13 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     dispatch_once(&onceToken, ^{
         _sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         
-#if DEBUG
-        
         NSMutableArray * protocolsArray = [_sessionConfiguration.protocolClasses mutableCopy];
         
+        [protocolsArray insertObject:[GQSQLiteProtocol class] atIndex:0];
+#if DEBUG
         [protocolsArray insertObject:[GQHTTPStub class] atIndex:0];
-        
-        _sessionConfiguration.protocolClasses = protocolsArray;
-        
 #endif
+        _sessionConfiguration.protocolClasses = protocolsArray;
     });
     
     return _sessionConfiguration;

@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Default' do |default|
 
+    default.library = 'sqlite3'
     default.dependency 'AFNetworking', '~> 3.0'
     default.source_files = 'GQDataController/*.{h,m}', 'GQDataController/Adapter/GQDefaultAdapter.{h,m}'
 

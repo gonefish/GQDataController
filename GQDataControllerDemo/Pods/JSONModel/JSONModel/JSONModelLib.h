@@ -1,7 +1,7 @@
 //
 //  JSONModelLib.h
 //
-//  @version 1.2
+//  @version 1.3
 //  @author Marin Todorov (http://www.underplot.com) and contributors
 //
 
@@ -16,20 +16,15 @@
 
 #import <Foundation/Foundation.h>
 
-//JSONModel transformations
+// core
+#import "JSONModel.h"
+#import "JSONModelError.h"
+
+// transformations
 #import "JSONValueTransformer.h"
 #import "JSONKeyMapper.h"
 
-//basic JSONModel classes
-#import "JSONModelError.h"
-#import "JSONModelClassProperty.h"
-#import "JSONModel.h"
-
-//network classes
+// networking (deprecated)
 #import "JSONHTTPClient.h"
 #import "JSONModel+networking.h"
 #import "JSONAPI.h"
-
-//models array
-#import "NSArray+JSONModel.h"
-#import "JSONModelArray.h"

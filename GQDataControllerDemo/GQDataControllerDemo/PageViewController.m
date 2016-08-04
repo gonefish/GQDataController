@@ -50,11 +50,11 @@
 {
     self.pageDataController.modelObjectListUpdatePolicy = GQModelObjectListUpdatePolicyReplace;
     
-    [self.pageDataController requestWithParams:nil success:^{
+    [self.pageDataController requestWithParams:nil success:^(PageDataController *controller){
         
         [self.tableView reloadData];
         
-    } failure:^(NSError * _Nullable error) {
+    } failure:^(PageDataController *controller, NSError * _Nullable error) {
         
     }];
     

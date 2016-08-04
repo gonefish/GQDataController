@@ -30,11 +30,11 @@ PODS:
   - GQDataController/YYModel (1.0):
     - GQDataController/Default
     - YYModel
-  - JSONModel (1.2.0)
+  - JSONModel (1.3.0)
   - Mantle (2.0.7):
     - Mantle/extobjc (= 2.0.7)
   - Mantle/extobjc (2.0.7)
-  - MJExtension (3.0.11)
+  - MJExtension (3.0.13)
   - OCMock (3.3.1)
   - YYModel (1.0.4)
 
@@ -52,10 +52,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  GQDataController: f2a17f6eed6f3755a96ee997612589b4d7c9ecd4
-  JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
+  GQDataController: 10bd13003293ce8737cea5a141e99d10d51dbca4
+  JSONModel: 81c06ecf99190a25fa6aafceea5faffa7880868a
   Mantle: bc40bb061d8c2c6fb48d5083e04d928c3b7f73d9
-  MJExtension: f9ae6ddc0f1c482c3c9af750280ccebd14381958
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
   OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 

@@ -34,13 +34,13 @@
         self.mantleSimpleDataController = [[MantleSimpleDataController alloc] initWithDelegate:self];
     }
     
-    [self.mantleSimpleDataController requestWithParams:nil success:^{
+    [self.mantleSimpleDataController requestWithParams:nil success:^(MantleSimpleDataController *controller){
         IP *ip = weakSelf.mantleSimpleDataController.mantleObject;
         
         weakSelf.ipLabel.text = [NSString stringWithFormat:@"IP: %@", ip.origin];
         
         
-    } failure:^(NSError * _Nullable error) {
+    } failure:^(MantleSimpleDataController *controller, NSError * _Nullable error) {
         
     }];
     
@@ -48,13 +48,13 @@
         self.mantleComplexDataController = [[MantleComplexDataController alloc] initWithDelegate:self];
     }
     
-    [self.mantleComplexDataController requestWithParams:nil success:^{
+    [self.mantleComplexDataController requestWithParams:nil success:^(MantleComplexDataController *controller){
         Header *header = weakSelf.mantleComplexDataController.mantleObject;
         
         weakSelf.userAgentLabel.text = [NSString stringWithFormat:@"User-Agent: %@", header.userAgent];
         
         
-    } failure:^(NSError * _Nullable error) {
+    } failure:^(MantleComplexDataController *controller, NSError * _Nullable error) {
         
     }];
 }

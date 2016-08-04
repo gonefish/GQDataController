@@ -40,10 +40,10 @@
         
     };
     
-    [self.dataSourceDataController requestWithParams:nil success:^{
+    [self.dataSourceDataController requestWithParams:nil success:^(DataSourceDataController *controller){
         [weakSelf.tableView reloadData];
         
-    } failure:^(NSError * _Nullable error) {
+    } failure:^(DataSourceDataController *controller, NSError * _Nullable error) {
         
     }];
 }

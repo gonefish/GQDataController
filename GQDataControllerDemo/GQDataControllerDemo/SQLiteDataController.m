@@ -12,7 +12,8 @@
 
 - (NSArray *)requestURLStrings
 {
-    NSURL *url = [NSURL sqliteURLWithDatabaseName:@"db.sqlite" sql:@"SELECT * FROM user_info"];
+    // NSURL *url = [NSURL sqliteURLWithDatabaseName:@"db.sqlite" sql:@"SELECT * FROM user_info"];
+    NSURL *url = [NSURL sqliteURLWithDatabaseName:@"db.sqlite" sql:@"SELECT * FROM {{tablename}}"];
     
     return @[[url absoluteString]];
 }

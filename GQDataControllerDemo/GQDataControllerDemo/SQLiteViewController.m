@@ -27,7 +27,7 @@
         self.sqliteDataController = [[SQLiteDataController alloc] initWithDelegate:self];
     }
     
-    [self.sqliteDataController request];
+    [self.sqliteDataController requestWithParams:@{@"tablename" : @"user_info"}];
 }
 
 - (void)didReceiveMemoryWarning {

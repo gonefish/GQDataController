@@ -46,6 +46,28 @@
     
 }
 
+- (void)testStringByBindSQLiteWithParams
+{
+    NSString *sql = @"SELECT * FROM {{tablename}}";
+    
+    NSString *sqliteURLString = [NSString sqliteURLStringWithDatabaseName:@"db.sqlite" sql:sql];
+    
+    NSString *newSqliteURLString = [sqliteURLString stringByBindSQLiteWithParams:@{@"tablename" : @"user_info"}];
+    
+    XCTAssertEqualObjects(@"SELECT * FROM user_info", [[NSURL URLWithString:newSqliteURLString] gq_sql]);
+    
+    NSString *newSqliteURLString2 = [sqliteURLString stringByBindSQLiteWithParams:@{@"tabl" : @"user_info"}];
+    
+    XCTAssertEqualObjects(sql, [[NSURL URLWithString:newSqliteURLString2] gq_sql]);
+    
+    NSString *sql2 = @"SELECT * FROM user_info";
+    
+    NSString *sqliteURLString2 = [NSString sqliteURLStringWithDatabaseName:@"db.sqlite" sql:sql2];
+    
+    XCTAssertEqualObjects(@"SELECT * FROM user_info", [[NSURL URLWithString:sqliteURLString2] gq_sql]);
+    
+}
+
 - (void)testSqliteURLWithDatabaseNameSql
 {
     NSString *databaseName = @"db.sqlite";
@@ -61,9 +83,6 @@
     XCTAssertEqualObjects(url.path, databaseFilePath);
     
     XCTAssertEqualObjects(url.gq_sql, sql);
-    
-    
-    
     
 }
 

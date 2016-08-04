@@ -9,11 +9,13 @@
 #import "GQSQLiteProtocol.h"
 #import <sqlite3.h>
 
+NSString * const GQSQLiteURLProtocolKey = @"gqsqlite";
+
 @implementation GQSQLiteProtocol
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
-    return [[[request URL] scheme] isEqualToString:@"gqsqlite"];
+    return [[[request URL] scheme] isEqualToString:GQSQLiteURLProtocolKey];
 }
 
 - (void)startLoading
@@ -29,9 +31,14 @@
                                                                  HTTPVersion:@"HTTP/1.1"
                                                                 headerFields:@{@"Content-Type":@"application/json"}];
         
-        NSData *responseData = [NSJSONSerialization dataWithJSONObject:resultArray options:0 error:nil];
+        NSData *responseData = [NSJSONSerialization dataWithJSONObject:resultArray
+                                                               options:0
+                                                                 error:nil];
         
-        [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        [self.client URLProtocol:self
+              didReceiveResponse:response
+              cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        
         [self.client URLProtocol:self didLoadData:responseData];
         [self.client URLProtocolDidFinishLoading:self];
         
@@ -125,16 +132,44 @@
 
 NSString * const GQSQLiteURLQueryKey = @"gqsql";
 
-@implementation NSURL (GQSQLiteProtocol)
+@implementation NSString (GQSQLiteProtocol)
 
-+ (instancetype)sqliteURLWithDatabaseName:(NSString *)databaseName sql:(NSString *)sql
++ (instancetype)sqliteURLStringWithDatabaseName:(NSString *)databaseName sql:(NSString *)sql
 {
     NSString *databaseFilePath = [[NSBundle mainBundle] pathForResource:[databaseName stringByDeletingPathExtension]
                                                                  ofType:[databaseName pathExtension]];
     
     NSString *encodingSql = [sql stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
-    NSString *urlString = [NSString stringWithFormat:@"gqsqlite://%@?%@=%@", databaseFilePath, GQSQLiteURLQueryKey, encodingSql];
+    return [NSString stringWithFormat:@"%@://%@?%@=%@", GQSQLiteURLProtocolKey, databaseFilePath, GQSQLiteURLQueryKey, encodingSql];
+}
+
+- (NSString *)stringByBindSQLiteWithParams:(NSDictionary *)params
+{
+    if ([self hasPrefix:GQSQLiteURLProtocolKey]) {
+        
+        __block NSString *newString = [self stringByRemovingPercentEncoding];
+        
+        [params enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            
+            newString = [newString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"{{%@}}", key]
+                                                             withString:obj];
+        }];
+        
+        return [newString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    } else {
+        return self;
+    }
+}
+
+@end
+
+
+@implementation NSURL (GQSQLiteProtocol)
+
++ (instancetype)sqliteURLWithDatabaseName:(NSString *)databaseName sql:(NSString *)sql
+{
+    NSString *urlString = [NSString sqliteURLStringWithDatabaseName:databaseName sql:sql];
     
     return  [NSURL URLWithString:urlString];
 }
@@ -148,7 +183,8 @@ NSString * const GQSQLiteURLQueryKey = @"gqsql";
     [queryItems enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj hasPrefix:GQSQLiteURLQueryKey]) {
             
-            sql = [obj stringByReplacingOccurrencesOfString:@"gqsql=" withString:@""];
+            sql = [obj stringByReplacingOccurrencesOfString:[GQSQLiteURLQueryKey stringByAppendingString:@"="]
+                                                 withString:@""];
             
             *stop = YES;
         }

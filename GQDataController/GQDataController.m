@@ -320,7 +320,25 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         return;
     }
     
-    urlString = URLs[self.requestCount];
+    urlString = [URLs[self.requestCount] stringByBindSQLiteWithParams:params];
+    
+#if DEBUG
+    
+    NSString *localJSONName = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
+    
+    NSString *localJSONPath = [[NSBundle mainBundle] pathForResource:[localJSONName stringByDeletingPathExtension]
+                                                              ofType:[localJSONName pathExtension]];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:localJSONPath]) {
+        
+        [self.httpSessionManager.requestSerializer setValue:localJSONPath
+                                         forHTTPHeaderField:@"X-GQHTTPStub"];
+    } else {
+        [self.httpSessionManager.requestSerializer setValue:@"nil"
+                                         forHTTPHeaderField:@"X-GQHTTPStub"];
+    }
+    
+#endif
     
     // 2. 生成request
     NSString *method = [self requestMethod];
@@ -354,21 +372,6 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     if ([self.delegate respondsToSelector:@selector(dataControllerWillStartLoading:)]) {
         [self.delegate dataControllerWillStartLoading:self];
     }
-    
-#if DEBUG
-    
-    NSString *localJSONName = [NSString stringWithFormat:@"%@.json", NSStringFromClass([self class])];
-    
-    NSString *localJSONPath = [[NSBundle mainBundle] pathForResource:[localJSONName stringByDeletingPathExtension]
-                                                              ofType:[localJSONName pathExtension]];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:localJSONPath]) {
-        
-        [self.httpSessionManager.requestSerializer setValue:localJSONPath
-                                         forHTTPHeaderField:@"X-GQHTTPStub"];
-    }
-    
-#endif
     
     if ([method isEqualToString:@"GET"]) {
         

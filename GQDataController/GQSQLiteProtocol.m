@@ -24,7 +24,7 @@ NSString * const GQSQLiteURLProtocolKey = @"gqsqlite";
     
     NSArray *resultArray = [self queryDBWithURL:request.URL];
     
-    if ([NSJSONSerialization isValidJSONObject:resultArray]) {
+    if (resultArray && [NSJSONSerialization isValidJSONObject:resultArray]) {
         
         NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
                                                                   statusCode:200
@@ -40,10 +40,15 @@ NSString * const GQSQLiteURLProtocolKey = @"gqsqlite";
               cacheStoragePolicy:NSURLCacheStorageNotAllowed];
         
         [self.client URLProtocol:self didLoadData:responseData];
+        
         [self.client URLProtocolDidFinishLoading:self];
         
     } else {
-        [self.client URLProtocol:self didFailWithError:nil];
+        NSError *error = [NSError errorWithDomain:@"GQDataController"
+                                             code:500
+                                         userInfo:nil];
+        
+        [self.client URLProtocol:self didFailWithError:error];
     }
 }
 
@@ -69,6 +74,10 @@ NSString * const GQSQLiteURLProtocolKey = @"gqsqlite";
         
         BOOL prepareRel = sqlite3_prepare_v2(sqlite3Database, [query UTF8String], -1, &stmt, NULL);
         
+        if (prepareRel != SQLITE_OK) {
+            return nil;
+        }
+        
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             
             NSMutableDictionary *rowDictionary = [NSMutableDictionary dictionary];
@@ -78,7 +87,7 @@ NSString * const GQSQLiteURLProtocolKey = @"gqsqlite";
             for (int i = 0; i < totalColumns; i++) {
                 
                 // 获取column的名字
-                char *columnName = sqlite3_column_name(stmt, i);
+                const char *columnName = sqlite3_column_name(stmt, i);
                 
                 NSString *keyName = [NSString stringWithUTF8String:columnName];
                 

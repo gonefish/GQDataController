@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GQDataController"
-  s.version      = "1.1"
+  s.version      = "1.2.1"
   s.summary      = "A networking framework for MVVM in iOS"
 
   s.description  = <<-DESC

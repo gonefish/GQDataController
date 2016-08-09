@@ -82,13 +82,25 @@ GQDataController是一个抽象类，使用前需要先创建新的子类。每�
 
 可以设置多个请求地址，方便在接口请求失败时，使用另外的地址继续请求。
 
-HTTP Method
+### SQLite的支持
+
+GQDataController除了支持从网络请求数据外，还支持从本地的SQLite加载数据。需要返回特定的URL格式，类似于：gqsqlite:///sqlite/path?gqsql=SELECT * FROM tablename
+
+你可以通过下面的分类方便的创建SQLite URL
+
+```objc
++ (instancetype)sqliteURLStringWithDatabaseName:(NSString *)databaseName sql:(NSString *)sql;
+```
+
+通过SQLite获取的数据总是以JSON列表返回，每一行数据库记录会转换成字典格式，列的名称做为键值。
+
+### HTTP Method
 
 ```objc
 - (NSString *)requestMethod;
 ```
 
-默认返回GET。
+默认返回GET。当前支持：GET, POST, PUT, PATCH, DELETE。
 
 ### 校验处理
 
@@ -235,7 +247,7 @@ pod 'GQDataController'
 4. DataSource
 5. 分页
 6. 接口的Stub
-
+7. SQLite
 
 
 ## FAQ

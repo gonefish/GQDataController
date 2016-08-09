@@ -44,7 +44,7 @@ NSString * const GQSQLiteURLProtocolKey = @"gqsqlite";
         [self.client URLProtocolDidFinishLoading:self];
         
     } else {
-        NSError *error = [NSError errorWithDomain:@"GQDataController"
+        NSError *error = [NSError errorWithDomain:@"GQSQLiteProtocol"
                                              code:500
                                          userInfo:nil];
         

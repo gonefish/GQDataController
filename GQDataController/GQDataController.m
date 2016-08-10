@@ -49,6 +49,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     copy.requestSuccessBlock = self.requestSuccessBlock;
     copy.requestFailureBlock = self.requestFailureBlock;
+    copy.requestCompletedBlock = self.requestCompletedBlock;
     copy.logBlock = self.logBlock;
     
     return copy;
@@ -124,7 +125,20 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     self = [self init];
     
     if (self) {
-        _delegate = aDelegate;
+        self.delegate = aDelegate;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithSuccessBlock:(nullable GQRequestSuccessBlock)success failureBlock:(nullable GQRequestFailureBlock)failure completedBlock:(nullable GQRequestCompletedBlock)complated
+{
+    self = [self init];
+    
+    if (self) {
+        self.requestSuccessBlock = success;
+        self.requestFailureBlock = failure;
+        self.requestCompletedBlock = complated;
     }
     
     return self;
@@ -140,20 +154,16 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
 
 - (void)requestWithParams:(NSDictionary *)params
 {
-    [self requestWithParams:params success:nil failure:nil];
+    [self requestWithParams:params isRetry:NO];
 }
 
 - (void)requestWithParams:(NSDictionary *)params
                   success:(GQRequestSuccessBlock)success
                   failure:(GQRequestFailureBlock)failure
 {
-    if (success) {
-        self.requestSuccessBlock = success;
-    }
+    self.requestSuccessBlock = success;
     
-    if (failure) {
-        self.requestFailureBlock = failure;
-    }
+    self.requestFailureBlock = failure;
     
     [self requestWithParams:params isRetry:NO];
 }
@@ -210,6 +220,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
         if (self.requestSuccessBlock) {
             self.requestSuccessBlock(self);
         }
+        
+        if (self.requestCompletedBlock) {
+            self.requestCompletedBlock(self);
+        }
     } else {
         NSError *error = nil;
         
@@ -219,14 +233,7 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
                                     userInfo:@{ GQResponseObjectKey : responseObject }];
         }
         
-        if ([self.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
-            [self.delegate dataController:self
-                         didFailWithError:error];
-        }
-        
-        if (self.requestFailureBlock) {
-            self.requestFailureBlock(self, error);
-        }
+        [self requestOperationFailure:task error:error];
     }
 }
 
@@ -241,6 +248,10 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     if (self.requestFailureBlock) {
         self.requestFailureBlock(self, error);
+    }
+    
+    if (self.requestCompletedBlock) {
+        self.requestCompletedBlock(self);
     }
 }
 

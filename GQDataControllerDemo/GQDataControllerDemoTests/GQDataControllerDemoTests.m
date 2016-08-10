@@ -78,15 +78,6 @@
     OCMVerify([partialMock requestWithParams:nil]);
 }
 
-- (void)testRequestWithParams
-{
-    BasicDataController *partialMock = OCMPartialMock(self.basicDataController);
-    
-    [partialMock requestWithParams:nil];
-    
-    OCMVerify([partialMock requestWithParams:nil success:nil failure:nil]);
-}
-
 - (void)testRequestWithParamsSuccessFailure
 {
     BasicDataController *partialMock = OCMPartialMock(self.basicDataController);
@@ -102,9 +93,8 @@
     
     [partialMock requestWithParams:nil success:nil failure:nil];
     
-    XCTAssertNotNil(partialMock.requestSuccessBlock);
-    XCTAssertNotNil(partialMock.requestFailureBlock);
-    
+    XCTAssertNil(partialMock.requestSuccessBlock);
+    XCTAssertNil(partialMock.requestFailureBlock);
 }
 
 - (void)testRequestMore

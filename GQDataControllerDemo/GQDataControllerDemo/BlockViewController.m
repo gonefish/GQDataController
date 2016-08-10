@@ -23,20 +23,38 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    if (self.basicDataController == nil) {
-        self.basicDataController = [[BasicDataController alloc] initWithDelegate:self];
-    }
-    
     __weak __typeof(self) weakSelf = self;
     
-    [self.basicDataController requestWithParams:nil success:^(BasicDataController *controller) {
-        weakSelf.label.text = [NSString stringWithFormat:@"IP: %@", self.basicDataController.ip];
+    if (self.basicDataController == nil) {
+//        self.basicDataController = [[BasicDataController alloc] initWithDelegate:self];
         
-        NSLog(@"Block Style");
-        
-    } failure:^(BasicDataController *controller, NSError * _Nullable error) {
-        
-    }];
+        self.basicDataController = [[BasicDataController alloc] initWithSuccessBlock:^(__kindof GQDataController * _Nonnull controller) {
+            
+            weakSelf.label.text = [NSString stringWithFormat:@"IP: %@", self.basicDataController.ip];
+            
+            NSLog(@"Block Style");
+            
+        } failureBlock:^(__kindof GQDataController * _Nonnull controller, NSError * _Nullable error) {
+            
+        } completedBlock:^(__kindof GQDataController * _Nonnull controller) {
+            
+            NSLog(@"Block completed");
+            
+        }];
+    }
+    
+    
+//    [self.basicDataController requestWithParams:nil success:^(BasicDataController *controller) {
+//        weakSelf.label.text = [NSString stringWithFormat:@"IP: %@", self.basicDataController.ip];
+//        
+//        NSLog(@"Block Style");
+//        
+//    } failure:^(BasicDataController *controller, NSError * _Nullable error) {
+//        
+//    }];
+    
+    [self.basicDataController request];
+    
 }
 
 - (void)didReceiveMemoryWarning {

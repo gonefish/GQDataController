@@ -20,6 +20,8 @@ extern const NSInteger GQDataControllerErrorInvalidObject;
 
 extern NSString * const GQResponseObjectKey;
 
+typedef void (^GQRequestCompletedBlock)(__kindof GQDataController *controller);
+
 typedef void (^GQRequestSuccessBlock)(__kindof GQDataController *controller);
 
 typedef void (^GQRequestFailureBlock)(__kindof GQDataController *controller, NSError * _Nullable error);
@@ -44,6 +46,8 @@ UICollectionViewDataSource
 @property (nullable, nonatomic, weak) id <GQDataControllerDelegate> delegate;
 
 @property (nonatomic, strong, readonly) AFHTTPSessionManager *httpSessionManager;
+
+@property (nonatomic, copy) GQRequestCompletedBlock requestCompletedBlock;
 
 @property (nonatomic, copy) GQRequestSuccessBlock requestSuccessBlock;
 
@@ -84,6 +88,10 @@ UICollectionViewDataSource
 
 
 - (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate;
+
+- (instancetype)initWithSuccessBlock:(nullable GQRequestSuccessBlock)success
+                        failureBlock:(nullable GQRequestFailureBlock)failure
+                      completedBlock:(nullable GQRequestCompletedBlock)complated;
 
 
 // ------------

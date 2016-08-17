@@ -165,6 +165,8 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     
     self.requestFailureBlock = failure;
     
+    self.requestCompletedBlock = nil;
+    
     [self requestWithParams:params isRetry:NO];
 }
 

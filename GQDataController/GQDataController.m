@@ -131,6 +131,15 @@ NSString * const GQResponseObjectKey = @"GQResponseObjectKey";
     return self;
 }
 
++ (instancetype)dataControllerWithSuccessBlock:(nullable GQRequestSuccessBlock)success
+                                  failureBlock:(nullable GQRequestFailureBlock)failure
+                                completedBlock:(nullable GQRequestCompletedBlock)complated
+{
+    GQDataController *newInstance = [[self alloc] initWithSuccessBlock:success failureBlock:failure completedBlock:complated];
+    
+    return newInstance;
+}
+
 - (instancetype)initWithSuccessBlock:(nullable GQRequestSuccessBlock)success failureBlock:(nullable GQRequestFailureBlock)failure completedBlock:(nullable GQRequestCompletedBlock)complated
 {
     self = [self init];

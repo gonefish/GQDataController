@@ -86,6 +86,10 @@ UICollectionViewDataSource
  */
 + (instancetype)sharedDataController;
 
++ (instancetype)dataControllerWithSuccessBlock:(nullable GQRequestSuccessBlock)success
+                                  failureBlock:(nullable GQRequestFailureBlock)failure
+                                completedBlock:(nullable GQRequestCompletedBlock)complated;
+
 
 - (instancetype)initWithDelegate:(id <GQDataControllerDelegate>)aDelegate;
 
